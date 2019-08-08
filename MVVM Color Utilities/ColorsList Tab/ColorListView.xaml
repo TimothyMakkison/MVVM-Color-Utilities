@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="MVVM_Color_Utilities.ColorsList_Tab.ColorListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MVVM_Color_Utilities.ColorsList_Tab"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             >
+    <UserControl.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding ExecuteCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="D" Command="{Binding DeleteItem}"/>
+        <KeyBinding Modifiers="Ctrl" Key="A" Command="{Binding AddSwitchCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="E" Command="{Binding EditSwitchCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding SampleColorCommand}"/>
+        <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding SampleColorCommand}"/>
+        <KeyBinding Key="Up" Command="{Binding DecreaseListCommand}"/>
+        <KeyBinding  Key="Down" Command="{Binding IncrementListCommand}"/>
+    </UserControl.InputBindings>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Width="270" HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Rectangle Grid.Column="0" Fill="{Binding Path= AddBackground}"/>
+            <Rectangle Grid.Column="1" Fill="{Binding Path=EditBackground}"/>
+
+            <Button Grid.Column="0" Command="{Binding Path=AddSwitchCommand}">
+                <materialDesign:PackIcon Kind="Add"/>
+            </Button>
+            <Button Grid.Column="1" Command="{Binding Path=EditSwitchCommand}"  >
+                <materialDesign:PackIcon Kind="Edit" />
+            </Button>
+            <Button Grid.Column="2" Command="{Binding Path=DeleteItem}">
+                <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{StaticResource BurgundyLightBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.7*"/>
+                <ColumnDefinition Width="1.2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Padding" Value="3,0,0,0"/>
+                    <Setter Property="FontSize" Value="13"/>
+                    <Setter Property="FontFamily" Value="Segoe UI"/>
+                    <Setter Property="Background" Value="{StaticResource BurgundyFaintBrush}"/>
+                    <Setter Property="Height" Value="20"/>
+                </Style>
+            </Grid.Resources>
+
+            <Rectangle Height="18" Width="60" Fill="{Binding IndicatorBrush, UpdateSourceTrigger=PropertyChanged}" Stroke="Gray" StrokeThickness="0.4"/>
+            <TextBox Grid.Column="1" Width="160" Text="{Binding InputName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Column="2" Width="80" Text="{Binding InputHex, UpdateSourceTrigger=PropertyChanged}" />
+            
+            <Button Grid.Column="4" Command="{Binding Path=SampleColorCommand}">
+                <materialDesign:PackIcon Kind="Colorize" Width="40"/>
+            </Button>
+            <Button Grid.Column="5" Command="{Binding Path=ExecuteCommand}">
+                <materialDesign:PackIcon Kind="done" Width="100"/>
+            </Button>
+        </Grid>
+
+
+        <ListBox Grid.Row="2" ItemsSource="{Binding ColorListSource}" SelectedIndex="{Binding SelectedItem}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Style.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true"/>
+                                <Condition Property="Selector.IsSelectionActive" Value="true"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" Value="LightGray"/>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid >
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="0.7*"/>
+                            <ColumnDefinition Width="1.2*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontSize" Value="13"/>
+                                <Setter Property="FontFamily" Value="Segoe UI"/>
+                                <Setter Property="Height" Value="20"/>
+                            </Style>
+                        </Grid.Resources>
+                        
+                        <Rectangle  Height="18" Width="60" Fill="{Binding SampleBrush}" Stroke="Gray" StrokeThickness="0.4"/>
+                        <TextBlock Text="{Binding Name}" Width="160" Grid.Column="1"/>
+                        <TextBlock Text="{Binding Hex}" Width="70" Grid.Column="2"/>
+                        
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+    </Grid>
+</UserControl>

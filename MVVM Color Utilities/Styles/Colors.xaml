@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MVVM_Color_Utilities.Styles">
+    <Color x:Key="Burgundy">#FF5D1A1A</Color>
+    <SolidColorBrush x:Key="BurgundyBrush" Color="{StaticResource Burgundy}" />
+
+    <Color x:Key="BurgundyLight">#FF7F2626</Color>
+    <SolidColorBrush x:Key="BurgundyLightBrush" Color="{StaticResource BurgundyLight}" />
+
+    <Color x:Key="BurgundyFaint">#FFBA5656</Color>
+    <SolidColorBrush x:Key="BurgundyFaintBrush" Color="{StaticResource BurgundyFaint}" />
+
+    <Color x:Key="CyanTerracotta">#FF252C32</Color>
+    <SolidColorBrush x:Key="CyanTerracottaBrush" Color="{StaticResource CyanTerracotta}" />
+</ResourceDictionary>
