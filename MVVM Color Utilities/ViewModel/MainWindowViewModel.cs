@@ -16,14 +16,16 @@ namespace MVVM_Color_Utilities.ViewModel
 
         #endregion
 
+        #region Constructors
         public MainWindowViewModel()
         {
             PageViewModels.Add(new ColorsList_Tab.ColorListViewModel());
             PageViewModels.Add(new ColorPicker_Tab.ColorPickerViewModel());
             PageViewModels.Add(new ImageAnalyzer_Tab.ImageAnalyzerViewModel());
 
-            CurrentPageViewModel = PageViewModels[0];
+            CurrentPageViewModel = PageViewModels[2];
         }
+        #endregion
         /// <summary>
         /// Changes page to the relative source
         /// </summary>

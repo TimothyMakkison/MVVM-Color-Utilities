@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
-using MaterialDesignThemes.Wpf;
-
 
 namespace MVVM_Color_Utilities.ColorPicker_Tab
 {
+
     class ColorPickerViewModel : ObservableObject, IPageViewModel
     {
+
+        #region Properties
         public PackIconKind Icon
         {
             get
@@ -18,5 +15,6 @@ namespace MVVM_Color_Utilities.ColorPicker_Tab
                 return PackIconKind.Paint;
             }
         }
+        #endregion
     }
 }

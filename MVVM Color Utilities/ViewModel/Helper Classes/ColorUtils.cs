@@ -23,6 +23,15 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
         #endregion
 
+        //Color color = Color.FromArgb(10200);
+
+
+        //static int pixel = 1002;
+        //Color newColor = Color.FromRgb((byte)(pixel & 0x000000FF),
+        //                        (byte)(pixel & 0x0000FF00) >> 8,
+        //                        (byte)(pixel & 0x00FF0000) >> 16);
+
+
         #region Methods
         /// <summary>
         /// Returns the color of the cursor position
@@ -52,6 +61,3 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         #endregion
     }
 }
-//Color color = Color.FromArgb((int)(pixel & 0x000000FF),
-//                        (int)(pixel & 0x0000FF00) >> 8,
-//                        (int)(pixel & 0x00FF0000) >> 16);

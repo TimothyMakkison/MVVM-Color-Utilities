@@ -3,15 +3,65 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:MVVM_Color_Utilities.ImageAnalyzer_Tab"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBox>
-            ImageAnalyzerView
-        </TextBox>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Rectangle Fill="IndianRed" Height="200" Width="200" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" 
+                    Width="90" Height="70" Command="{Binding Path= OpenCommand}" >
+            <materialDesign:PackIcon Kind="Add"/>
+        </Button>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="0.01*"/>
+
+            </Grid.ColumnDefinitions>
+            <Label Height="70" Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <materialDesign:PackIcon Kind="FormatVerticalAlignBottom" Height="70" Width="70" Foreground="White"/>
+            </Label>
+            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
+                   Command="{Binding Path= OpenCommand}">
+                <Image Source="{Binding SelectedPath}"/>
+            </Button>
+
+            <ComboBox Width="100" Height="20"/>
+
+            <ListBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" ItemsSource="{Binding SampleColorSource}" >
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                        <Style.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="true"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Height" Value="200"/>
+                            </MultiTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <!--<ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>-->
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                            <Rectangle  Height="30" Width="100" Fill="{Binding Color}" Stroke="Gray" StrokeThickness="0.4"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
 
     </Grid>
 </UserControl>

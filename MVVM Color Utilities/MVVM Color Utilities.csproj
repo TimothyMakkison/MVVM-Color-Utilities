@@ -68,7 +68,11 @@
     <Compile Include="ColorPicker Tab\ColorPickerViewModel.cs" />
     <Compile Include="ColorsList Tab\ColorListModel.cs" />
     <Compile Include="ColorsList Tab\ColorListViewModel.cs" />
+    <Compile Include="ImageAnalyzer Tab\ImageAnalyzerModel.cs" />
     <Compile Include="ImageAnalyzer Tab\ImageAnalyzerViewModel.cs" />
+    <Compile Include="Palette Quantizers\Median Cut\Class1.cs" />
+    <Compile Include="Palette Quantizers\Median Cut\MedianCutCube.cs" />
+    <Compile Include="Palette Quantizers\Median Cut\MedianCutQuantizer.cs" />
     <Compile Include="ViewModel\Helper Classes\ColorUtils.cs" />
     <Compile Include="ViewModel\Helper Classes\IPageViewModel.cs" />
     <Compile Include="ViewModel\Helper Classes\ObservableObjects.cs" />
@@ -145,6 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ColorItemsList.txt" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\UploadImage.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
