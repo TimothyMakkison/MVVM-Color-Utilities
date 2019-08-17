@@ -70,7 +70,9 @@
     <Compile Include="ColorsList Tab\ColorListViewModel.cs" />
     <Compile Include="ImageAnalyzer Tab\ImageAnalyzerModel.cs" />
     <Compile Include="ImageAnalyzer Tab\ImageAnalyzerViewModel.cs" />
-    <Compile Include="Palette Quantizers\Median Cut\Class1.cs" />
+    <Compile Include="Palette Quantizers\BaseColorQuantizer.cs" />
+    <Compile Include="Palette Quantizers\IColorQuantizer.cs" />
+    <Compile Include="Palette Quantizers\ImageBuffer.cs" />
     <Compile Include="Palette Quantizers\Median Cut\MedianCutCube.cs" />
     <Compile Include="Palette Quantizers\Median Cut\MedianCutQuantizer.cs" />
     <Compile Include="ViewModel\Helper Classes\ColorUtils.cs" />

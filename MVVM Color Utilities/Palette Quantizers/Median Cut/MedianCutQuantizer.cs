@@ -4,24 +4,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Windows;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
-    class MedianCutQuantizer
+    class MedianCutQuantizer :BaseColorQuantizer
     {
         #region Fields
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();
+        private List<Color> paletteList = new List<Color>();
+        private ICollection<Int32> colorList = new List<Int32>();
         #endregion
 
         #region Constructor
         public MedianCutQuantizer(ICollection<Int32> colorList)
         {
-            cubeList.Add(new MedianCutCube(colorList));
+            this.colorList = colorList;
+        }
+        public MedianCutQuantizer() { }
+        #endregion
+
+        #region Properties
+        public override string Name
+        {
+            get
+            {
+                return "MedianCutQuantizer";
+            }
+        }
+
+        public override List<Color> Palette
+        {
+            get
+            {
+                return paletteList;
+            }
+            set
+            {
+                paletteList = value;
+            }
+        }
+
+        public override void SetColorList(ICollection<Int32> colorList)
+        {
+            this.colorList = colorList;
+        }
+
+        Int32 GetColorCount 
+        {
+            get
+            {
+                return Palette.Count;
+            }
         }
         #endregion
 
         #region Methods
-
         public void SplitCubes(Int32 colorCount)
         {
             // creates a holder for newly added cubes
@@ -32,9 +70,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 // if another new cubes should be over the top; don't do it and just stop here
                 if (newCubes.Count >= colorCount) break;
 
-                MedianCutCube newMedianCutCubeA, newMedianCutCubeB;
 
-                cube.SplitAtMedian(cube.ChannelIndex, out newMedianCutCubeA, out newMedianCutCubeB);
+                cube.SplitAtMedian(cube.ChannelIndex, out MedianCutCube newMedianCutCubeA
+                    , out MedianCutCube newMedianCutCubeB);
 
                 // adds newly created cubes to our list; but one by one and if there's enough cubes stops the process
                 newCubes.Add(newMedianCutCubeA);
@@ -51,9 +89,22 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 cubeList.Add(medianCutCube);
             }
         }
-
-        public List<Color> GetPalette(Int32 colorCount)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="colorCount"></param>
+        /// <returns></returns>
+        public override List<Color> GetPalette(Int32 colorCount)
         {
+            cubeList.Clear();
+            cubeList.Add(new MedianCutCube(colorList));
+
+            if (colorList.Count == 0)//Returns empty if it has nothing to sort through.
+            {
+                return Palette;
+            }
+            Palette.Clear();
+
             // finds the minimum iterations needed to achieve the cube count (color count) we need
             Int32 iterationCount = 1;
             while ((1 << iterationCount) < colorCount) { iterationCount++; }
@@ -64,18 +115,33 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             }
 
             // initializes the result palette
-            List<Color> result = new List<Color>();
             Int32 paletteIndex = 0;
 
             // adds all the cubes' colors to the palette, and mark that cube with palette index for later use
             foreach (MedianCutCube cube in cubeList)
             {
-                result.Add(cube.AverageColor);
+                Palette.Add(cube.AverageColor);
                 cube.PaletteIndex = paletteIndex++;
             }
-
             // returns the palette (should contain <= ColorCount colors)
-            return result;
+            return Palette;
+        }
+
+        Int32 GetPaletteIndex(Color color)
+        {
+            //If palette doesnt include color then -1 is returned
+            //If palette isnt formed
+            if (Palette.Count == 0)
+            {
+                return -1;
+            }
+            //Test every cube for whether it contains the target color
+            foreach(MedianCutCube cube in cubeList)
+            {
+                if (cube.IsColorIn(color))
+                    return cube.PaletteIndex;
+            }
+            return -1;
         }
         #endregion
     }
