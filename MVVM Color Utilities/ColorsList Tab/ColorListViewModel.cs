@@ -166,7 +166,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #region Misc
         public ColorListViewModel()
         {
-            SelectedIndex = 0;
+            SelectedItem = 0;
         }
 
         public bool AddingModeBool
@@ -178,9 +178,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set
             {
                 _addingModeBool = value;
-                //OnPropertyChanged("IndicatorBrush");
-                //OnPropertyChanged("InputName");
-                //OnPropertyChanged("InputHex");
+                OnPropertyChanged("IndicatorBrush");
+                OnPropertyChanged("InputName");
+                OnPropertyChanged("InputHex");
                 OnPropertyChanged("AddBackground");
                 OnPropertyChanged("EditBackground");
             }
@@ -195,7 +195,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             }
         }
 
-        public int SelectedIndex
+        public int SelectedItem
         {
             get
             {
@@ -207,14 +207,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             {
                 InputHex = ColorListSource[value].Hex;
                 InputName= ColorListSource[value].Name;
+                
                 _selectedItem = value;
-                OnPropertyChanged("SelectedIndex");
+                OnPropertyChanged("SelectedItem");
             }
         }
 
         public PackIconKind Icon
         {
-            get 
+            get
             {
                 return PackIconKind.Palette;
             }
@@ -360,14 +361,14 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             ColorListSource.Insert(0, new ColorClass(_colorListModel.NextID, _inputHexString, _inputNameString));
 
             _colorListModel.SaveColorsList();
-            SelectedIndex = 0;
+            SelectedItem = 0;
             OnPropertyChanged("ColorListSource");
         }
         void EditItemMethod()
         {
-            if (ColorListSource.Count > SelectedIndex)
+            if (ColorListSource.Count > SelectedItem)
             {
-                ColorListSource[SelectedIndex] = new ColorClass(ColorListSource[SelectedIndex].ID, _inputHexString, _inputNameString);
+                ColorListSource[SelectedItem] = new ColorClass(ColorListSource[SelectedItem].ID, _inputHexString, _inputNameString);
                 //ColorListSource[SelectedItem] = new ColorClass(ColorListSource[SelectedItem].ID, _editHexString, _editNameString);
                 _colorListModel.SaveColorsList();
                 OnPropertyChanged("ColorListSource");
@@ -392,26 +393,26 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         }
         void DeleteItemMethod()
         {
-            if (ColorListSource.Count > SelectedIndex)
+            if (ColorListSource.Count > SelectedItem)
             {
-                ColorListSource.RemoveAt(SelectedIndex);
+                ColorListSource.RemoveAt(SelectedItem);
                 _colorListModel.SaveColorsList();
                 OnPropertyChanged("ColorListSource");
             }
         }
         void IncrementListMethod()
         {
-            if (0 <= SelectedIndex && SelectedIndex < ColorListSource.Count - 1)
-                SelectedIndex++;
+            if (0 <= SelectedItem && SelectedItem < ColorListSource.Count - 1)
+                SelectedItem++;
             else
-                SelectedIndex = 0;
+                SelectedItem = 0;
         }
         void DecreaseListMethod()
         {
-            if (0 < SelectedIndex && SelectedIndex <= ColorListSource.Count - 1)
-                SelectedIndex--;
+            if (0 < SelectedItem && SelectedItem <= ColorListSource.Count - 1)
+                SelectedItem--;
             else
-                SelectedIndex = ColorListSource.Count - 1;
+                SelectedItem = ColorListSource.Count - 1;
         }
 
         #endregion

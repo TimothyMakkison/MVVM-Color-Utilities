@@ -1,43 +1,32 @@
-﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Win32;
-using MVVM_Color_Utilities.Palette_Quantizers;
-using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
-using System;
-using System.Collections.Concurrent;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Security;
 using System.Text;
-using System.Windows;
+using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+using MaterialDesignThemes.Wpf;
+using System.IO;
 using System.Windows.Input;
-
+using System.Windows;
+using System.Drawing;
+using System.Security;
+using Microsoft.Win32;
+using System.Collections.Concurrent;
+using System.Collections.ObjectModel;
+using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
     class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
-        private readonly ImageAnalyzerModel model = new ImageAnalyzerModel();
-        private readonly OpenFileDialog dialogBox = new OpenFileDialog() { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", };
+        private readonly OpenFileDialog _dialog = new OpenFileDialog() { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", };
+        
+        private string _selectedPath ;
 
-        private string _selectedPath;
-
-        private int _quantizerComboIndex = 0;
-        private int _colorCountComboIndex = 4;
-
+        private Image _targetImage;
+        private Bitmap _targetBitmap;
         private ICommand _openCommand;
-        #endregion
-
-        #region Constructor
-        public ImageAnalyzerViewModel()
-        {
-            model.SetColorCount(ColorCountList[_colorCountComboIndex]);
-            model.SetQuantizer(QuantizerList[_quantizerComboIndex]);
-        }
+        private readonly ObservableCollection<ColorClass> _sampleColorSource = new ObservableCollection<ColorClass>();
         #endregion
 
         #region Properties
@@ -53,36 +42,11 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             get { return _selectedPath; }
             set { _selectedPath = value; OnPropertyChanged("SelectedPath"); }
         }
-        public ObservableCollection<ColorClass> SampleColorSource { get; set; } = new ObservableCollection<ColorClass>();
-        public List<BaseColorQuantizer> QuantizerList { get; } = new List<BaseColorQuantizer>
-        {
-            new MedianCutQuantizer()
-        };
-        public int QuantizerComboIndex
+        public ObservableCollection<ColorClass> SampleColorSource
         {
             get
             {
-                return _quantizerComboIndex;
-            }
-            set
-            {
-                _quantizerComboIndex = value;
-                model.SetQuantizer(QuantizerList[_quantizerComboIndex]);
-                GetNewPalette();
-            }
-        }
-        public List<Int32> ColorCountList { get; } = new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
-        public int ColorCountComboIndex
-        {
-            get
-            {
-                return _colorCountComboIndex;
-            }
-            set
-            {
-                _colorCountComboIndex = value;
-                model.SetColorCount(ColorCountList[_colorCountComboIndex]);
-                GetNewPalette();
+                return _sampleColorSource;
             }
         }
         #endregion
@@ -102,31 +66,50 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         #endregion
 
         #region Methods
-        /// <summary>
-        /// Opens a dilog box and if a selection is made, a new palette is created.
-        /// </summary>
         private void OpenFile()
         {
-            dialogBox.ShowDialog();
-            string path = dialogBox.FileName;
-            
-            //Checks that the path exists and is not the previous path.
-            if (SelectedPath != "" && SelectedPath != path)
+            //_dialog.InitialDirectory = SelectedPath;
+            _dialog.ShowDialog();
+            SelectedPath = _dialog.FileName;
+
+            //Checks to that the path exists
+            if (SelectedPath != "")
             {
-                SelectedPath = path;
-                //crashes if file name is null
-                model.SetBitmap(new Bitmap(Image.FromFile(path)));
-                GetNewPalette();
+                _targetImage = Image.FromFile(_dialog.FileName);//crashes if file name is null
+                SampleColorSource.Clear();
+                GetPalette(16);
             }
         }
+
         /// <summary>
-        /// Clears previous palette and gets new colors.
+        /// Returns a palette of x amount of colors
         /// </summary>
-        private void GetNewPalette()
+        /// <param name="colorCount">Number of palette colors</param>
+        private void GetPalette (Int32 colorCount)
         {
-            SampleColorSource.Clear();
-            foreach (Color color in model.GetPalette())
+            List<Int32> colorList = new List<Int32>();
+            _targetBitmap = new Bitmap(_targetImage);
+
+            //Iterates through each pixel adding it to the colorList
+            for (int x = 0; x < _targetBitmap.Width; x++)
+            {
+                for (int y = 0; y < _targetBitmap.Height; y++)
+                {
+                    Color pixelColor = _targetBitmap.GetPixel(x, y);
+                    Int32 key = pixelColor.R << 16 | pixelColor.G << 8 | pixelColor.B;
+                    colorList.Add(key);
+                }
+            }
+            MedianCutQuantizer quantizer = new MedianCutQuantizer(colorList);
+            List<Color> palette = quantizer.GetPalette(colorCount);
+
+            //adds each color to the displayed list
+            foreach (Color color in palette)
+            {
                 SampleColorSource.Add(new ColorClass(color));
+            }
+
+            OnPropertyChanged("SampleColorSource");
         }
         #endregion
     }
