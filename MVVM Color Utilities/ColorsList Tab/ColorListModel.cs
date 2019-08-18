@@ -14,28 +14,17 @@ using Newtonsoft.Json;
 
 namespace MVVM_Color_Utilities.ColorsList_Tab
 {
-    class ColorListModel
+    class ColorListModel : ObservableObject
     {
         #region Fields
-        private ObservableCollection<ColorClass> _colorsClassList;
 
         private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
         private readonly static string colorsFilePath = projectPath + "/Resources/ColorItemsList.txt";
         #endregion
 
         #region Properties
-        public ObservableCollection<ColorClass> ColorClassList
-        {
-            get
-            {
-                if (_colorsClassList == null)
-                {
-                    _colorsClassList = JsonConvert.DeserializeObject<ObservableCollection<ColorClass>>(File.ReadAllText(colorsFilePath));
-                }
-                //MessageBox.Show("Getting");
-                return _colorsClassList;
-            }
-        }
+        public ObservableCollection<ColorClass> ColorClassList { get; } 
+            = JsonConvert.DeserializeObject<ObservableCollection<ColorClass>>(File.ReadAllText(colorsFilePath));
 
         public int NextID
         {
@@ -52,10 +41,26 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         {
             try
             {
-                //MessageBox.Show("Saving");
                 File.WriteAllText(colorsFilePath, JsonConvert.SerializeObject(ColorClassList));
+                OnPropertyChanged("ColorListSource");
             }
             catch { }
+        }
+        public void AddColorItem(int index,string hexString, string nameString)
+        {
+            if(ColorClassList.Count > index)
+            {
+                ColorClassList.Insert(0, new ColorClass(NextID, hexString, nameString));
+                SaveColorsList();
+            }
+        }
+        public void EditColorItem(int index,string hexString, string nameString)
+        {
+            if (ColorClassList.Count > index)
+            {
+                ColorClassList[index] = new ColorClass(NextID, hexString, nameString);
+                SaveColorsList();
+            }
         }
         #endregion
     }

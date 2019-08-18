@@ -14,8 +14,6 @@
         <KeyBinding Modifiers="Ctrl" Key="E" Command="{Binding EditSwitchCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="O" Command="{Binding SampleColorCommand}"/>
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding SampleColorCommand}"/>
-        <KeyBinding Key="Up" Command="{Binding DecreaseListCommand}"/>
-        <KeyBinding  Key="Down" Command="{Binding IncrementListCommand}"/>
     </UserControl.InputBindings>
     
     <Grid>
@@ -31,9 +29,32 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-            <Rectangle Grid.Column="0" Fill="{Binding Path= AddBackground}"/>
-            <Rectangle Grid.Column="1" Fill="{Binding Path=EditBackground}"/>
+
+            <Rectangle Grid.Column="0" >
+                <Rectangle.Style>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="Fill" Value="{StaticResource BurgundyBrush}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AddingModeBool}" Value="True">
+                                <Setter Property="Fill" Value="{StaticResource BurgundyLightBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
+
+            <Rectangle Grid.Column="1">
+                <Rectangle.Style>
+                    <Style TargetType="Rectangle">
+                        <Setter Property="Fill" Value="{StaticResource BurgundyLightBrush}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AddingModeBool}" Value="True">
+                                <Setter Property="Fill" Value="{StaticResource BurgundyBrush}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
+            </Rectangle>
 
             <Button Grid.Column="0" Command="{Binding Path=AddSwitchCommand}">
                 <materialDesign:PackIcon Kind="Add"/>

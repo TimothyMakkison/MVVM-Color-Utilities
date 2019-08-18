@@ -15,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
+using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 
 namespace MVVM_Color_Utilities.ColorsList_Tab
 {
@@ -24,28 +25,21 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #region Fields
 
         #region Misc
-        private readonly ColorListModel _colorListModel = new ColorListModel();
-        private readonly ColorUtils _colorUtils = new ColorUtils();
+        private readonly ColorListModel model = new ColorListModel();
+        private readonly ColorUtils colorUtils = new ColorUtils();
+        #endregion
 
+        #region Bools + Ints + Strings
         private bool _addingModeBool = true;
-        private int _selectedItem;
-
-        //private string _addNameString;
-        //private string _editNameString;
-        //private string _addHexString ;
-        //private string _editHexString;
+        private int _selectedItem = 0;
 
         private string _inputNameString;
         private string _inputHexString;
-
-        //private SolidColorBrush _addBrush = Brushes.White;
-        //private SolidColorBrush _editBrush = Brushes.White;
-
-        private SolidColorBrush _inputBrush = Brushes.White;
-
-        private readonly SolidColorBrush BurgundyBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF5D1A1A"));
-        private readonly SolidColorBrush BurgundyLightBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF7F2626"));
         #endregion
+
+        #region Brushes
+        private SolidColorBrush _inputBrush = Brushes.White;
+        #endregion 
 
         #region ICommands
         private ICommand _addSwitchCommand;
@@ -57,11 +51,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         private ICommand _sampleColorCommand;
         private ICommand _deleteItemCommand;
-
-        private ICommand _incrementListCommand;
-        private ICommand _decreaseListCommand;
         #endregion
 
+        #endregion
+
+        #region Constructors
+        public ColorListViewModel()
+        {
+            SelectedIndex = 0;
+        }
         #endregion
 
         #region Properties
@@ -71,40 +69,12 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         {
             get
             {
-                //return AddingModeBool ? _addBrush:_editBrush;
-
                 return _inputBrush;
             }
             set
             {
-                //depending on what state the menu is in the corresponding color is updated
-                //if (AddingModeBool)
-                //{
-                //    _addBrush = value;
-                //}
-                //else
-                //{
-                //    _editBrush = value;
-                //}
-
                 _inputBrush = value;
-
                 OnPropertyChanged("IndicatorBrush");
-            }
-        }
-        public SolidColorBrush AddBackground
-        {
-            get
-            {
-                return AddingModeBool ? BurgundyLightBrush : BurgundyBrush;
-            }
-        }
-
-        public SolidColorBrush EditBackground
-        {
-            get
-            {
-                return AddingModeBool ? BurgundyBrush : BurgundyLightBrush;
             }
         }
         #endregion
@@ -114,18 +84,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         {
             get
             {
-                //return AddingModeBool ? _addNameString : _editNameString;
                 return _inputNameString;
             }
             set
             {
-                //if (AddingModeBool)
-                //    _addNameString = value ;
-                //else
-                //    _editNameString = value;
-
                 _inputNameString = value;
-
                 OnPropertyChanged("InputName");
             }
         }
@@ -133,29 +96,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         {
             get
             {
-                //return AddingModeBool ? _addHexString :_editHexString;
                 return _inputHexString;
             }
             set
             {
-                //if (AddingModeBool)
-                //    _addHexString = value;
-                //else
-                //    _editHexString = value;
-
                 _inputHexString = value;
-
                 try
                 {
                     //Sets indicator to the new color
-                    //if(AddingModeBool)
-                    //    _addBrush= new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
-                    //else
-                    //    _editBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
-
-                    _inputBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
-
-                    OnPropertyChanged("IndicatorBrush");
+                    IndicatorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
                 }
                 catch { }
                 OnPropertyChanged("InputHex");
@@ -164,10 +113,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #endregion
 
         #region Misc
-        public ColorListViewModel()
-        {
-            SelectedIndex = 0;
-        }
 
         public bool AddingModeBool
         {
@@ -178,20 +123,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set
             {
                 _addingModeBool = value;
-                //OnPropertyChanged("IndicatorBrush");
-                //OnPropertyChanged("InputName");
-                //OnPropertyChanged("InputHex");
-                OnPropertyChanged("AddBackground");
-                OnPropertyChanged("EditBackground");
+                OnPropertyChanged("AddingModeBool");
             }
         }
-
         
         public ObservableCollection<ColorClass> ColorListSource
         {
             get
             {
-                return _colorListModel.ColorClassList;
+                return model.ColorClassList;
             }
         }
 
@@ -205,9 +145,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             }
             set
             {
+                _selectedItem = value;
                 InputHex = ColorListSource[value].Hex;
                 InputName= ColorListSource[value].Name;
-                _selectedItem = value;
                 OnPropertyChanged("SelectedIndex");
             }
         }
@@ -313,35 +253,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             }
         }
         #endregion
-
-        #region ListCommands
-
-        public ICommand IncrementListCommand
-        {
-            get
-            {
-                if (_incrementListCommand == null)
-                {
-                    _incrementListCommand = new RelayCommand(param => IncrementListMethod());
-                }
-                return _incrementListCommand;
-            }
-        }
-
-        public ICommand DecreaseListCommand
-        {
-            get
-            {
-                if (_decreaseListCommand == null)
-                {
-                    _decreaseListCommand = new RelayCommand(param => DecreaseListMethod());
-                }
-                return _decreaseListCommand;
-            }
-        }
-
-        #endregion
-
         #endregion
 
         #region Methods
@@ -355,39 +266,27 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         }
         void AddNewItemMethod()
         {
-            OnPropertyChanged("InputName");
-            //ColorListSource.Insert(0, new ColorClass(_colorListModel.NextID, _addHexString, _addNameString));
-            ColorListSource.Insert(0, new ColorClass(_colorListModel.NextID, _inputHexString, _inputNameString));
-
-            _colorListModel.SaveColorsList();
+            model.AddColorItem(SelectedIndex, InputHex, InputName);
             SelectedIndex = 0;
-            OnPropertyChanged("ColorListSource");
         }
         void EditItemMethod()
         {
             if (ColorListSource.Count > SelectedIndex)
             {
-                ColorListSource[SelectedIndex] = new ColorClass(ColorListSource[SelectedIndex].ID, _inputHexString, _inputNameString);
-                //ColorListSource[SelectedItem] = new ColorClass(ColorListSource[SelectedItem].ID, _editHexString, _editNameString);
-                _colorListModel.SaveColorsList();
-                OnPropertyChanged("ColorListSource");
+                model.EditColorItem(SelectedIndex, InputHex, InputName);
             }
                
         }
         void ExecuteMethod()
         {
             if (AddingModeBool)
-            {
                 AddNewItemMethod();
-            }
             else
-            {
                 EditItemMethod();
-            }
         }
         void SampleColorMethod()
         {
-            var color =  _colorUtils.GetCursorColor();
+            var color =  colorUtils.GetCursorColor();
             InputHex = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         }
         void DeleteItemMethod()
@@ -395,25 +294,10 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             if (ColorListSource.Count > SelectedIndex)
             {
                 ColorListSource.RemoveAt(SelectedIndex);
-                _colorListModel.SaveColorsList();
+                model.SaveColorsList();
                 OnPropertyChanged("ColorListSource");
             }
         }
-        void IncrementListMethod()
-        {
-            if (0 <= SelectedIndex && SelectedIndex < ColorListSource.Count - 1)
-                SelectedIndex++;
-            else
-                SelectedIndex = 0;
-        }
-        void DecreaseListMethod()
-        {
-            if (0 < SelectedIndex && SelectedIndex <= ColorListSource.Count - 1)
-                SelectedIndex--;
-            else
-                SelectedIndex = ColorListSource.Count - 1;
-        }
-
         #endregion
     }
 }

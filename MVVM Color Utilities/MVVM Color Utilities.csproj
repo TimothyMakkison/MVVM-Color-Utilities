@@ -77,6 +77,7 @@
     <Compile Include="Palette Quantizers\Median Cut\MedianCutQuantizer.cs" />
     <Compile Include="ViewModel\Helper Classes\ColorUtils.cs" />
     <Compile Include="ViewModel\Helper Classes\IPageViewModel.cs" />
+    <Compile Include="ViewModel\Helper Classes\MathHelpers.cs" />
     <Compile Include="ViewModel\Helper Classes\ObservableObjects.cs" />
     <Compile Include="ViewModel\Helper Classes\RelayCommand.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
