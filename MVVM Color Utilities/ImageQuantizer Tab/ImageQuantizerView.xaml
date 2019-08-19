@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="MVVM_Color_Utilities.ImageQuantizer_Tab.ImageQuantizerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:MVVM_Color_Utilities.ImageQuantizer_Tab"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="70" Width="70" Grid.Row="1">
+            <materialDesign:PackIcon Kind="FormatVerticalAlignBottom" Height="70" Width="70" Foreground="White"/>
+        </Label>
+        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Command="{Binding Path=OpenCommand}" >
+            <Image Source="{Binding SelectedPath}"/>
+        </Button>
+    </Grid>
+</UserControl>

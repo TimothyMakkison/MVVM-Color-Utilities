@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MVVM_Color_Utilities.ColorPicker_Tab
+namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
     /// <summary>
-    /// Interaction logic for ColorPickerView.xaml
+    /// Interaction logic for ImageQuantizerView.xaml
     /// </summary>
-    public partial class ColorPickerView : UserControl
+    public partial class ImageQuantizerView : UserControl
     {
-        public ColorPickerView()
+        public ImageQuantizerView()
         {
             InitializeComponent();
         }

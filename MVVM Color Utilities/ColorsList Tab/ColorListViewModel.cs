@@ -15,7 +15,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 
 namespace MVVM_Color_Utilities.ColorsList_Tab
 {
@@ -152,13 +151,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             }
         }
 
-        public PackIconKind Icon
-        {
-            get 
-            {
-                return PackIconKind.Palette;
-            }
-        }
+        public PackIconKind Icon => PackIconKind.Palette;
         #endregion
 
         #endregion

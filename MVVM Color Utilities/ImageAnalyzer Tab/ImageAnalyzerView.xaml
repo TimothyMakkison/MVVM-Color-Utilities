@@ -27,8 +27,6 @@
             SelectedIndex="{Binding Path=ColorCountComboIndex}">
             </ComboBox>
         </StackPanel>
-       
-
 
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -44,13 +42,10 @@
                    Command="{Binding Path= OpenCommand}">
                 <Image Source="{Binding SelectedPath}"/>
             </Button>
-
             
-
             <ListBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" ItemsSource="{Binding SampleColorSource}" >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
                         <Style.Triggers>
                             <MultiTrigger>
                                 <MultiTrigger.Conditions>
@@ -62,14 +57,12 @@
                         </Style.Triggers>
                     </Style>
                 </ListBox.ItemContainerStyle>
-                <!--<ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>-->
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                            <Rectangle  Height="30" Width="100" Fill="{Binding Color}" Stroke="Gray" StrokeThickness="0.4"/>
+                        <StackPanel>
+                            <Rectangle Height="30" Width="100" Fill="{Binding Color}" Stroke="Gray" StrokeThickness="0.4"/>
+                            <TextBlock  TextAlignment="Center" Text="{Binding ColorHex}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

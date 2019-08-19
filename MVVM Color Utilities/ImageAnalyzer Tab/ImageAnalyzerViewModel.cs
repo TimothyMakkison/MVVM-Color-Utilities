@@ -22,7 +22,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     {
         #region Fields
         private readonly ImageAnalyzerModel model = new ImageAnalyzerModel();
-        private readonly OpenFileDialog dialogBox = new OpenFileDialog() { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", };
+        private readonly OpenFileDialog dialogBox = new OpenFileDialog()
+        { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
 
         private string _selectedPath;
 
@@ -41,17 +42,11 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         #endregion
 
         #region Properties
-        public PackIconKind Icon
-        {
-            get
-            {
-                return PackIconKind.PaletteAdvanced;
-            }
-        }
+        public PackIconKind Icon => PackIconKind.PaletteAdvanced;
         public string SelectedPath
         {
             get { return _selectedPath; }
-            set { _selectedPath = value; OnPropertyChanged("SelectedPath"); }
+            set { _selectedPath = value;OnPropertyChanged("SelectedPath"); }
         }
         public ObservableCollection<ColorClass> SampleColorSource { get; set; } = new ObservableCollection<ColorClass>();
         public List<BaseColorQuantizer> QuantizerList { get; } = new List<BaseColorQuantizer>
@@ -109,9 +104,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         {
             dialogBox.ShowDialog();
             string path = dialogBox.FileName;
-            
             //Checks that the path exists and is not the previous path.
-            if (SelectedPath != "" && SelectedPath != path)
+            if (path != "" && SelectedPath != path)
             {
                 SelectedPath = path;
                 //crashes if file name is null

@@ -47,6 +47,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -65,7 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ColorPicker Tab\ColorPickerViewModel.cs" />
+    <Compile Include="ImageQuantizer Tab\ImageQuantizerView.xaml.cs">
+      <DependentUpon>ImageQuantizerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ImageQuantizer Tab\ImageQuantizerViewModel.cs" />
     <Compile Include="ColorsList Tab\ColorListModel.cs" />
     <Compile Include="ColorsList Tab\ColorListViewModel.cs" />
     <Compile Include="ImageAnalyzer Tab\ImageAnalyzerModel.cs" />
@@ -81,15 +85,15 @@
     <Compile Include="ViewModel\Helper Classes\ObservableObjects.cs" />
     <Compile Include="ViewModel\Helper Classes\RelayCommand.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Page Include="ColorPicker Tab\ColorPickerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ColorsList Tab\ColorListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ImageAnalyzer Tab\ImageAnalyzerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ImageQuantizer Tab\ImageQuantizerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -100,9 +104,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ColorPicker Tab\ColorPickerView.xaml.cs">
-      <DependentUpon>ColorPickerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ColorsList Tab\ColorListView.xaml.cs">
       <DependentUpon>ColorListView.xaml</DependentUpon>

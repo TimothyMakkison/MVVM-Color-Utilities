@@ -66,7 +66,7 @@
                 <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
             </Button>
         </Grid>
-
+<!--#region ListBox Header-->
         <Grid Grid.Row="1" Background="{StaticResource BurgundyLightBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.8*"/>
@@ -97,8 +97,9 @@
                 <materialDesign:PackIcon Kind="done" Width="100"/>
             </Button>
         </Grid>
-
-
+        <!--#endregion-->
+        
+<!--#region ListBox-->
         <ListBox Grid.Row="2" ItemsSource="{Binding ColorListSource}" SelectedIndex="{Binding SelectedIndex}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
@@ -117,7 +118,6 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid >
-                        
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.8*"/>
                             <ColumnDefinition Width="1.5*"/>
@@ -143,6 +143,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
+<!--#endregion-->
     </Grid>
 </UserControl>

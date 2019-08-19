@@ -20,7 +20,7 @@ namespace MVVM_Color_Utilities.ViewModel
         public MainWindowViewModel()
         {
             PageViewModels.Add(new ColorsList_Tab.ColorListViewModel());
-            PageViewModels.Add(new ColorPicker_Tab.ColorPickerViewModel());
+            PageViewModels.Add(new ImageQuantizer_Tab.ImageQuantizerViewModel());
             PageViewModels.Add(new ImageAnalyzer_Tab.ImageAnalyzerViewModel());
 
             CurrentPageViewModel = PageViewModels[2];
