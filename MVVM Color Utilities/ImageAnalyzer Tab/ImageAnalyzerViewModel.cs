@@ -13,6 +13,7 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Windows;
+using MVVM_Color_Utilities.Helpers;
 using System.Windows.Input;
 
 
@@ -49,10 +50,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set { _selectedPath = value;OnPropertyChanged("SelectedPath"); }
         }
         public ObservableCollection<ColorClass> SampleColorSource { get; set; } = new ObservableCollection<ColorClass>();
-        public List<BaseColorQuantizer> QuantizerList { get; } = new List<BaseColorQuantizer>
-        {
-            new MedianCutQuantizer()
-        };
+        public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerOptions;
+        public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountOptions;
         public int QuantizerComboIndex
         {
             get
@@ -62,11 +61,11 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _quantizerComboIndex = value;
+                MessageBox.Show("IA Quant set");
                 model.SetQuantizer(QuantizerList[_quantizerComboIndex]);
                 GetNewPalette();
             }
         }
-        public List<Int32> ColorCountList { get; } = new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
         public int ColorCountComboIndex
         {
             get
@@ -76,6 +75,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _colorCountComboIndex = value;
+                //When changed refresh the palette
                 model.SetColorCount(ColorCountList[_colorCountComboIndex]);
                 GetNewPalette();
             }

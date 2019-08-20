@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using System.Windows;
+using System.IO;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
@@ -15,6 +16,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         private Bitmap currentBitmap;
         private BaseColorQuantizer activeQuantizer;
         private Int32 colorCount;
+        private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
+        private readonly string NewImagePath = projectPath + "/Resources/Images/NewImage.bmp";
+
         #endregion
 
         #region Constructor
@@ -44,6 +48,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         public List<Int32> ColorList { get; set; } = new List<int>();
         #endregion
 
+        //public string NewImagePath => projectPath + "/Resources/Images/NewImage.bmp";
+
+        public Bitmap GeneratedBitmap { get; set; }
         #region Methods
         /// <summary>
         /// Forms a palette and returns true if successfull.
@@ -54,9 +61,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             //Ensures all values will not return null.
             if (currentBitmap != null && activeQuantizer != null && colorCount > 0)
             {
-
                 if (ColorList.Count == 0)
-                    GetBitmapColors();
+                    GetSourceBitmapColors();
     
                 activeQuantizer.SetColorList(ColorList);
                 Palette = activeQuantizer.GetPalette(colorCount);
@@ -67,7 +73,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <summary>
         /// Adds all of the bitmaps colors to the ColorList.
         /// </summary>
-        private void GetBitmapColors()
+        private void GetSourceBitmapColors()
         {
             //Iterates through each pixel adding it to the colorList
             for (int x = 0; x < currentBitmap.Width; x++)
@@ -77,6 +83,30 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                     Int32 key = pixelColor.R << 16 | pixelColor.G << 8 | pixelColor.B;
                     ColorList.Add(key);
                 }
+        }
+        public bool GenerateNewImage()
+        {
+            Bitmap bitmap = new Bitmap(currentBitmap.Width, currentBitmap.Height);
+            if (currentBitmap != null && activeQuantizer != null && colorCount > 0 && Palette.Count > 0)
+            {
+                for(int x =0; x< currentBitmap.Width; x++)
+                    for(int y=0; y<currentBitmap.Height; y++)
+                    {
+                        Color pixelColor = currentBitmap.GetPixel(x, y);
+                        int index = activeQuantizer.GetPaletteIndex(pixelColor);
+                        bitmap.SetPixel(x, y, Palette[index]);
+                    }
+                GeneratedBitmap = bitmap;
+                MessageBox.Show("saving new image");
+                bitmap.Save(NewImagePath
+                    , System.Drawing.Imaging.ImageFormat.Bmp);
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("IB Failed generating image");
+            }
+            return false;
         }
         #region SetMethods
         /// <summary>

@@ -1,25 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
-using MaterialDesignThemes.Wpf;
-using System.IO;
-using System.Windows.Input;
-using System.Windows;
-using System.Drawing;
-using System.Security;
+﻿using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
-using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
-using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using MVVM_Color_Utilities.Palette_Quantizers;
+using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
+using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Security;
+using System.Text;
+using System.Windows;
+using MVVM_Color_Utilities.Helpers;
+using System.Windows.Input;
+using System.Threading.Tasks;
 
-namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
+namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
-    class ImageAnalyzerModel : ObservableObject
+    class ImageQuantizerModel : ObservableObject
     {
+        private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
         private readonly ImageBuffer buffer = new ImageBuffer();
 
         /// <summary>
@@ -28,7 +30,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <param name="bitmap"></param>
         public void SetBitmap(Bitmap bitmap)
         {
-            MessageBox.Show("IA Bitmap set");
+            MessageBox.Show("IQ Bitmap set");
+
             buffer.SetBitmap(bitmap);
         }
         /// <summary>
@@ -37,8 +40,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <param name="quantizer"></param>
         public void SetQuantizer(BaseColorQuantizer quantizer)
         {
-            MessageBox.Show("IA Quant set");
-
+            MessageBox.Show("IQ Quant set");
             buffer.SetQuantizer(quantizer);
         }
         /// <summary>
@@ -47,7 +49,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <param name="colorCount">Number of colors in final palette.</param>
         public void SetColorCount(Int32 colorCount)
         {
-            MessageBox.Show("IA Color set");
+            MessageBox.Show("IQ Color set");
 
             buffer.SetColorCount(colorCount);
         }
@@ -64,6 +66,13 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             else
             {
                 return new List<Color>();
+            }
+        }
+        public void GenerateImage()
+        {
+            if (buffer.GenerateNewImage())
+            {
+                MessageBox.Show("succ");
             }
         }
     }

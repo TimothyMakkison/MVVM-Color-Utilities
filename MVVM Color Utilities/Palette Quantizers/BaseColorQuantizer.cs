@@ -27,5 +27,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         }
         public abstract string Name { get; }
 
+        public abstract int GetPaletteIndex(Color color);
     }
 }

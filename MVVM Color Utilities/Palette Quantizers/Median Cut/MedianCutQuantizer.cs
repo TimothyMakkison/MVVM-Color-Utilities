@@ -127,7 +127,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             return Palette;
         }
 
-        Int32 GetPaletteIndex(Color color)
+        public override Int32 GetPaletteIndex(Color color)
         {
             //If palette doesnt include color then -1 is returned
             //If palette isnt formed
@@ -139,7 +139,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             foreach(MedianCutCube cube in cubeList)
             {
                 if (cube.IsColorIn(color))
+                {
+                    //MessageBox.Show(cube.)
                     return cube.PaletteIndex;
+                }
             }
             return -1;
         }

@@ -23,7 +23,7 @@ namespace MVVM_Color_Utilities.ViewModel
             PageViewModels.Add(new ImageQuantizer_Tab.ImageQuantizerViewModel());
             PageViewModels.Add(new ImageAnalyzer_Tab.ImageAnalyzerViewModel());
 
-            CurrentPageViewModel = PageViewModels[2];
+            CurrentPageViewModel = PageViewModels[1];
         }
         #endregion
         /// <summary>

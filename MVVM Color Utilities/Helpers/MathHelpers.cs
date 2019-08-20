@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
+namespace MVVM_Color_Utilities.Helpers
 {
     public static class MathHelpers
     {

@@ -16,6 +16,21 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" >
+                <ComboBox Width="150" Height="30"  ItemsSource="{Binding Path=QuantizerList}"
+                      SelectedIndex="{Binding Path=QuantizerComboIndex}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ComboBox Width="50" Height="30" ItemsSource="{Binding Path=ColorCountList}"
+            SelectedIndex="{Binding Path=ColorCountComboIndex}">
+                </ComboBox>
+            </StackPanel>
         
         <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="70" Width="70" Grid.Row="1">
             <materialDesign:PackIcon Kind="FormatVerticalAlignBottom" Height="70" Width="70" Foreground="White"/>

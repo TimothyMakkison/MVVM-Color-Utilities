@@ -66,6 +66,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\ImageBufferItems.cs" />
+    <Compile Include="ImageQuantizer Tab\ImageQuantizerModel.cs" />
     <Compile Include="ImageQuantizer Tab\ImageQuantizerView.xaml.cs">
       <DependentUpon>ImageQuantizerView.xaml</DependentUpon>
     </Compile>
@@ -81,7 +83,7 @@
     <Compile Include="Palette Quantizers\Median Cut\MedianCutQuantizer.cs" />
     <Compile Include="ViewModel\Helper Classes\ColorUtils.cs" />
     <Compile Include="ViewModel\Helper Classes\IPageViewModel.cs" />
-    <Compile Include="ViewModel\Helper Classes\MathHelpers.cs" />
+    <Compile Include="Helpers\MathHelpers.cs" />
     <Compile Include="ViewModel\Helper Classes\ObservableObjects.cs" />
     <Compile Include="ViewModel\Helper Classes\RelayCommand.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
@@ -154,8 +156,9 @@
   <ItemGroup>
     <Resource Include="Resources\ColorItemsList.txt" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Resources\Images\" />
+    <Resource Include="Resources\Images\NewImage.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

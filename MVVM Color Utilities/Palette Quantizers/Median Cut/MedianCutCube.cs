@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
@@ -152,6 +153,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             int red = color.R;
             int green = color.G;
             int blue = color.B;
+
+            //string redString = String.Format("value {0}, upper is {1}, and lower is {2}", red.ToString()
+            //    , redUpperBound.ToString(), redLowBound.ToString());
+            //MessageBox.Show(redString);
 
             return (red >= redLowBound && red <= redUpperBound) &&
                    (green >= greenLowBound && green <= greenUpperBound) &&
