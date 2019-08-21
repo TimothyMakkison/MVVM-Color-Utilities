@@ -38,5 +38,8 @@
         <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Command="{Binding Path=OpenCommand}" >
             <Image Source="{Binding SelectedPath}"/>
         </Button>
+        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">
+            <Image Source="{Binding GeneratedImagePath}"/>
+        </Button>
     </Grid>
 </UserControl>

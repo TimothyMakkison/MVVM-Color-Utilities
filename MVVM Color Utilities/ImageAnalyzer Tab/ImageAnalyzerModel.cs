@@ -37,8 +37,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <param name="quantizer"></param>
         public void SetQuantizer(BaseColorQuantizer quantizer)
         {
-            MessageBox.Show("IA Quant set");
-
             buffer.SetQuantizer(quantizer);
         }
         /// <summary>
@@ -47,8 +45,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <param name="colorCount">Number of colors in final palette.</param>
         public void SetColorCount(Int32 colorCount)
         {
-            MessageBox.Show("IA Color set");
-
             buffer.SetColorCount(colorCount);
         }
         /// <summary>

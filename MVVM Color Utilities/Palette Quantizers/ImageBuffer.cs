@@ -63,12 +63,21 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             {
                 if (ColorList.Count == 0)
                     GetSourceBitmapColors();
-    
+                MessageBox.Show("soruce colors succ");
                 activeQuantizer.SetColorList(ColorList);
                 Palette = activeQuantizer.GetPalette(colorCount);
                 return true;
             }
             return false;
+        }
+
+        private void GeneratePalette()
+        {
+            if (ColorList.Count == 0)
+                GetSourceBitmapColors();
+            MessageBox.Show("soruce colors succ");
+            activeQuantizer.SetColorList(ColorList);
+            Palette = activeQuantizer.GetPalette(colorCount);
         }
         /// <summary>
         /// Adds all of the bitmaps colors to the ColorList.
@@ -86,20 +95,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         }
         public bool GenerateNewImage()
         {
-            Bitmap bitmap = new Bitmap(currentBitmap.Width, currentBitmap.Height);
             if (currentBitmap != null && activeQuantizer != null && colorCount > 0 && Palette.Count > 0)
             {
-                for(int x =0; x< currentBitmap.Width; x++)
-                    for(int y=0; y<currentBitmap.Height; y++)
-                    {
-                        Color pixelColor = currentBitmap.GetPixel(x, y);
-                        int index = activeQuantizer.GetPaletteIndex(pixelColor);
-                        bitmap.SetPixel(x, y, Palette[index]);
-                    }
-                GeneratedBitmap = bitmap;
-                MessageBox.Show("saving new image");
-                bitmap.Save(NewImagePath
-                    , System.Drawing.Imaging.ImageFormat.Bmp);
+                //Task.Run(() =>ImageGenerator());
+                ImageGenerator();
                 return true;
             }
             else
@@ -108,6 +107,23 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
             return false;
         }
+        private void ImageGenerator()
+        {
+            Bitmap bitmap = new Bitmap(currentBitmap.Width, currentBitmap.Height);
+            for (int x = 0; x < currentBitmap.Width; x++)
+                for (int y = 0; y < currentBitmap.Height; y++)
+                {
+                    Color pixelColor = currentBitmap.GetPixel(x, y);
+                    int index = activeQuantizer.GetPaletteIndex(pixelColor);
+                    bitmap.SetPixel(x, y, Palette[index]);
+                }
+            //GeneratedBitmap = bitmap;
+            MessageBox.Show("saving new image");
+            bitmap.Save(NewImagePath
+                , System.Drawing.Imaging.ImageFormat.Bmp);
+            MessageBox.Show("save succ");
+        }
+
         #region SetMethods
         /// <summary>
         /// Sets the bitmap to be read and clears the saved colors so the new image can be proccessed.

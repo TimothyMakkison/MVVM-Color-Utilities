@@ -1,0 +1,16 @@
+﻿ListColors
+	Regex for hexstring
+	Support external deleting
+
+ImageBuffer 
+	Use multithreading
+
+Image Quantizer
+	Rectangle strip between Button and List
+	*List expands selected item and allows saving
+
+ImageAnalyzer
+	Indicator to separate the two buttons
+	Ditherer
+	*Display new Image (Maybe by changing the filepath on refresh and on start then if successfull switch to new path)
+	Save new image on click (Only works if a new image is displayed)

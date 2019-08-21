@@ -15,6 +15,7 @@ using System.Security;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Threading.Tasks;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
@@ -22,7 +23,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     class ImageQuantizerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
-        private string _selectedPath;
+        private string _selectedPath, _generatedImagePath;
         private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
         private ICommand _openCommand;
         private readonly OpenFileDialog dialogBox = new OpenFileDialog()
@@ -54,7 +55,19 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 OnPropertyChanged("SelectedPath");
             }
         }
-        public string NewImagePath = projectPath + "/Resources/Images/NewImage.bmp";
+        private string _newImagePath = projectPath + "/Resources/Images/NewImage.bmp";
+        public string GeneratedImagePath
+        {
+            get
+            {
+                return _generatedImagePath;
+            }
+            set
+            {
+                _generatedImagePath = value;
+                OnPropertyChanged("GeneratedImagePath");
+            }
+        }
         public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerOptions;
         public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountOptions;
         public int QuantizerComboIndex
@@ -81,6 +94,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             {
                  _colorCountComboIndex = value;
                 model.SetColorCount(ColorCountList[value]);
+                Task.Run(() => GenerateNewImage());
             }
         }
         #endregion
@@ -100,18 +114,21 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Opens file and exectues GenerateNewImage if selected item is valid.
+        /// </summary>
         private void OpenFile()
         {
             dialogBox.ShowDialog();
             string path = dialogBox.FileName;
 
-            //Checks that the path exists and is not the previous path.
-            if (path != "" && SelectedPath != path)
+            //Checks that the path exists and is not repeating itself.
+            if (SelectedPath != ""&&SelectedPath != path)
             {
                 SelectedPath = path;
                 //crashes if file name is null
                 model.SetBitmap(new Bitmap(Image.FromFile(path)));
-                GenerateNewImage();
+                Task.Run(() => GenerateNewImage());
             }
         }
         private void GenerateNewImage()
@@ -119,8 +136,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             MessageBox.Show("IQ getting palette");
             model.GetPalette();
             MessageBox.Show("IQ generating image");
+            GeneratedImagePath = string.Empty;
             model.GenerateImage();
-            OnPropertyChanged("NewImagePath");
+            GeneratedImagePath = _newImagePath;
         }
     }
     #endregion
