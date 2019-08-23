@@ -40,7 +40,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// <param name="quantizer"></param>
         public void SetQuantizer(BaseColorQuantizer quantizer)
         {
-            MessageBox.Show("IQ Quant set");
             buffer.SetQuantizer(quantizer);
         }
         /// <summary>
@@ -49,8 +48,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// <param name="colorCount">Number of colors in final palette.</param>
         public void SetColorCount(Int32 colorCount)
         {
-            MessageBox.Show("IQ Color set");
-
             buffer.SetColorCount(colorCount);
         }
         /// <summary>
@@ -68,12 +65,16 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 return new List<Color>();
             }
         }
-        public void GenerateImage()
+        public void GenerateNewImage()
         {
-            if (buffer.GenerateNewImage())
-            {
-                MessageBox.Show("succ");
-            }
+            MessageBox.Show("Getting palette");
+            buffer.GetPalette();
+            MessageBox.Show("Generating new image");
+            buffer.GenerateNewImage();
+        }
+        public void SaveNewBitmap()
+        {
+            buffer.SaveNewBitmap();
         }
     }
 }

@@ -12,10 +12,6 @@
             <RowDefinition Height="70"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
 
         <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" >
                 <ComboBox Width="150" Height="30"  ItemsSource="{Binding Path=QuantizerList}"
@@ -31,15 +27,23 @@
             SelectedIndex="{Binding Path=ColorCountComboIndex}">
                 </ComboBox>
             </StackPanel>
-        
-        <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="70" Width="70" Grid.Row="1">
-            <materialDesign:PackIcon Kind="FormatVerticalAlignBottom" Height="70" Width="70" Foreground="White"/>
-        </Label>
-        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Command="{Binding Path=OpenCommand}" >
-            <Image Source="{Binding SelectedPath}"/>
-        </Button>
-        <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" Grid.Column="1">
-            <Image Source="{Binding GeneratedImagePath}"/>
-        </Button>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="70" Width="70">
+                <materialDesign:PackIcon Kind="FormatVerticalAlignTop" Height="70" Width="70" Foreground="White"/>
+            </Label>
+            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding Path=OpenCommand}" >
+                <Image Source="{Binding SelectedPath}"/>
+            </Button>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" 
+                      Background="Gray"/>
+            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
+                <Image Source="{Binding GeneratedImagePath}"/>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>

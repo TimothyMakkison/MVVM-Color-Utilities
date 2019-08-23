@@ -14,10 +14,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     {
         #region Fields
         private Bitmap currentBitmap;
+        private Bitmap newBitmap;
         private BaseColorQuantizer activeQuantizer;
         private Int32 colorCount;
         private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
-        private readonly string NewImagePath = projectPath + "/Resources/Images/NewImage.bmp";
+        private readonly string _newImagePath = projectPath + "/Resources/Images/NewImage.bmp";
 
         #endregion
 
@@ -46,11 +47,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// Stores all of the colors in the bitmap.
         /// </summary>
         public List<Int32> ColorList { get; set; } = new List<int>();
-        #endregion
-
-        //public string NewImagePath => projectPath + "/Resources/Images/NewImage.bmp";
 
         public Bitmap GeneratedBitmap { get; set; }
+        //public string NewImagePath => projectPath + "/Resources/Images/NewImage.bmp";
+        #endregion
+
         #region Methods
         /// <summary>
         /// Forms a palette and returns true if successfull.
@@ -61,6 +62,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             //Ensures all values will not return null.
             if (currentBitmap != null && activeQuantizer != null && colorCount > 0)
             {
+                //Get source colors if they havent been found yet.
                 if (ColorList.Count == 0)
                     GetSourceBitmapColors();
                 MessageBox.Show("soruce colors succ");
@@ -69,15 +71,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 return true;
             }
             return false;
-        }
-
-        private void GeneratePalette()
-        {
-            if (ColorList.Count == 0)
-                GetSourceBitmapColors();
-            MessageBox.Show("soruce colors succ");
-            activeQuantizer.SetColorList(ColorList);
-            Palette = activeQuantizer.GetPalette(colorCount);
         }
         /// <summary>
         /// Adds all of the bitmaps colors to the ColorList.
@@ -93,35 +86,39 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                     ColorList.Add(key);
                 }
         }
+        /// <summary>
+        /// Returns true if newBitmap is successfully saved.
+        /// </summary>
+        /// <returns></returns>
+        public bool SaveNewBitmap()
+        {
+            File.Delete(_newImagePath);
+            newBitmap.Save(_newImagePath, System.Drawing.Imaging.ImageFormat.Bmp);
+            MessageBox.Show("saved");
+            return true;
+          
+        }
+
+        /// <summary>
+        /// Uses the currentBitmap and Palette to generate a approximate image.
+        /// </summary>
         public bool GenerateNewImage()
         {
             if (currentBitmap != null && activeQuantizer != null && colorCount > 0 && Palette.Count > 0)
             {
-                //Task.Run(() =>ImageGenerator());
-                ImageGenerator();
+                newBitmap = new Bitmap(currentBitmap.Width, currentBitmap.Height);
+                for (int x = 0; x < currentBitmap.Width; x++)
+                    for (int y = 0; y < currentBitmap.Height; y++)
+                    {
+                        Color pixelColor = currentBitmap.GetPixel(x, y);
+                        int index = activeQuantizer.GetPaletteIndex(pixelColor);
+                        newBitmap.SetPixel(x, y, Palette[index]);
+                    }
+                MessageBox.Show("gen saving");
+                SaveNewBitmap();
                 return true;
             }
-            else
-            {
-                MessageBox.Show("IB Failed generating image");
-            }
             return false;
-        }
-        private void ImageGenerator()
-        {
-            Bitmap bitmap = new Bitmap(currentBitmap.Width, currentBitmap.Height);
-            for (int x = 0; x < currentBitmap.Width; x++)
-                for (int y = 0; y < currentBitmap.Height; y++)
-                {
-                    Color pixelColor = currentBitmap.GetPixel(x, y);
-                    int index = activeQuantizer.GetPaletteIndex(pixelColor);
-                    bitmap.SetPixel(x, y, Palette[index]);
-                }
-            //GeneratedBitmap = bitmap;
-            MessageBox.Show("saving new image");
-            bitmap.Save(NewImagePath
-                , System.Drawing.Imaging.ImageFormat.Bmp);
-            MessageBox.Show("save succ");
         }
 
         #region SetMethods

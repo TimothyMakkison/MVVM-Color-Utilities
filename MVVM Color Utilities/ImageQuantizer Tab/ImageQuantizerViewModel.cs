@@ -24,13 +24,15 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     {
         #region Fields
         private string _selectedPath, _generatedImagePath;
+        private string _newImagePath = projectPath + "/Resources/Images/NewImage.bmp";
         private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
+        private int _quantizerComboIndex,_colorCountComboIndex = 4;
+
         private ICommand _openCommand;
+
+        private readonly ImageQuantizerModel model = new ImageQuantizerModel();
         private readonly OpenFileDialog dialogBox = new OpenFileDialog()
         { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title="Browse Images"};
-        private int _quantizerComboIndex;
-        private int _colorCountComboIndex = 4;
-        private readonly ImageQuantizerModel model = new ImageQuantizerModel();
         #endregion
 
         #region Constructor
@@ -43,6 +45,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         #region Properties
         public PackIconKind Icon => PackIconKind.Paint;
+
         public string SelectedPath
         {
             get
@@ -55,7 +58,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 OnPropertyChanged("SelectedPath");
             }
         }
-        private string _newImagePath = projectPath + "/Resources/Images/NewImage.bmp";
+
         public string GeneratedImagePath
         {
             get
@@ -68,6 +71,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 OnPropertyChanged("GeneratedImagePath");
             }
         }
+
         public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerOptions;
         public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountOptions;
         public int QuantizerComboIndex
@@ -123,22 +127,32 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             string path = dialogBox.FileName;
 
             //Checks that the path exists and is not repeating itself.
-            if (SelectedPath != ""&&SelectedPath != path)
+            if (path != ""&&SelectedPath != path)
             {
                 SelectedPath = path;
                 //crashes if file name is null
                 model.SetBitmap(new Bitmap(Image.FromFile(path)));
-                Task.Run(() => GenerateNewImage());
+                //Task.Run(() => GenerateNewImage());
+                GenerateNewImage();
             }
         }
+
+        public Image TempBMP
+        {
+            get
+            {
+                return Image.FromFile(projectPath + "/Resources/Images/TempBMP.bmp");
+            }
+        }
+
         private void GenerateNewImage()
         {
-            MessageBox.Show("IQ getting palette");
-            model.GetPalette();
-            MessageBox.Show("IQ generating image");
             GeneratedImagePath = string.Empty;
-            model.GenerateImage();
+            System.Threading.Thread.Sleep(100);
+            model.GenerateNewImage();
+            model.SaveNewBitmap();
             GeneratedImagePath = _newImagePath;
+            MessageBox.Show("finished");
         }
     }
     #endregion
