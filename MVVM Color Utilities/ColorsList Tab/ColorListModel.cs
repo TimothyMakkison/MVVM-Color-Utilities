@@ -14,20 +14,16 @@ using Newtonsoft.Json;
 
 namespace MVVM_Color_Utilities.ColorsList_Tab
 {
-    class ColorListModel : ObservableObject
+    public class ColorListModel
     {
         #region Fields
-        
-        //private readonly static string projectPath = ; //Get Path of ColorItems file
-
-
         private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
         private readonly static string colorsFilePath = projectPath + "/Resources/ColorItemsList.txt";
         #endregion
 
         #region Properties
-        public ObservableCollection<ColorClass> ColorClassList { get; } 
-            = JsonConvert.DeserializeObject<ObservableCollection<ColorClass>>(File.ReadAllText(colorsFilePath));
+        public ObservableCollection<ColorClass> ColorClassList { get; }
+        =JsonConvert.DeserializeObject<ObservableCollection<ColorClass>>(File.ReadAllText(colorsFilePath));
 
         public int NextID
         {
@@ -39,13 +35,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #endregion
 
         #region Methods
-
-        public void SaveColorsList()
+        private void SaveColorsList()
         {
             try
             {
                 File.WriteAllText(colorsFilePath, JsonConvert.SerializeObject(ColorClassList));
-                OnPropertyChanged("ColorListSource");
             }
             catch { }
         }
@@ -65,9 +59,17 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 SaveColorsList();
             }
         }
+        public void DeleteColorItem(int index)
+        {
+            if (ColorClassList.Count > index && index>-1)
+            {
+                ColorClassList.RemoveAt(index);
+                SaveColorsList();
+            }
+        }
         #endregion
     }
-
+    #region Color Class
     public class ColorClass
     {
         public int ID { get; set; }
@@ -110,4 +112,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             return ID + "," + Hex + "," + Name;
         }
     }
+    #endregion
+
 }

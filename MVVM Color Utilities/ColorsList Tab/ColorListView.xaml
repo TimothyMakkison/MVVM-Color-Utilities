@@ -66,8 +66,9 @@
                 <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
             </Button>
         </Grid>
+            
 <!--#region ListBox Header-->
-        <Grid Grid.Row="1" Background="{StaticResource BurgundyLightBrush}">
+        <Grid Grid.Row="1" Background="{StaticResource BurgundyLightBrush}" ShowGridLines="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="1.5*"/>
@@ -78,15 +79,13 @@
             </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <Style TargetType="TextBox">
-                    <Setter Property="Padding" Value="3,0,0,0"/>
-                    <Setter Property="FontSize" Value="13"/>
-                    <Setter Property="FontFamily" Value="Segoe UI"/>
                     <Setter Property="Background" Value="{StaticResource BurgundyFaintBrush}"/>
                     <Setter Property="Height" Value="20"/>
                 </Style>
             </Grid.Resources>
 
-            <Rectangle Height="18" Width="60" Fill="{Binding IndicatorBrush, UpdateSourceTrigger=PropertyChanged}" Stroke="Gray" StrokeThickness="0.4"/>
+            <Rectangle Height="18" Width="60" Fill="White"/>
+            <Rectangle Height="18" Width="60" Fill="{Binding IndicatorBrush}" Stroke="Gray" StrokeThickness="0.4"/>
             <TextBox Grid.Column="1" Width="160" Text="{Binding InputName, UpdateSourceTrigger=PropertyChanged}" />
             <TextBox Grid.Column="2" Width="80" Text="{Binding InputHex, UpdateSourceTrigger=PropertyChanged}" />
             
@@ -100,24 +99,24 @@
         <!--#endregion-->
         
 <!--#region ListBox-->
-        <ListBox Grid.Row="2" ItemsSource="{Binding ColorListSource}" SelectedIndex="{Binding SelectedIndex}">
+        <ListBox Grid.Row="2" ItemsSource="{Binding ColorListSource}" SelectedIndex="{Binding SelectedItemIndex}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     <Style.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="true"/>
                                 <Condition Property="Selector.IsSelectionActive" Value="true"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="LightGray"/>
+                            <Setter Property="Background" Value="Gray"/>
                         </MultiTrigger>
                     </Style.Triggers>
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid >
+                    <Grid ShowGridLines="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.8*"/>
                             <ColumnDefinition Width="1.5*"/>
@@ -126,19 +125,9 @@
                             <ColumnDefinition Width="0.7*"/>
                             <ColumnDefinition Width="1.2*"/>
                         </Grid.ColumnDefinitions>
-                        
-                        <Grid.Resources>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="FontSize" Value="13"/>
-                                <Setter Property="FontFamily" Value="Segoe UI"/>
-                                <Setter Property="Height" Value="20"/>
-                            </Style>
-                        </Grid.Resources>
-                        
                         <Rectangle  Height="18" Width="60" Fill="{Binding SampleBrush}" Stroke="Gray" StrokeThickness="0.4"/>
                         <TextBlock Text="{Binding Name}" Width="160" Grid.Column="1"/>
                         <TextBlock Text="{Binding Hex}" Width="70" Grid.Column="2"/>
-                        
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

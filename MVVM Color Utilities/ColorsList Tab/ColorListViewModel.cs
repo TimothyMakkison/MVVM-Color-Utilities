@@ -25,12 +25,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         #region Misc
         private readonly ColorListModel model = new ColorListModel();
-        private readonly ColorUtils colorUtils = new ColorUtils();
         #endregion
 
         #region Bools + Ints + Strings
         private bool _addingModeBool = true;
-        private int _selectedItem = 0;
+        private int _selectedItemIndex = 0;
 
         private string _inputNameString;
         private string _inputHexString;
@@ -44,10 +43,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private ICommand _addSwitchCommand;
         private ICommand _editSwitchCommand;
 
-        private ICommand _addNewItemCommand;
-        private ICommand _editItemCommand;
         private ICommand _executeCommand;
-
         private ICommand _sampleColorCommand;
         private ICommand _deleteItemCommand;
         #endregion
@@ -57,7 +53,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #region Constructors
         public ColorListViewModel()
         {
-            SelectedIndex = 0;
+            SelectedItemIndex = 0;
         }
         #endregion
 
@@ -112,7 +108,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #endregion
 
         #region Misc
-
+        public PackIconKind Icon => PackIconKind.Palette;
         public bool AddingModeBool
         {
             get
@@ -125,7 +121,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 OnPropertyChanged("AddingModeBool");
             }
         }
-        
         public ObservableCollection<ColorClass> ColorListSource
         {
             get
@@ -133,25 +128,30 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 return model.ColorClassList;
             }
         }
-
-        public int SelectedIndex
+        public int SelectedItemIndex
         {
             get
             {
-                if (_selectedItem >= ColorListSource.Count && ColorListSource.Count!=0)
-                    _selectedItem = ColorListSource.Count - 1;
-                return _selectedItem;
+                if (_selectedItemIndex >= ColorListSource.Count && ColorListSource.Count!=0)
+                    _selectedItemIndex = ColorListSource.Count - 1;
+                return _selectedItemIndex;
             }
             set
             {
-                _selectedItem = value;
-                InputHex = ColorListSource[value].Hex;
-                InputName= ColorListSource[value].Name;
-                OnPropertyChanged("SelectedIndex");
+                _selectedItemIndex= MathUtils.Clamp(0, ColorListSource.Count - 1, value);
+                if (ColorListSource.Count > 0)
+                {
+                    InputHex = ColorListSource[_selectedItemIndex].Hex;
+                    InputName = ColorListSource[_selectedItemIndex].Name;
+                }
+                else
+                {
+                    InputHex = "";
+                    InputName = "";
+                }
+                OnPropertyChanged("SelectedItemIndex");
             }
         }
-
-        public PackIconKind Icon => PackIconKind.Palette;
         #endregion
 
         #endregion
@@ -170,7 +170,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 return _addSwitchCommand;
             }
         }
-
         public ICommand EditSwitchCommand
         {
             get
@@ -185,7 +184,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #endregion
 
         #region FunctionalCommands
-
         public ICommand ExecuteCommand
         {
             get
@@ -197,7 +195,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 return _executeCommand;
             }
         }
-
         public ICommand SampleColorCommand
         {
             get
@@ -209,30 +206,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 return _sampleColorCommand;
             }
 
-        }
-
-        public ICommand AddNewItem
-        {
-            get
-            {
-                if (_addNewItemCommand == null)
-                {
-                    _addNewItemCommand = new RelayCommand(param => AddNewItemMethod());
-                }
-                return _addNewItemCommand;
-            }
-        }
-
-        public ICommand EditItem
-        {
-            get
-            {
-                if (_editItemCommand == null)
-                {
-                    _editItemCommand = new RelayCommand(param => EditItemMethod());
-                }
-                return _editItemCommand;
-            }
         }
         public ICommand DeleteItem
         {
@@ -257,19 +230,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         {
             AddingModeBool = false;
         }
-        void AddNewItemMethod()
-        {
-            model.AddColorItem(SelectedIndex, InputHex, InputName);
-            SelectedIndex = 0;
-        }
-        void EditItemMethod()
-        {
-            if (ColorListSource.Count > SelectedIndex)
-            {
-                model.EditColorItem(SelectedIndex, InputHex, InputName);
-            }
-               
-        }
+        /// <summary>
+        /// Adds or edits item depending on selected setting.
+        /// </summary>
         void ExecuteMethod()
         {
             if (AddingModeBool)
@@ -277,19 +240,32 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             else
                 EditItemMethod();
         }
+        /// <summary>
+        /// Adds new item.
+        /// </summary>
+        void AddNewItemMethod()
+        {
+            model.AddColorItem(SelectedItemIndex, InputHex, InputName);
+            SelectedItemIndex = 0;
+        }
+        /// <summary>
+        /// Edits selected item.
+        /// </summary>
+        void EditItemMethod()
+        {
+            model.EditColorItem(SelectedItemIndex, InputHex, InputName);
+        }
+        /// <summary>
+        /// Deletes selected item.
+        /// </summary>
+        void DeleteItemMethod()
+        { 
+            model.DeleteColorItem(SelectedItemIndex);
+        }
         void SampleColorMethod()
         {
-            var color =  colorUtils.GetCursorColor();
+            Color color =  ColorUtils.GetCursorColor();
             InputHex = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
-        }
-        void DeleteItemMethod()
-        {
-            if (ColorListSource.Count > SelectedIndex)
-            {
-                ColorListSource.RemoveAt(SelectedIndex);
-                model.SaveColorsList();
-                OnPropertyChanged("ColorListSource");
-            }
         }
         #endregion
     }

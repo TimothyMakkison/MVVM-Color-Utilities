@@ -22,11 +22,11 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         internal static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
         #endregion
     }
-    public class ColorUtils
+    public static class ColorUtils
     {
        
         #region Fields
-        private System.Drawing.Point _cursor = new System.Drawing.Point();
+        private static System.Drawing.Point _cursor = new System.Drawing.Point();
         #endregion
 
         #region Methods
@@ -34,7 +34,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         /// Returns the color of the cursor position
         /// </summary>
         /// <returns></returns>
-        public Color GetCursorColor()
+        public static Color GetCursorColor()
         {
             NativeMethods.GetCursorPos(ref _cursor);
             return GetPixelColor(_cursor.X, _cursor.Y);

@@ -3,7 +3,6 @@
                     xmlns:local="clr-namespace:MVVM_Color_Utilities.Styles"
                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                     >
-
     <ResourceDictionary.MergedDictionaries>
         <!-- Order is important -->
         <ResourceDictionary Source="Colors.xaml" />
@@ -14,31 +13,30 @@
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Height" Value="Auto"/>
-        <!--<Setter Property="Effect" Value=""-->
     </Style>
 
     <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
-        <Setter Property="Background" Value="{StaticResource BurgundyFaintBrush}"/>
-        <Setter Property="BorderBrush" Value="{x:Null}"/>
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="Height" Value="Auto"/>
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="Margin" Value="40,0,0,0"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{StaticResource BurgundyFaintBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="White"/>
     </Style>
 
-    <!--<Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="{x:Type materialDesign:PackIcon}">
-        <Setter Property="Height" Value="20"/>
-        <Setter Property="Width" Value="20"/>
-    </Style>-->
-
-        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+    <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
         <Setter Property="Padding" Value="3,0,0,0"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="FontFamily" Value="Segoe UI"/>
-        <Setter Property="Background" Value="{StaticResource BurgundyFaintBrush}"/>
+        <Setter Property="Height" Value="20"/>
+    </Style>
+    
+    <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+        <Setter Property="Padding" Value="3,0,0,0"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FontFamily" Value="Segoe UI"/>
         <Setter Property="Height" Value="20"/>
     </Style>
 

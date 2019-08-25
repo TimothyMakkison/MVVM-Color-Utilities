@@ -148,7 +148,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         private void GenerateNewImage()
         {
             GeneratedImagePath = string.Empty;
-            System.Threading.Thread.Sleep(100);
             model.GenerateNewImage();
             model.SaveNewBitmap();
             GeneratedImagePath = _newImagePath;
@@ -156,5 +155,4 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         }
     }
     #endregion
-
 }

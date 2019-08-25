@@ -11,20 +11,17 @@
         <DataTemplate x:Key="SelectedTemplate">
             <Grid>
                 <StackPanel HorizontalAlignment="Stretch">
-                    <Rectangle Height="30"  Fill="{Binding Color}"
-                                           Stroke="Gray" StrokeThickness="0.4"/>
+                    <Rectangle Height="30"  Fill="{Binding Color}" Stroke="Gray" StrokeThickness="0.4"/>
                     <TextBlock  TextAlignment="Center" Text="{Binding ColorHex}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
         
         <DataTemplate x:Key="DefaultItemTemplate">
-            <Rectangle Height="30"  Fill="{Binding Color}"
-                                           Stroke="Gray" StrokeThickness="0.4"/>
+            <Rectangle Height="30"  Fill="{Binding Color}" Stroke="Gray" StrokeThickness="0.4"/>
         </DataTemplate>
-
-     
     </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70"/>
