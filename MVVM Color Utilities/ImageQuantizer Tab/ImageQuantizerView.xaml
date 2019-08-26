@@ -26,6 +26,7 @@
                 <ComboBox Width="50" Height="30" ItemsSource="{Binding Path=ColorCountList}"
             SelectedIndex="{Binding Path=ColorCountComboIndex}">
                 </ComboBox>
+            
             </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -33,6 +34,7 @@
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
             <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="70" Width="70">
                 <materialDesign:PackIcon Kind="FormatVerticalAlignTop" Height="70" Width="70" Foreground="White"/>
             </Label>
@@ -42,7 +44,7 @@
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" 
                       Background="Gray"/>
             <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
-                <Image Source="{Binding GeneratedImagePath}"/>
+                <Image Source="{Binding GeneratedBitmap}"/>
             </Button>
         </Grid>
     </Grid>

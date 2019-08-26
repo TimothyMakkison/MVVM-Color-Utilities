@@ -3,7 +3,6 @@ using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using Microsoft.Win32;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Palette_Quantizers;
-using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -23,16 +22,15 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     class ImageQuantizerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
-        private string _selectedPath, _generatedImagePath;
-        private string _newImagePath = projectPath + "/Resources/Images/NewImage.bmp";
-        private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
-        private int _quantizerComboIndex,_colorCountComboIndex = 4;
+        private string _selectedPath;
+        private int _quantizerComboIndex, _colorCountComboIndex = 4;
 
         private ICommand _openCommand;
 
         private readonly ImageQuantizerModel model = new ImageQuantizerModel();
         private readonly OpenFileDialog dialogBox = new OpenFileDialog()
-        { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title="Browse Images"};
+        { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
+        System.Windows.Media.Imaging.BitmapImage _generatedBitmap;
         #endregion
 
         #region Constructor
@@ -58,17 +56,16 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 OnPropertyChanged("SelectedPath");
             }
         }
-
-        public string GeneratedImagePath
+        public System.Windows.Media.Imaging.BitmapImage GeneratedBitmap
         {
             get
             {
-                return _generatedImagePath;
+                return _generatedBitmap;
             }
             set
             {
-                _generatedImagePath = value;
-                OnPropertyChanged("GeneratedImagePath");
+                _generatedBitmap = value;
+                OnPropertyChanged("GeneratedBitmap");
             }
         }
 
@@ -96,7 +93,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
             set
             {
-                 _colorCountComboIndex = value;
+                _colorCountComboIndex = value;
                 model.SetColorCount(ColorCountList[value]);
                 Task.Run(() => GenerateNewImage());
             }
@@ -127,32 +124,18 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             string path = dialogBox.FileName;
 
             //Checks that the path exists and is not repeating itself.
-            if (path != ""&&SelectedPath != path)
+            if (path != "" && SelectedPath != path)
             {
                 SelectedPath = path;
-                //crashes if file name is null
-                model.SetBitmap(new Bitmap(Image.FromFile(path)));
-                //Task.Run(() => GenerateNewImage());
-                GenerateNewImage();
+                model.SetBitmap(new Bitmap(Image.FromFile(path)));//crashes if file name is null
+                Task.Run(() => GenerateNewImage());
             }
         }
-
-        public Image TempBMP
-        {
-            get
-            {
-                return Image.FromFile(projectPath + "/Resources/Images/TempBMP.bmp");
-            }
-        }
-
         private void GenerateNewImage()
         {
-            GeneratedImagePath = string.Empty;
             model.GenerateNewImage();
-            model.SaveNewBitmap();
-            GeneratedImagePath = _newImagePath;
-            MessageBox.Show("finished");
+            GeneratedBitmap = Imageutils.ConvertToBitmapImage(model.GeneratedBitmap);
         }
+        #endregion
     }
-    #endregion
 }

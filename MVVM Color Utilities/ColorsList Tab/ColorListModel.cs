@@ -113,5 +113,4 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         }
     }
     #endregion
-
 }

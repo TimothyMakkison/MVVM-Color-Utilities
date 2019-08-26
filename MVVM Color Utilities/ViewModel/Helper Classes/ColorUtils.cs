@@ -24,7 +24,6 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
     }
     public static class ColorUtils
     {
-       
         #region Fields
         private static System.Drawing.Point _cursor = new System.Drawing.Point();
         #endregion
@@ -55,16 +54,6 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
                          (byte)((pixel & 0x00FF0000) >> 16));
             return color;
         }
-        #endregion
-
-        #region
-        //Color color = Color.FromArgb(10200);
-
-
-        //static int pixel = 1002;
-        //Color newColor = Color.FromRgb((byte)(pixel & 0x000000FF),
-        //                        (byte)(pixel & 0x0000FF00) >> 8,
-        //                        (byte)(pixel & 0x00FF0000) >> 16);
         #endregion
     }
 }

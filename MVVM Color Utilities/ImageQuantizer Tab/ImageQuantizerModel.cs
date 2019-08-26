@@ -21,7 +21,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
     class ImageQuantizerModel : ObservableObject
     {
-        private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
         private readonly ImageBuffer buffer = new ImageBuffer();
 
         /// <summary>
@@ -67,14 +66,15 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         }
         public void GenerateNewImage()
         {
-            MessageBox.Show("Getting palette");
             buffer.GetPalette();
-            MessageBox.Show("Generating new image");
             buffer.GenerateNewImage();
         }
-        public void SaveNewBitmap()
+        public Bitmap GeneratedBitmap
         {
-            buffer.SaveNewBitmap();
+            get
+            {
+                return buffer.GeneratedBitmap;
+            }
         }
     }
 }
