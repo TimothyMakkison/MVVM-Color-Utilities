@@ -43,7 +43,8 @@
             </Button>
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" 
                       Background="Gray"/>
-            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
+            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2" 
+                    Command="{Binding Path=SaveCommand}">
                 <Image Source="{Binding GeneratedBitmap}"/>
             </Button>
         </Grid>

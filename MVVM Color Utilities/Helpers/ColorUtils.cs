@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Runtime.InteropServices;
 
-namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
+namespace MVVM_Color_Utilities.Helpers
 {
     internal static class NativeMethods
     {

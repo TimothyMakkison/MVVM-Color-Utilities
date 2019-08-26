@@ -26,10 +26,11 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         private int _quantizerComboIndex, _colorCountComboIndex = 4;
 
         private ICommand _openCommand;
+        private ICommand _saveCommand;
 
         private readonly ImageQuantizerModel model = new ImageQuantizerModel();
-        private readonly OpenFileDialog dialogBox = new OpenFileDialog()
-        { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
+        private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
+        private readonly SaveFileDialog saveDialogBox = ImageBufferItems.SaveDialogBox;
         System.Windows.Media.Imaging.BitmapImage _generatedBitmap;
         #endregion
 
@@ -107,9 +108,20 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             {
                 if (_openCommand == null)
                 {
-                    _openCommand = new RelayCommand(param => OpenFile());
+                    _openCommand = new RelayCommand(param => DialogGetImage());
                 }
                 return _openCommand;
+            }
+        }
+        public ICommand SaveCommand
+        {
+            get
+            {
+                if (_saveCommand== null)
+                {
+                    _saveCommand = new RelayCommand(param => DialogSaveImage());
+                }
+                return _saveCommand;
             }
         }
         #endregion
@@ -118,22 +130,33 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// <summary>
         /// Opens file and exectues GenerateNewImage if selected item is valid.
         /// </summary>
-        private void OpenFile()
+        private void DialogGetImage()
         {
-            dialogBox.ShowDialog();
-            string path = dialogBox.FileName;
-
             //Checks that the path exists and is not repeating itself.
-            if (path != "" && SelectedPath != path)
+            if (dialogBox.ShowDialog()==true && SelectedPath != dialogBox.FileName)
             {
-                SelectedPath = path;
-                model.SetBitmap(new Bitmap(Image.FromFile(path)));//crashes if file name is null
+                SelectedPath = dialogBox.FileName;
+                model.SetBitmap(new Bitmap(Image.FromFile(SelectedPath)));//crashes if file name is null
                 Task.Run(() => GenerateNewImage());
             }
         }
+        /// <summary>
+        /// Opens save dialog and saves generated image.
+        /// </summary>
+        private void DialogSaveImage()
+        {
+            if (saveDialogBox.ShowDialog() == true)
+            {
+                string path = saveDialogBox.FileName;
+                model.SaveGeneratedImage(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+            }
+        }
+        /// <summary>
+        /// Generates new image and then displays it.
+        /// </summary>
         private void GenerateNewImage()
         {
-            model.GenerateNewImage();
+            model.GetNewImage();
             GeneratedBitmap = Imageutils.ConvertToBitmapImage(model.GeneratedBitmap);
         }
         #endregion

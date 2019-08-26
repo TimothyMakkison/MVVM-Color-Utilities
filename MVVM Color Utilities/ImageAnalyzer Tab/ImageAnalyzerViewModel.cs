@@ -23,8 +23,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     {
         #region Fields
         private readonly ImageAnalyzerModel model = new ImageAnalyzerModel();
-        private readonly OpenFileDialog dialogBox = new OpenFileDialog()
-        { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
+        private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
 
         private string _selectedPath;
 

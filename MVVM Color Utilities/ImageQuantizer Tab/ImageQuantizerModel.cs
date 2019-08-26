@@ -21,8 +21,34 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
     class ImageQuantizerModel : ObservableObject
     {
+        #region Fields
         private readonly ImageBuffer buffer = new ImageBuffer();
+        #endregion
 
+        #region Methods
+        #region Get Methods
+        /// <summary>
+        /// Returns <see cref="ImageBuffer"/> GetPalette.
+        /// </summary>
+        /// <returns></returns>
+        public List<Color> GetPalette()
+        {
+            if (buffer.GetPalette())
+            {
+                return buffer.Palette;
+            }
+            else
+            {
+                return new List<Color>();
+            }
+        }
+        public void GetNewImage()
+        {
+            buffer.GetPalette();
+            buffer.GenerateNewImage();
+        }
+        #endregion
+        #region Set Methods
         /// <summary>
         /// Sets the bitmap to be read and clears the saved colors so the new image can be proccessed.
         /// </summary>
@@ -49,26 +75,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         {
             buffer.SetColorCount(colorCount);
         }
-        /// <summary>
-        /// Returns <see cref="ImageBuffer"/> GetPalette.
-        /// </summary>
-        /// <returns></returns>
-        public List<Color> GetPalette()
-        {
-            if (buffer.GetPalette())
-            {
-                return buffer.Palette;
-            }
-            else
-            {
-                return new List<Color>();
-            }
-        }
-        public void GenerateNewImage()
-        {
-            buffer.GetPalette();
-            buffer.GenerateNewImage();
-        }
+        #endregion
         public Bitmap GeneratedBitmap
         {
             get
@@ -76,5 +83,15 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 return buffer.GeneratedBitmap;
             }
         }
+        /// <summary>
+        /// Save generated image to location and with given type.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="format"></param>
+        public void SaveGeneratedImage(string path, System.Drawing.Imaging.ImageFormat format)
+        {
+            buffer.SaveGeneratedImage(path, format);
+        }
+        #endregion
     }
 }

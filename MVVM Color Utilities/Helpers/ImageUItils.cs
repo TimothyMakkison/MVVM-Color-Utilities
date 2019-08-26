@@ -2,7 +2,7 @@
 using System.IO;
 using System.Windows.Media.Imaging;
 
-namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
+namespace MVVM_Color_Utilities.Helpers
 {
     public static class Imageutils
     {

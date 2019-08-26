@@ -110,6 +110,19 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
             return false;
         }
+        /// <summary>
+        /// Save generated image to location and with given type.
+        /// </summary>
+        /// <param name="path">Path</param>
+        /// <param name="format">Image Format</param>
+        public void SaveGeneratedImage(string path, System.Drawing.Imaging.ImageFormat format)
+        {
+            try
+            {
+                GeneratedBitmap.Save(path, format);
+            }
+            catch { MessageBox.Show("fail save"); }
+        }
         #region SetMethods
         /// <summary>
         /// Sets the bitmap to be read and clears the saved colors so the new image can be proccessed.
