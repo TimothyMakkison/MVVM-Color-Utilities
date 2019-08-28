@@ -4,6 +4,9 @@ using System.Windows.Media.Imaging;
 
 namespace MVVM_Color_Utilities.Helpers
 {
+    /// <summary>
+    /// Contains useful converters for images.
+    /// </summary>
     public static class Imageutils
     {
         /// <summary>

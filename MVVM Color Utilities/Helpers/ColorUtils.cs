@@ -22,6 +22,9 @@ namespace MVVM_Color_Utilities.Helpers
         internal static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
         #endregion
     }
+    /// <summary>
+    /// Contains tools to find pixel colors on screen.
+    /// </summary>
     public static class ColorUtils
     {
         #region Fields

@@ -23,26 +23,17 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 {
     class ColorListViewModel : ObservableObject, IPageViewModel
     {
-        
         #region Fields
-
-        #region Misc
         private readonly ColorListModel model = new ColorListModel();
-        #endregion
+        private Regex _hexReg = new Regex("^#([0-9a-fA-F]{0,8})?$"); //"^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"
 
-        #region Bools + Ints + Strings
         private bool _addingModeBool = true;
-        private int _selectedItemIndex = 0;
-        //"^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"
-        private Regex _hexReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
+        private int _selectedItemIndex;
 
         private string _inputNameString;
         private string _inputHexString;
-        #endregion
 
-        #region Brushes
         private SolidColorBrush _inputBrush = Brushes.White;
-        #endregion 
 
         #region ICommands
         private ICommand _addSwitchCommand;

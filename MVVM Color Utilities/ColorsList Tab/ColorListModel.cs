@@ -45,7 +45,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         }
         public void AddColorItem(int index,string hexString, string nameString)
         {
-            if(ColorClassList.Count > index)
+            if(ColorClassList.Count > index || ColorClassList.Count==0)
             {
                 ColorClassList.Insert(0, new ColorClass(NextID, hexString, nameString));
                 SaveColorsList();
@@ -53,7 +53,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         }
         public void EditColorItem(int index,string hexString, string nameString)
         {
-            if (ColorClassList.Count > index)
+            if (ColorClassList.Count > index && ColorClassList.Count > 0)
             {
                 ColorClassList[index] = new ColorClass(NextID, hexString, nameString);
                 SaveColorsList();
@@ -61,7 +61,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         }
         public void DeleteColorItem(int index)
         {
-            if (ColorClassList.Count > index && index>-1)
+            if (ColorClassList.Count > index &&ColorClassList.Count>0)
             {
                 ColorClassList.RemoveAt(index);
                 SaveColorsList();
@@ -72,45 +72,38 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
     #region Color Class
     public class ColorClass
     {
-        public int ID { get; set; }
-        public string Hex { get; set; }
-        public string Name { get; set; }
-
-        private Color _color = (Color)ColorConverter.ConvertFromString("#FFFF");
-
-        public SolidColorBrush SampleBrush
-        {
-            get { return new SolidColorBrush(Color); } //Will accept 3,4,6,8
-        }
-        private Color Color
-        {
-            get
-            {
-                try
-                {
-                    return _color = (Color)ColorConverter.ConvertFromString(Hex);
-                }
-                catch
-                {
-                    Hex = "#FFFF";
-                    return _color;
-                }
-            }
-        }
+        #region Constructor
         public ColorClass(int id, string hex, string name)
         {
             ID = id;
             Name = name;
             Hex = hex;
         }
-        public override string ToString() // overrides any ToString methods and returns string
+        #endregion
+
+        #region Properties
+        public int ID { get; set; }
+        public string Hex { get; set; }
+        public string Name { get; set; }
+
+        public SolidColorBrush SampleBrush
         {
-            return ColorLineFormat();
+            get
+            {
+                Color color;
+                try
+                {
+                     color = (Color)ColorConverter.ConvertFromString(Hex);
+                }
+                catch
+                {
+                    color = (Color)ColorConverter.ConvertFromString("#FFFF");
+                    Hex = "#FFFF";
+                }
+                return new SolidColorBrush(color);
+            } 
         }
-        public string ColorLineFormat()
-        {
-            return ID + "," + Hex + "," + Name;
-        }
+        #endregion
     }
     #endregion
 }

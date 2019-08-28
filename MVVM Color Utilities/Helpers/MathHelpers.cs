@@ -1,5 +1,8 @@
 ﻿namespace MVVM_Color_Utilities.Helpers
 {
+    /// <summary>
+    /// Contains useful math functions.
+    /// </summary>
     public static class MathUtils
     {
         /// <summary>

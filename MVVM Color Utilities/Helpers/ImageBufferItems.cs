@@ -6,6 +6,9 @@ using Microsoft.Win32;
 
 namespace MVVM_Color_Utilities.Helpers
 {
+    /// <summary>
+    /// Contains shared dialog boxes and avaliable image buffer options.
+    /// </summary>
     public static class ImageBufferItems
     {
         public static  readonly OpenFileDialog OpenDialogBox = new OpenFileDialog()
