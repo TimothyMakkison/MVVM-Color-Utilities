@@ -86,8 +86,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// <summary>
         /// Save generated image to location and with given type.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="format"></param>
+        /// <param name="path">Path</param>
+        /// <param name="format">Image Format</param>
         public void SaveGeneratedImage(string path, System.Drawing.Imaging.ImageFormat format)
         {
             buffer.SaveGeneratedImage(path, format);

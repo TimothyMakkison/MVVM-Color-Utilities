@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
-    class MedianCutQuantizer :BaseColorQuantizer
+    public class MedianCutQuantizer :BaseColorQuantizer
     {
         #region Fields
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();

@@ -16,12 +16,14 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
 using MVVM_Color_Utilities.Helpers;
+using System.Text.RegularExpressions;
+
 
 namespace MVVM_Color_Utilities.ColorsList_Tab
 {
     class ColorListViewModel : ObservableObject, IPageViewModel
     {
-        //"^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"
+        
         #region Fields
 
         #region Misc
@@ -31,6 +33,8 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #region Bools + Ints + Strings
         private bool _addingModeBool = true;
         private int _selectedItemIndex = 0;
+        //"^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"
+        private Regex _hexReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
 
         private string _inputNameString;
         private string _inputHexString;
@@ -96,14 +100,17 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             }
             set
             {
-                _inputHexString = value;
+                if (_hexReg.IsMatch(value)||value=="")//Only allows valid hex charcters ie start with # and the 1-9a-f
+                {
+                    _inputHexString = value;
+                    OnPropertyChanged("InputHex");
+                }
                 try
                 {
                     //Sets indicator to the new color
                     IndicatorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
                 }
                 catch { }
-                OnPropertyChanged("InputHex");
             }
         }
         #endregion
