@@ -12,7 +12,12 @@
             <Grid>
                 <StackPanel HorizontalAlignment="Stretch">
                     <Rectangle Height="30"  Fill="{Binding Color}" Stroke="Gray" StrokeThickness="0.4"/>
-                    <TextBlock  TextAlignment="Center" Text="{Binding ColorHex}" />
+                    <StackPanel Orientation="Horizontal" >
+                        <Button Content="{materialDesign:PackIcon Kind=Plus}" Foreground="Black" 
+                               Command="{Binding local.SaveColor}" Panel.ZIndex="-3"/>
+
+                        <TextBlock  TextAlignment="Center" Text="{Binding ColorHex}" />
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -47,7 +52,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="1"/>
-                <ColumnDefinition Width="0.15*" MaxWidth="150"/>
+                <ColumnDefinition Width="0.17*" MaxWidth="150"/>
 
             </Grid.ColumnDefinitions>
             <Label Height="70" Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -60,7 +65,8 @@
             
             <Rectangle Grid.Column="1" Fill="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-            <ListBox Grid.Column="2" ItemsSource="{Binding SampleColorSource}">
+            <ListBox Grid.Column="2" ItemsSource="{Binding SampleColorSource}" 
+                     SelectedIndex="{Binding SampleColorSourceIndex}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                         <Setter Property="ContentTemplate" Value="{StaticResource DefaultItemTemplate}" />

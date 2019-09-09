@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft;
-using System.IO;
+﻿using System.IO;
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using System.Windows;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Windows.Media;
 using Newtonsoft.Json;
 namespace MVVM_Color_Utilities.Helpers
@@ -20,6 +12,7 @@ namespace MVVM_Color_Utilities.Helpers
         private readonly static string colorsFilePath = projectPath + "/Resources/ColorItemsList.txt";
         private static ObservableCollection<ColorClass> _colorClassList;
         #endregion
+
         #region Properties
         public static ObservableCollection<ColorClass> ColorClassList
         {
@@ -33,7 +26,6 @@ namespace MVVM_Color_Utilities.Helpers
                 return _colorClassList;
             }
         }
-
 
         public static int NextID
         {
@@ -93,5 +85,4 @@ namespace MVVM_Color_Utilities.Helpers
         #endregion
     }
     #endregion
-
 }

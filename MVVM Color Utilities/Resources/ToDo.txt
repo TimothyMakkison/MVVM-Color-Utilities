@@ -1,5 +1,4 @@
 ﻿ListColors
-	Support external deleting
 	Shared list header layout
 
 ImageBuffer 

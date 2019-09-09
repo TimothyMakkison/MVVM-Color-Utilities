@@ -18,7 +18,9 @@ using System.Threading.Tasks;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
-
+    /// <summary>
+    /// ViewModel for ImageQuantizer, converts images into lower quality forms.
+    /// </summary>
     class ImageQuantizerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields

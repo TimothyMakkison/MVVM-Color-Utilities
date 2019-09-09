@@ -36,8 +36,7 @@ namespace MVVM_Color_Utilities.ViewModel
                 if (_changePageCommand == null)
                 {
                     _changePageCommand = new RelayCommand(
-                        p => ChangeViewModel((IPageViewModel)p),
-                        p => p is IPageViewModel);
+                        p => ChangeViewModel((IPageViewModel)p),p => p is IPageViewModel);
                 }
                 return _changePageCommand;
             }
@@ -82,7 +81,6 @@ namespace MVVM_Color_Utilities.ViewModel
             {
                 PageViewModels.Add(viewModel);
             }
-
             CurrentPageViewModel = PageViewModels
                 .FirstOrDefault(vm => vm == viewModel);
         }

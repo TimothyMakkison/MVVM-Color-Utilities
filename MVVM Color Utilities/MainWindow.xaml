@@ -51,8 +51,9 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Height="70"
-                                Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                CommandParameter="{Binding }">
+                                Command="{Binding DataContext.ChangePageCommand, 
+                        RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                            CommandParameter="{Binding }">
                         <materialDesign:PackIcon Kind="{Binding Icon}" Height="30" Width="30" />
                     </Button>
                 </DataTemplate>

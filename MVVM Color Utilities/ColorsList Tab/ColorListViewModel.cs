@@ -25,7 +25,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
     {
         #region Fields
         private readonly ColorListModel model = new ColorListModel();
-        private Regex _hexReg = new Regex("^#([0-9a-fA-F]{0,8})?$"); //"^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"
+        private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$"); //"^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"
 
         private bool _addingModeBool = true;
         private int _selectedItemIndex;
@@ -91,7 +91,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             }
             set
             {
-                if (_hexReg.IsMatch(value)||value=="")//Only allows valid hex charcters ie start with # and the 1-9a-f
+                if (_hexCharactersReg.IsMatch(value)||value=="")//Only allows valid hex charcters ie start with # and the 1-9a-f
                 {
                     _inputHexString = value;
                     OnPropertyChanged("InputHex");

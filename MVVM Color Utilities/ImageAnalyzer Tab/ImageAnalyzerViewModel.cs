@@ -10,7 +10,6 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Security;
 using System.Text;
 using System.Windows;
 using MVVM_Color_Utilities.Helpers;
@@ -19,6 +18,9 @@ using System.Windows.Input;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
+    /// <summary>
+    /// ViewModel for ImageAnalyzer, gets the constituent colors of an image.
+    /// </summary>
     class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
@@ -27,10 +29,12 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         private string _selectedPath;
 
+        private int _sampleColorSourceIndex;
         private int _quantizerComboIndex = 0;
         private int _colorCountComboIndex = 4;
 
         private ICommand _openCommand;
+        private ICommand _saveColor;
         #endregion
 
         #region Constructor
@@ -60,7 +64,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _quantizerComboIndex = value;
-                MessageBox.Show("IA Quant set");
                 model.SetQuantizer(QuantizerList[_quantizerComboIndex]);
                 GetNewPalette();
             }
@@ -79,6 +82,20 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 GetNewPalette();
             }
         }
+        public int SampleColorSourceIndex
+        {
+            get
+            {
+                //MessageBox.Show(_sampleColorSourceIndex.ToString());
+                return _sampleColorSourceIndex;
+            }
+            set
+            {
+                _sampleColorSourceIndex = value;
+                SaveColorMethod();
+                OnPropertyChanged("SampleColorSourceIndex");
+            }
+        }
         #endregion
 
         #region Commands
@@ -91,6 +108,22 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                     _openCommand = new RelayCommand(param => OpenFile());
                 }
                 return _openCommand;
+            }
+        }
+        public ICommand SaveColor
+        {
+            get
+            {
+                MessageBox.Show("getting");
+                if (_saveColor == null)
+                {
+                    _saveColor = new RelayCommand(param => SaveColorMethod());
+                    MessageBox.Show("genning");
+
+                }
+                MessageBox.Show("returning");
+
+                return _saveColor;
             }
         }
         #endregion
@@ -121,6 +154,21 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             foreach (Color color in model.GetPalette())
                 SampleColorSource.Add(new ColorClass(color));
         }
+        private bool SaveColorMethod()
+        {
+            MessageBox.Show("Adding");
+
+            try
+            {
+                int ID = SharedUtils.NextID;
+                string hexCode = SampleColorSource[SampleColorSourceIndex].ColorHex;
+                SharedUtils.ColorClassList.Insert(0, new Helpers.ColorClass(ID, hexCode, "Color " + ID.ToString()));
+                SharedUtils.SaveColorsList();
+                MessageBox.Show("Add Succ");
+                return true;
+            }
+            catch { return false; }
+        }
         #endregion
     }
 
@@ -132,7 +180,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         {
             System.Windows.Media.Color mediaColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
             Color = new System.Windows.Media.SolidColorBrush(mediaColor);
-            ColorHex = "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+            ColorHex = "#" +
+                color.A.ToString("X2")+ color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
         }
     }
 }
