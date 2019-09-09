@@ -1,5 +1,4 @@
 ﻿ListColors
-	Regex for hexstring
 	Support external deleting
 	Shared list header layout
 
@@ -8,7 +7,6 @@ ImageBuffer
 
 Image Quantizer
 	Ditherer
-	Save new image on click (Only works if a new image is displayed)
 
 ImageAnalyzer
 	*List allows saving of selected item

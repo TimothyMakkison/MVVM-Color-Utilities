@@ -61,7 +61,7 @@
 
         <Rectangle  Grid.Column="1" Fill="{StaticResource BurgundyBrush}" Name="DragWindow" MouseDown="DragWindow_MouseDown"/>
         <ContentControl Grid.Column="1" Grid.RowSpan="2" Content="{Binding CurrentPageViewModel}" />
-        
+
         <!--#region Window Controls-->
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" x:Name="Stack" Margin="7,0,0,0">
             <!--Minimise-->
@@ -78,6 +78,5 @@
             </Button>
         </StackPanel>
 <!--#endregion-->
-       
     </Grid>
 </Window>

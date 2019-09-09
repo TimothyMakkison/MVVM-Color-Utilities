@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System.Windows;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using System.Windows;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 
 namespace MVVM_Color_Utilities.ViewModel
@@ -23,7 +23,7 @@ namespace MVVM_Color_Utilities.ViewModel
             PageViewModels.Add(new ImageQuantizer_Tab.ImageQuantizerViewModel());
             PageViewModels.Add(new ImageAnalyzer_Tab.ImageAnalyzerViewModel());
 
-            CurrentPageViewModel = PageViewModels[1];
+            CurrentPageViewModel = PageViewModels[0];
         }
         #endregion
         /// <summary>

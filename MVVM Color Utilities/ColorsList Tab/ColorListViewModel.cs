@@ -131,17 +131,20 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         {
             get
             {
-                if (_selectedItemIndex >= ColorListSource.Count && ColorListSource.Count!=0)
+                if (_selectedItemIndex >= ColorListSource.Count && ColorListSource.Count != 0)
+                {
                     _selectedItemIndex = ColorListSource.Count - 1;
+                }
                 return _selectedItemIndex;
             }
             set
             {
-                _selectedItemIndex= MathUtils.Clamp(0, ColorListSource.Count - 1, value);
-                if (ColorListSource.Count > 0)
+                var ColorListCopy = ColorListSource;
+                _selectedItemIndex = MathUtils.Clamp(0, ColorListCopy.Count - 1, value);
+                if (ColorListCopy.Count > 0)
                 {
-                    InputHex = ColorListSource[_selectedItemIndex].Hex;
-                    InputName = ColorListSource[_selectedItemIndex].Name;
+                    InputHex = ColorListCopy[_selectedItemIndex].Hex;
+                    InputName = ColorListCopy[_selectedItemIndex].Name;
                 }
                 else
                 {
