@@ -32,6 +32,7 @@ namespace MVVM_Color_Utilities.Helpers
         #endregion
 
         #region Methods
+        #region Get cursor color
         /// <summary>
         /// Returns the color of the cursor position
         /// </summary>
@@ -41,6 +42,9 @@ namespace MVVM_Color_Utilities.Helpers
             NativeMethods.GetCursorPos(ref _cursor);
             return GetPixelColor(_cursor.X, _cursor.Y);
         }
+        #endregion
+
+        #region Get color on screen
         /// <summary>
         /// Gets the color of the inputted location
         /// </summary>
@@ -57,6 +61,61 @@ namespace MVVM_Color_Utilities.Helpers
                          (byte)((pixel & 0x00FF0000) >> 16));
             return color;
         }
+        #endregion
+
+        #region ColorToHex
+        /// <summary>
+        /// Converts System.Drawing.Color to hex code.
+        /// </summary>
+        /// <param name="color">Drawing Color</param>
+        /// <returns>Hex Code</returns>
+        static public string ColorToHex(System.Drawing.Color color)
+        {
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        }
+        /// <summary>
+        /// System.Windows.Media.Color to hex code.
+        /// </summary>
+        /// <param name="color">Media color</param>
+        /// <returns>Hex code</returns>
+        static public string ColorToHex(Color color)
+        {
+            return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        }
+        #endregion
+
+        #region Media Color to Drawing Color
+        /// <summary>
+        /// Converts System.Windows.Media.Color to System.Drawing.Color.
+        /// </summary>
+        /// <param name="color">Drawing Color</param>
+        /// <returns>Media Color</returns>
+        static public Color DrawingToMediaColor(System.Drawing.Color color)
+        {
+            return Color.FromArgb(color.A, color.R, color.G, color.B);
+        }
+        #endregion
+
+        #region Color to SolidColorBrush
+        /// <summary>
+        /// Converts System.Windows.Media.Color to a SolidColorBrush.
+        /// </summary>
+        /// <param name="color">System.Windows.Media Color</param>
+        /// <returns>SolidColorBrush</returns>
+        static public SolidColorBrush ColorToBrush(Color color)
+        {
+            return new SolidColorBrush(color);
+        }
+        /// <summary>
+        /// Converts System.Drawing.Color to a SolidColorBrush.
+        /// </summary>
+        /// <param name="color">System.Drawing Color</param>
+        /// <returns>SolidColorBrush</returns>
+        static public SolidColorBrush ColorToBrush(System.Drawing.Color color)
+        {
+            return new SolidColorBrush(DrawingToMediaColor(color));
+        }
+        #endregion
         #endregion
     }
 }

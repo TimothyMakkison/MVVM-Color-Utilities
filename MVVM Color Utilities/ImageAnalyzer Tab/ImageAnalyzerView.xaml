@@ -67,8 +67,7 @@
             
             <Rectangle Grid.Column="1" Fill="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
 
-            <ListBox Grid.Column="2" ItemsSource="{Binding SampleColorSource}" 
-                         SelectedIndex="{Binding SampleColorSourceIndex}">
+            <ListBox Grid.Column="2" ItemsSource="{Binding SampleColorSource}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                         <Setter Property="ContentTemplate" Value="{StaticResource DefaultItemTemplate}" />

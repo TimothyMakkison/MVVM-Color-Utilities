@@ -267,7 +267,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         void SampleColorMethod()
         {
             Color color =  ColorUtils.GetCursorColor();
-            InputHex = $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+            InputHex = ColorUtils.ColorToHex(color);
         }
         #endregion
     }

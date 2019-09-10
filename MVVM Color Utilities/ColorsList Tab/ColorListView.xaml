@@ -65,7 +65,7 @@
                 <materialDesign:PackIcon Kind="Edit" />
             </Button>
             <Button Grid.Column="2" Command="{Binding Path=DeleteItem}">
-                <materialDesign:PackIcon Kind="Delete" VerticalAlignment="Center"/>
+                <materialDesign:PackIcon Kind="Delete"/>
             </Button>
         </Grid>
             

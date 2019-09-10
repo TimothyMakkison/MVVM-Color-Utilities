@@ -29,7 +29,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         private string _selectedPath;
 
-        private int _sampleColorSourceIndex;
         private int _quantizerComboIndex = 0;
         private int _colorCountComboIndex = 4;
 
@@ -46,6 +45,9 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         #region Properties
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
+        /// <summary>
+        /// Button displays image from this location.
+        /// </summary>
         public string SelectedPath
         {
             get { return _selectedPath; }
@@ -81,19 +83,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 GetNewPalette();
             }
         }
-        public int SampleColorSourceIndex
-        {
-            get
-            {
-                //MessageBox.Show(_sampleColorSourceIndex.ToString());
-                return _sampleColorSourceIndex;
-            }
-            set
-            {
-                _sampleColorSourceIndex = value;
-                OnPropertyChanged("SampleColorSourceIndex");
-            }
-        }
         #endregion
 
         #region Commands
@@ -118,11 +107,9 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         {
             dialogBox.ShowDialog();
             string path = dialogBox.FileName;
-            //Checks that the path exists and is not the previous path.
-            if (path != "" && SelectedPath != path)
+            if (path != "" && SelectedPath != path) //Checks that the path exists and is not the previous path.
             {
                 SelectedPath = path;
-                //crashes if file name is null
                 model.SetBitmap(new Bitmap(Image.FromFile(path)));
                 GetNewPalette();
             }
@@ -148,10 +135,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         #region Constructor
         public ColorClass(Color color)
         {
-            System.Windows.Media.Color mediaColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
-            Color = new System.Windows.Media.SolidColorBrush(mediaColor);
-            ColorHex = "#" +
-                color.A.ToString("X2") + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+            Color = ColorUtils.ColorToBrush(color);
+            ColorHex = ColorUtils.ColorToHex(color);
         }
         #endregion
 
@@ -175,6 +160,10 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Saves color to shared ColorList.    
+        /// </summary>
+        /// <returns></returns>
         private bool SaveColorMethod()
         {
             try

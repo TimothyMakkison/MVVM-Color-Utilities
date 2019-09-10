@@ -12,7 +12,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
     {
         #region Fields
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();
-        private List<Color> paletteList = new List<Color>();
+        private List<Color> _palette = new List<Color>();
         private ICollection<Int32> colorList = new List<Int32>();
         #endregion
 
@@ -37,11 +37,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         {
             get
             {
-                return paletteList;
+                return _palette;
             }
             set
             {
-                paletteList = value;
+                _palette = value;
             }
         }
 
