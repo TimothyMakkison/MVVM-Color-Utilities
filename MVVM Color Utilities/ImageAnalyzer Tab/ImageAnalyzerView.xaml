@@ -34,20 +34,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Orientation="Horizontal" >
             <ComboBox Width="150" Height="30"  ItemsSource="{Binding Path=QuantizerList}"
-                      SelectedIndex="{Binding Path=QuantizerComboIndex}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                      SelectedValue="{Binding SelectedQuantizer}"
+                      SelectedIndex="{Binding Path=QuantizerComboIndex,Mode=OneTime}" DisplayMemberPath="Name"/>
 
             <ComboBox Width="50" Height="30" ItemsSource="{Binding Path=ColorCountList}"
-            SelectedIndex="{Binding Path=ColorCountComboIndex}">
-            </ComboBox>
-            <Button Width="100" Height="30" Command="{Binding SaveColorCommand}"/>
+                      SelectedValue="{Binding SelectedColorCount}"
+                      SelectedIndex="{Binding Path=ColorCountComboIndex,Mode=OneTime}"/>
         </StackPanel>
 
         <Grid Grid.Row="1">
@@ -57,11 +51,11 @@
                 <ColumnDefinition Width="0.2*" MaxWidth="150"/>
 
             </Grid.ColumnDefinitions>
-            <Label Height="70" Width="70" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <materialDesign:PackIcon Kind="FormatVerticalAlignTop" Height="70" Width="70" Foreground="White"/>
-            </Label>
-            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
-                   Command="{Binding Path= OpenCommand}">
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" 
+                   Foreground="White" Content="{materialDesign:PackIcon Kind=FormatVerticalAlignTop,Size=70}"/>
+            
+            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                    Command="{Binding Path= OpenCommand}">
                 <Image Source="{Binding SelectedPath}"/>
             </Button>
             

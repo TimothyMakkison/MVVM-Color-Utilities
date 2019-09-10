@@ -18,10 +18,10 @@ namespace MVVM_Color_Utilities.Helpers
         { Filter = "JPG (*.jpg;*.jpeg)|(*.jpg;*.jpeg)", Title = "Save Image" };
         //|PNG(*.png)| (*.png)|BMP(*.bmp)| (*.bmp)"
 
-        public static List<Int32> ColorCountOptions { get; } =
+        public static List<Int32> ColorCountList { get; } =
             new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
 
-        public static List<BaseColorQuantizer> QuantizerOptions { get; } = new List<BaseColorQuantizer>
+        public static List<BaseColorQuantizer> QuantizerList { get; } = new List<BaseColorQuantizer>
         {
             new MedianCutQuantizer()
         };

@@ -11,6 +11,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using MVVM_Color_Utilities.Helpers;
 using System.Windows.Input;
@@ -27,20 +28,12 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private readonly ImageAnalyzerModel model = new ImageAnalyzerModel();
         private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
 
-        private string _selectedPath;
+        private BaseColorQuantizer _selectedQuantizer;
 
-        private int _quantizerComboIndex = 0;
-        private int _colorCountComboIndex = 4;
+        private string _selectedPath;
+        private int _selectedColorCount;
 
         private ICommand _openCommand;
-        #endregion
-
-        #region Constructor
-        public ImageAnalyzerViewModel()
-        {
-            model.SetColorCount(ColorCountList[_colorCountComboIndex]);
-            model.SetQuantizer(QuantizerList[_quantizerComboIndex]);
-        }
         #endregion
 
         #region Properties
@@ -54,35 +47,36 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set { _selectedPath = value;OnPropertyChanged("SelectedPath"); }
         }
         public ObservableCollection<ColorClass> SampleColorSource { get; set; } = new ObservableCollection<ColorClass>();
-        public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerOptions;
-        public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountOptions;
-        public int QuantizerComboIndex
+
+        #region QuantizerList
+        public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
+        public int QuantizerComboIndex => 0;
+        public BaseColorQuantizer SelectedQuantizer
         {
-            get
-            {
-                return _quantizerComboIndex;
-            }
             set
             {
-                _quantizerComboIndex = value;
-                model.SetQuantizer(QuantizerList[_quantizerComboIndex]);
-                GetNewPalette();
+                MessageBox.Show("Quant set");
+                _selectedQuantizer = value;
+                model.SetQuantizer(_selectedQuantizer);
+                Task.Run(() => GetNewPalette());
             }
         }
-        public int ColorCountComboIndex
+        #endregion
+
+        #region ColorCountList
+        public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountList;
+        public int ColorCountComboIndex => 4;
+        public int SelectedColorCount
         {
-            get
-            {
-                return _colorCountComboIndex;
-            }
             set
             {
-                _colorCountComboIndex = value;
-                //When changed refresh the palette
-                model.SetColorCount(ColorCountList[_colorCountComboIndex]);
-                GetNewPalette();
+                _selectedColorCount = value;
+                model.SetColorCount(_selectedColorCount);
+                MessageBox.Show("Color count set " + _selectedColorCount.ToString());
+                Task.Run(() => GetNewPalette());
             }
         }
+        #endregion
         #endregion
 
         #region Commands

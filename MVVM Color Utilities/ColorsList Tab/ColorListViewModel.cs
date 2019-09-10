@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;   
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using MaterialDesignThemes.Wpf;
@@ -11,7 +8,6 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.IO;
 using System.Windows;
-using System.Windows.Media.Animation;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
@@ -25,7 +21,8 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
     {
         #region Fields
         private readonly ColorListModel model = new ColorListModel();
-        private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$"); //"^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"
+        private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$"); 
+        //private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"); 
 
         private bool _addingModeBool = true;
         private int _selectedItemIndex;
