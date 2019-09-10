@@ -6,8 +6,11 @@ ImageBuffer
 
 Image Quantizer
 	Ditherer
+	rework to be functional
 
 ImageAnalyzer
 	*List allows saving of selected item
 
 In order to display an image in wpf I have used a binding to the location of the image
+Icons
+look at base classes

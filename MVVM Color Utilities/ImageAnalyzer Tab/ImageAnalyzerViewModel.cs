@@ -34,7 +34,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private int _colorCountComboIndex = 4;
 
         private ICommand _openCommand;
-        private ICommand _saveColor;
         #endregion
 
         #region Constructor
@@ -92,7 +91,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _sampleColorSourceIndex = value;
-                SaveColorMethod();
                 OnPropertyChanged("SampleColorSourceIndex");
             }
         }
@@ -108,22 +106,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                     _openCommand = new RelayCommand(param => OpenFile());
                 }
                 return _openCommand;
-            }
-        }
-        public ICommand SaveColor
-        {
-            get
-            {
-                MessageBox.Show("getting");
-                if (_saveColor == null)
-                {
-                    _saveColor = new RelayCommand(param => SaveColorMethod());
-                    MessageBox.Show("genning");
-
-                }
-                MessageBox.Show("returning");
-
-                return _saveColor;
             }
         }
         #endregion
@@ -154,34 +136,56 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             foreach (Color color in model.GetPalette())
                 SampleColorSource.Add(new ColorClass(color));
         }
-        private bool SaveColorMethod()
-        {
-            MessageBox.Show("Adding");
-
-            try
-            {
-                int ID = SharedUtils.NextID;
-                string hexCode = SampleColorSource[SampleColorSourceIndex].ColorHex;
-                SharedUtils.ColorClassList.Insert(0, new Helpers.ColorClass(ID, hexCode, "Color " + ID.ToString()));
-                SharedUtils.SaveColorsList();
-                MessageBox.Show("Add Succ");
-                return true;
-            }
-            catch { return false; }
-        }
         #endregion
     }
 
     class ColorClass
     {
-        public System.Windows.Media.SolidColorBrush Color { get; set; }
-        public string ColorHex { get; set; }
+        #region Fields
+        private ICommand _saveColorCommand;
+        #endregion
+
+        #region Constructor
         public ColorClass(Color color)
         {
             System.Windows.Media.Color mediaColor = System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B);
             Color = new System.Windows.Media.SolidColorBrush(mediaColor);
             ColorHex = "#" +
-                color.A.ToString("X2")+ color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
+                color.A.ToString("X2") + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
         }
+        #endregion
+
+        #region Properties
+        public System.Windows.Media.SolidColorBrush Color { get; set; }
+        public string ColorHex { get; set; }
+        #endregion
+
+        #region Commands
+        public ICommand SaveColorCommand
+        {
+            get
+            {
+                if (_saveColorCommand == null)
+                {
+                    _saveColorCommand = new RelayCommand(param => SaveColorMethod());
+                }
+                return _saveColorCommand;
+            }
+        }
+        #endregion
+
+        #region Methods
+        private bool SaveColorMethod()
+        {
+            try
+            {
+                int ID = SharedUtils.NextID;
+                SharedUtils.ColorClassList.Insert(0, new Helpers.ColorClass(ID, ColorHex, "Color " + ID.ToString()));
+                SharedUtils.SaveColorsList();
+                return true;
+            }
+            catch { return false; }
+        }
+        #endregion
     }
 }
