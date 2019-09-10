@@ -28,10 +28,11 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private readonly ImageAnalyzerModel model = new ImageAnalyzerModel();
         private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
 
-        private BaseColorQuantizer _selectedQuantizer;
-
         private string _selectedPath;
         private int _selectedColorCount;
+        private BaseColorQuantizer _selectedQuantizer;
+
+        private ObservableCollection<ColorClass> _sampleColorSource;
 
         private ICommand _openCommand;
         #endregion
@@ -46,7 +47,19 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             get { return _selectedPath; }
             set { _selectedPath = value;OnPropertyChanged("SelectedPath"); }
         }
-        public ObservableCollection<ColorClass> SampleColorSource { get; set; } = new ObservableCollection<ColorClass>();
+
+        public ObservableCollection<ColorClass> SampleColorSource
+        {
+            get
+            {
+                return _sampleColorSource;
+            }
+            set
+            {
+                _sampleColorSource = value;
+                OnPropertyChanged("SampleColorSource");
+            }
+        }
 
         #region QuantizerList
         public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
@@ -58,7 +71,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 MessageBox.Show("Quant set");
                 _selectedQuantizer = value;
                 model.SetQuantizer(_selectedQuantizer);
-                Task.Run(() => GetNewPalette());
+                //Task.Run(() => GetNewPalette());
+                GetNewPalette();
             }
         }
         #endregion
@@ -73,7 +87,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
                 MessageBox.Show("Color count set " + _selectedColorCount.ToString());
-                Task.Run(() => GetNewPalette());
+                //Task.Run(() => GetNewPalette());
+                GetNewPalette();
             }
         }
         #endregion
@@ -113,9 +128,13 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private void GetNewPalette()
         {
-            SampleColorSource.Clear();
+            ObservableCollection<ColorClass> newColorSource = new ObservableCollection<ColorClass>();
             foreach (Color color in model.GetPalette())
-                SampleColorSource.Add(new ColorClass(color));
+            {
+                newColorSource.Add(new ColorClass(color));
+            }
+            MessageBox.Show(newColorSource.Count.ToString());
+            SampleColorSource = newColorSource;
         }
         #endregion
     }
