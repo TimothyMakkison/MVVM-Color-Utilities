@@ -9,24 +9,30 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 {
     public abstract class BaseColorQuantizer
     {
-        private ICollection<Int32> colorList;
-
         /// <summary>
         /// Sets the colors that will be sorted through.
         /// </summary>
         /// <param name="colorList"></param>
-        public virtual void SetColorList(ICollection<Int32> colorList)
-        {
-            this.colorList = colorList;
-        }
-
-        public virtual List<Color> Palette { get; set; }
-        public virtual List<Color> GetPalette(Int32 colorCount)
-        {
-            return Palette;
-        }
+        public abstract void SetColorList(ICollection<Int32> colorList);
+        /// <summary>
+        /// Generated Color Palette.
+        /// </summary>
+        public abstract List<Color> Palette { get; set; }
+        /// <summary>
+        /// Generates a new palette
+        /// </summary>
+        /// <param name="colorCount"></param>
+        /// <returns></returns>
+        public abstract List<Color> GetPalette(Int32 colorCount);
+        /// <summary>
+        /// Sets the display name of derived quantizer.
+        /// </summary>
         public abstract string Name { get; }
-
+        /// <summary>
+        /// Returns the most similar  <see cref="Palette"/> index to the input color.
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public abstract int GetPaletteIndex(Color color);
     }
 }

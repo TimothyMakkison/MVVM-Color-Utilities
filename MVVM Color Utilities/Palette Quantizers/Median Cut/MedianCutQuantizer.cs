@@ -144,7 +144,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                     return cube.PaletteIndex;
                 }
             }
-            return -1;
+            return 0;
         }
         #endregion
     }
