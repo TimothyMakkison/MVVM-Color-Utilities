@@ -34,7 +34,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 return SharedUtils.SaveColorsList() ? true : false;
             }
             else
+            {
                 return false;
+            }
         }
         public bool DeleteColorItem(int index)
         {

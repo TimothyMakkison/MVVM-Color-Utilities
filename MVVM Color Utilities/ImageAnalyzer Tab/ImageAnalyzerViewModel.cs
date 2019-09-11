@@ -1,20 +1,16 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using MVVM_Color_Utilities.Palette_Quantizers;
-using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using MVVM_Color_Utilities.Helpers;
 using System.Windows.Input;
+using System.Diagnostics;
 
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
@@ -25,9 +21,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
-        private readonly ImageAnalyzerModel model = new ImageAnalyzerModel();
-        private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
-
         private string _selectedPath;
         private int _selectedColorCount;
         private BaseColorQuantizer _selectedQuantizer;
@@ -35,10 +28,14 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private ObservableCollection<ColorClass> _sampleColorSource;
 
         private ICommand _openCommand;
+
+        private readonly ImageAnalyzerModel model = new ImageAnalyzerModel();
+        private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
+
         #endregion
 
         #region Properties
-        public PackIconKind Icon => PackIconKind.PaletteAdvanced;
+        public PackIconKind Icon => PackIconKind.Paint;
         /// <summary>
         /// Button displays image from this location.
         /// </summary>
@@ -68,8 +65,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         {
             set
             {
-                MessageBox.Show("Quant set");
                 _selectedQuantizer = value;
+                Debug.WriteLine("IA Quantizer set to " + _selectedQuantizer.Name.ToString());
                 model.SetQuantizer(_selectedQuantizer);
                 //Task.Run(() => GetNewPalette());
                 GetNewPalette();
@@ -86,7 +83,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             {
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
-                MessageBox.Show("Color count set " + _selectedColorCount.ToString());
+                Debug.WriteLine("IA Color count set " + _selectedColorCount.ToString());
                 //Task.Run(() => GetNewPalette());
                 GetNewPalette();
             }
@@ -133,7 +130,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             {
                 newColorSource.Add(new ColorClass(color));
             }
-            MessageBox.Show(newColorSource.Count.ToString());
             SampleColorSource = newColorSource;
         }
         #endregion

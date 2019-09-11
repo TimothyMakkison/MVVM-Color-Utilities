@@ -26,28 +26,16 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         #endregion
 
         #region Methods
+        
         #region Get Methods
-        /// <summary>
-        /// Returns <see cref="ImageBuffer"/> GetPalette.
-        /// </summary>
-        /// <returns></returns>
-        public List<Color> GetPalette()
+        public bool GetNewImage()
         {
-            if (buffer.GetPalette())
-            {
-                return buffer.Palette;
-            }
-            else
-            {
-                return new List<Color>();
-            }
-        }
-        public void GetNewImage()
-        {
+            buffer.GetSourceBitmapColors();
             buffer.GetPalette();
-            buffer.GenerateNewImage();
+            return buffer.GenerateNewImage();
         }
         #endregion
+
         #region Set Methods
         /// <summary>
         /// Sets the bitmap to be read and clears the saved colors so the new image can be proccessed.
@@ -55,9 +43,11 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// <param name="bitmap"></param>
         public void SetBitmap(Bitmap bitmap)
         {
-            MessageBox.Show("IQ Bitmap set");
-
-            buffer.SetBitmap(bitmap);
+            buffer.OriginalBitmap = bitmap;
+        }
+        public void SetColorCount(int colorCount)
+        {
+            buffer.ColorCount = colorCount;
         }
         /// <summary>
         /// Sets the quantizer that will read the bitmap.
@@ -65,17 +55,10 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// <param name="quantizer"></param>
         public void SetQuantizer(BaseColorQuantizer quantizer)
         {
-            buffer.SetQuantizer(quantizer);
-        }
-        /// <summary>
-        /// Sets the color count.
-        /// </summary>
-        /// <param name="colorCount">Number of colors in final palette.</param>
-        public void SetColorCount(Int32 colorCount)
-        {
-            buffer.SetColorCount(colorCount);
+            buffer.ActiveQuantizer= quantizer;
         }
         #endregion
+
         public Bitmap GeneratedBitmap
         {
             get

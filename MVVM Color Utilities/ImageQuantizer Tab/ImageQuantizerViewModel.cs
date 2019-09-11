@@ -15,6 +15,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
@@ -38,7 +39,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         #endregion
 
         #region Properties
-        public PackIconKind Icon => PackIconKind.Paint;
+        public PackIconKind Icon => PackIconKind.PaletteAdvanced;
 
         public string SelectedPath
         {
@@ -71,8 +72,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         {
             set
             {
-                MessageBox.Show("Quant set");
                 _selectedQuantizer = value;
+                Debug.WriteLine("IQ Quantizer set to " + _selectedQuantizer.Name.ToString());
                 model.SetQuantizer(_selectedQuantizer);
                 Task.Run(() => GenerateNewImage());
             }
@@ -88,7 +89,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             {
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
-                MessageBox.Show("Color count set "+_selectedColorCount.ToString());
+                Debug.WriteLine("IQ Color count set "+_selectedColorCount.ToString());
                 Task.Run(() => GenerateNewImage());
             }
         }
@@ -130,7 +131,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             if (dialogBox.ShowDialog()==true && SelectedPath != dialogBox.FileName)
             {
                 SelectedPath = dialogBox.FileName;
-                model.SetBitmap(new Bitmap(Image.FromFile(SelectedPath)));//crashes if file name is null
+                model.SetBitmap(new Bitmap(Image.FromFile(SelectedPath)));
                 Task.Run(() => GenerateNewImage());
             }
         }
@@ -150,8 +151,10 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         private void GenerateNewImage()
         {
-            model.GetNewImage();
-            GeneratedBitmap = Imageutils.ConvertToBitmapImage(model.GeneratedBitmap);
+            if (model.GetNewImage())
+            {
+                GeneratedBitmap = Imageutils.ConvertToBitmapImage(model.GeneratedBitmap);
+            }
         }
         #endregion
     }

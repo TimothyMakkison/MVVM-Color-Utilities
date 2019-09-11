@@ -28,8 +28,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <param name="bitmap"></param>
         public void SetBitmap(Bitmap bitmap)
         {
-            MessageBox.Show("IA Bitmap set");
-            buffer.SetBitmap(bitmap);
+            buffer.OriginalBitmap=bitmap;
         }
         /// <summary>
         /// Sets the quantizer that will read the bitmap.
@@ -37,7 +36,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <param name="quantizer"></param>
         public void SetQuantizer(BaseColorQuantizer quantizer)
         {
-            buffer.SetQuantizer(quantizer);
+            buffer.ActiveQuantizer= quantizer;
         }
         /// <summary>
         /// Sets the color count.
@@ -45,7 +44,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <param name="colorCount">Number of colors in final palette.</param>
         public void SetColorCount(Int32 colorCount)
         {
-            buffer.SetColorCount(colorCount);
+            buffer.ColorCount= colorCount;
         }
         /// <summary>
         /// Returns <see cref="ImageBuffer"/> GetPalette.
@@ -53,14 +52,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <returns></returns>
         public List<Color> GetPalette()
         {
-            if (buffer.GetPalette())
-            {
-                return buffer.Palette;
-            }
-            else
-            {
-                return new List<Color>();
-            }
+            buffer.GetSourceBitmapColors();
+            return buffer.GetPalette() ? buffer.Palette: new List<Color>();
         }
     }
 }

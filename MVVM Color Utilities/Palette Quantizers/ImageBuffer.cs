@@ -7,43 +7,79 @@ using System.Drawing;
 using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using System.Windows;
 using System.IO;
+using System.Diagnostics;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
     class ImageBuffer
     {
         #region Fields
-        private Bitmap currentBitmap, _generatedBitmap;
-        private BaseColorQuantizer activeQuantizer;
-        private Int32 colorCount;
-        #endregion
-
-        #region Constructor
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ImageBuffer"/> class.
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <param name="quantizer"></param>
-        /// <param name="colorCount"></param>
-        public ImageBuffer(Bitmap bitmap, BaseColorQuantizer quantizer, Int32 colorCount)
-        {
-            currentBitmap = bitmap;
-            activeQuantizer = quantizer;
-            this.colorCount = colorCount;
-        }
-        public ImageBuffer() { }
+        private Bitmap _originalBitmap, _generatedBitmap;
+        private BaseColorQuantizer _activeQuantizer;
+        private Int32 _colorCount;
         #endregion
 
         #region Properties
+        public Bitmap OriginalBitmap
+        {
+            get
+            {
+                return _originalBitmap;
+            }
+            set
+            {
+                if(_originalBitmap != value)
+                {
+                    _originalBitmap = value;
+                    ColorList = null;
+                    Palette = null;
+                    GeneratedBitmap = null;
+                }
+            }
+        }
+        public BaseColorQuantizer ActiveQuantizer
+        {
+            get
+            {
+                return _activeQuantizer;
+            }
+            set
+            {
+                if(_activeQuantizer != value)
+                {
+                    _activeQuantizer = value;
+                    Palette = null;
+                    GeneratedBitmap = null;
+                }
+            }
+        }
+        public int ColorCount
+        {
+            get
+            {
+                return _colorCount;
+            }
+            set
+            {
+                if (_colorCount != value)
+                {
+                    _colorCount = value;
+                    Palette = null;
+                    GeneratedBitmap = null;
+                }
+            }
+        }
+        /// <summary>
+        /// Stores all of the colors in the bitmap.
+        /// </summary>
+        public List<Int32> ColorList { get; set; }
         /// <summary>
         /// Returns the generated palette
         /// </summary>
         public List<Color> Palette { get; set; }
         /// <summary>
-        /// Stores all of the colors in the bitmap.
+        /// Generated bitmap
         /// </summary>
-        public List<Int32> ColorList { get; set; } = new List<int>();
-
         public Bitmap GeneratedBitmap
         {
             get
@@ -59,56 +95,77 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 
         #region Methods
         /// <summary>
-        /// Forms a palette and returns true if successfull.
+        /// Iterates through OriginalBitmap, adding each color to the ColorList.
         /// </summary>
-        /// <returns></returns>
+        public void GetSourceBitmapColors()
+        {
+            Debug.Write("Getting Bitmap Colors -> ");
+            if(OriginalBitmap == null)
+            {
+                Debug.WriteLine("Fail, Original Bitmap is null");
+            }
+            else if(ColorList != null)
+            {
+                Debug.WriteLine("Success, ColorList already generated");
+            }
+            else
+            {
+                //Iterates through each pixel adding it to the colorList
+                List<int> newColorList = new List<int>();
+
+                for (int x = 0; x < OriginalBitmap.Width; x++)
+                    for (int y = 0; y < OriginalBitmap.Height; y++)
+                    {
+                        Color pixelColor = OriginalBitmap.GetPixel(x, y);
+                        Int32 key = pixelColor.R << 16 | pixelColor.G << 8 | pixelColor.B;
+                        newColorList.Add(key);
+                    }
+                ColorList = newColorList;
+
+                Debug.WriteLine("Success, Found "+newColorList.Count.ToString()+" colors");
+            }
+
+        }
         public bool GetPalette()
         {
-            //Ensures all values will not return null.
-            if (currentBitmap != null && activeQuantizer != null && colorCount > 0)
+            Debug.Write("Getting palette -> ");
+            if (ColorList != null && ActiveQuantizer!= null && ColorCount>0)
             {
-                //Get source colors if they havent been found yet.
-                if (ColorList.Count == 0)
-                    GetSourceBitmapColors();
-                MessageBox.Show("soruce colors succ");
-                activeQuantizer.SetColorList(ColorList);
-                Palette = activeQuantizer.GetPalette(colorCount);
+                _activeQuantizer.SetColorList(ColorList);
+                Palette = _activeQuantizer.GetPalette(ColorCount);
+                Debug.WriteLine("Success, Generated palette of "+ Palette.Count.ToString()+" colors");
                 return true;
             }
-            return false;
-        }
-        /// <summary>
-        /// Adds all of the bitmaps colors to the ColorList.
-        /// </summary>
-        private void GetSourceBitmapColors()
-        {
-            //Iterates through each pixel adding it to the colorList
-            for (int x = 0; x < currentBitmap.Width; x++)
-                for (int y = 0; y < currentBitmap.Height; y++)
-                {
-                    Color pixelColor = currentBitmap.GetPixel(x, y);
-                    Int32 key = pixelColor.R << 16 | pixelColor.G << 8 | pixelColor.B;
-                    ColorList.Add(key);
-                }
+            else
+            {
+                Debug.WriteLine("Fail, Either ColorList, ColorCount or ActiveQuantizer were null");
+                return false;
+            }
         }
         /// <summary>
         /// Uses the currentBitmap and Palette to generate a approximate image.
         /// </summary>
         public bool GenerateNewImage()
         {
-            if (currentBitmap != null && activeQuantizer != null && colorCount > 0 && Palette.Count > 0)
+            Debug.Write("Generating new image -> ");
+            if (OriginalBitmap != null && Palette != null)
             {
-                GeneratedBitmap = new Bitmap(currentBitmap.Width, currentBitmap.Height);
-                for (int x = 0; x < currentBitmap.Width; x++)
-                    for (int y = 0; y < currentBitmap.Height; y++)
+                GeneratedBitmap = new Bitmap(OriginalBitmap.Width, OriginalBitmap.Height);
+                for (int x = 0; x < OriginalBitmap.Width; x++)
+                    for (int y = 0; y < OriginalBitmap.Height; y++)
                     {
-                        Color pixelColor = currentBitmap.GetPixel(x, y);
-                        int index = activeQuantizer.GetPaletteIndex(pixelColor);
+                        Color pixelColor = OriginalBitmap.GetPixel(x, y);
+                        int index = ActiveQuantizer.GetPaletteIndex(pixelColor);
                         GeneratedBitmap.SetPixel(x, y, Palette[index]);
                     }
+                Debug.WriteLine("Success, generated image");
                 return true;
             }
-            return false;
+            else
+            {
+                Debug.WriteLine("Fail, Either OriginalBitmap or Palette is null");
+                return false;
+            }
         }
         /// <summary>
         /// Save generated image to location and with given type.
@@ -123,33 +180,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
             catch { MessageBox.Show("fail save"); }
         }
-        #region SetMethods
-        /// <summary>
-        /// Sets the bitmap to be read and clears the saved colors so the new image can be proccessed.
-        /// </summary>
-        /// <param name="bitmap"></param>
-        public void SetBitmap(Bitmap bitmap)
-        {
-            currentBitmap = bitmap;
-            ColorList.Clear();
-        }
-        /// <summary>
-        /// Sets the quantizer that will read the bitmap.
-        /// </summary>
-        /// <param name="quantizer"></param>
-        public void SetQuantizer(BaseColorQuantizer quantizer)
-        {
-            activeQuantizer = quantizer;
-        }
-        /// <summary>
-        /// Sets the color count.
-        /// </summary>
-        /// <param name="colorCount"></param>
-        public void SetColorCount(Int32 colorCount)
-        {
-            this.colorCount = colorCount;
-        }
-        #endregion
         #endregion
     }
 }

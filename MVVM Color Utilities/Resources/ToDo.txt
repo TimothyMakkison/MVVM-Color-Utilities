@@ -1,15 +1,19 @@
 ﻿ListColors
 	Shared list header layout
+	Add regex
+	Rework backgroun
 
 ImageBuffer 
 	Use multithreading (Get -> Get-> (Generate))
+	Refactor
 
 Image Quantizer
 	Ditherer
 	rework to be functional
+	Add 1 color support (bug with quantizer)
 
 ImageAnalyzer
-	*List allows saving of selected item
+	Add threading
 
 In order to display an image in wpf I have used a binding to the location of the image
 Icons
