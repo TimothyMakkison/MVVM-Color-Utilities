@@ -70,7 +70,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 // if another new cubes should be over the top; don't do it and just stop here
                 if (newCubes.Count >= colorCount) break;
 
-
                 cube.SplitAtMedian(cube.ChannelIndex, out MedianCutCube newMedianCutCubeA
                     , out MedianCutCube newMedianCutCubeB);
 
@@ -133,7 +132,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             //If palette isnt formed
             if (Palette.Count == 0)
             {
-                return -1;
+                return 0;
             }
             //Test every cube for whether it contains the target color
             foreach(MedianCutCube cube in cubeList)

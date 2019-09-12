@@ -8,10 +8,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Security;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
@@ -75,7 +71,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 _selectedQuantizer = value;
                 Debug.WriteLine("IQ Quantizer set to " + _selectedQuantizer.Name.ToString());
                 model.SetQuantizer(_selectedQuantizer);
-                Task.Run(() => GenerateNewImage());
+                GenerateNewImage();
             }
         }
         #endregion
@@ -90,7 +86,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
                 Debug.WriteLine("IQ Color count set "+_selectedColorCount.ToString());
-                Task.Run(() => GenerateNewImage());
+                GenerateNewImage();
             }
         }
         #endregion
