@@ -23,17 +23,19 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     {
         #region Fields
         private string _selectedPath;
-        private int _selectedColorCount = 16;
         private BaseColorQuantizer _selectedQuantizer = QuantizerList[0];
+        private int _selectedColorCount = 16;
+
+        System.Windows.Media.Imaging.BitmapImage _generatedBitmap;
 
         private ICommand _openCommand;
         private ICommand _saveCommand;
 
-        private readonly ImageQuantizerModel model = new ImageQuantizerModel();
         private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
         private readonly SaveFileDialog saveDialogBox = ImageBufferItems.SaveDialogBox;
-        System.Windows.Media.Imaging.BitmapImage _generatedBitmap;
+        private readonly ImageQuantizerModel model = new ImageQuantizerModel();
         #endregion
+
         #region Constructor
         public ImageQuantizerViewModel()
         {
@@ -41,9 +43,12 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             model.SetColorCount(SelectedColorCount);
         }
         #endregion
+
         #region Properties
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
-
+        /// <summary>
+        /// Button displays image from this location.
+        /// </summary>
         public string SelectedPath
         {
             get
@@ -56,6 +61,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 OnPropertyChanged("SelectedPath");
             }
         }
+        /// <summary>
+        /// Displayed by save bitmap button
+        /// </summary>
         public System.Windows.Media.Imaging.BitmapImage GeneratedBitmap
         {
             get
@@ -81,7 +89,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 _selectedQuantizer = value;
                 model.SetQuantizer(_selectedQuantizer);
                 Debug.WriteLine("IQ Quantizer set to " + _selectedQuantizer.Name.ToString());
-                GenerateNewImage();
+                Task.Run(()=>GenerateNewImage());
             }
         }
         #endregion
@@ -99,7 +107,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
                 Debug.WriteLine("IQ Color count set to " + _selectedColorCount.ToString());
-                GenerateNewImage();
+                Task.Run(() => GenerateNewImage());
             }
         }
         #endregion
