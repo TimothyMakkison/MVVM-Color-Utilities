@@ -23,8 +23,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     {
         #region Fields
         private string _selectedPath;
-        private BaseColorQuantizer _selectedQuantizer;
-        private int _selectedColorCount;
+        private int _selectedColorCount = 16;
+        private BaseColorQuantizer _selectedQuantizer = QuantizerList[0];
 
         private ICommand _openCommand;
         private ICommand _saveCommand;
@@ -37,8 +37,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         #region Constructor
         public ImageQuantizerViewModel()
         {
-            SelectedQuantizer = QuantizerList[0];
-            SelectedColorCount= 16;
+            model.SetQuantizer(SelectedQuantizer);
+            model.SetColorCount(SelectedColorCount);
         }
         #endregion
         #region Properties
@@ -98,7 +98,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             {
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
-                Debug.WriteLine("IQ Color count set " + _selectedColorCount.ToString());
+                Debug.WriteLine("IQ Color count set to " + _selectedColorCount.ToString());
                 GenerateNewImage();
             }
         }

@@ -82,7 +82,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <summary>
         /// Generated bitmap
         /// </summary>
-        public Bitmap GeneratedBitmap { get; set; }
+        public Bitmap GeneratedBitmap { get; private set; }
         #endregion
 
         #endregion

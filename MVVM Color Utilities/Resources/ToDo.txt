@@ -1,7 +1,7 @@
 ﻿ListColors
 	Shared list header layout
 	Add regex
-	Rework backgroun
+	Rework add edit mode backgrounds
 
 ImageBuffer 
 	Use multithreading (Get -> Get-> (Generate))
@@ -10,7 +10,6 @@ ImageBuffer
 Image Quantizer
 	Ditherer
 	rework to be functional
-	Add 1 color support (bug with quantizer)
 
 ImageAnalyzer
 	Add threading

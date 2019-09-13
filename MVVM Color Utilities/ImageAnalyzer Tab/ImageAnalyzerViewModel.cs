@@ -22,8 +22,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     {
         #region Fields
         private string _selectedPath;
-        private int _selectedColorCount;
-        private BaseColorQuantizer _selectedQuantizer;
+        private int _selectedColorCount =16;
+        private BaseColorQuantizer _selectedQuantizer = QuantizerList[0];
 
         private ObservableCollection<ColorClass> _sampleColorSource;
 
@@ -37,8 +37,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         #region Constructor
         public ImageAnalyzerViewModel()
         {
-            SelectedQuantizer = QuantizerList[0];
-            SelectedColorCount = 16;
+            model.SetQuantizer(SelectedQuantizer);
+            model.SetColorCount(SelectedColorCount );
         }
         #endregion
 
@@ -67,7 +67,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         }
 
         #region QuantizerList
-        public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
+        public static List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
         public BaseColorQuantizer SelectedQuantizer
         {
             get
@@ -96,7 +96,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             {
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
-                Debug.WriteLine("IA Color count set " + _selectedColorCount.ToString());
+                Debug.WriteLine("IA Color count set to " + _selectedColorCount.ToString());
                 GetNewPalette();
             }
         }

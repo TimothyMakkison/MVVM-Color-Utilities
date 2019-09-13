@@ -1,7 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using MVVM_Color_Utilities.Palette_Quantizers;
-using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System;
 using System.Collections.Concurrent;
