@@ -55,7 +55,7 @@
             
             <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                     Command="{Binding Path= OpenCommand}">
-                <Image Source="{Binding SelectedPath}"/>
+                <Image Source="{Binding SelectedPath, TargetNullValue={x:Null}}"/>
             </Button>
             
             <Rectangle Grid.Column="1" Fill="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />

@@ -32,7 +32,7 @@
                    Foreground="White" Content="{materialDesign:PackIcon Kind=FormatVerticalAlignTop,Size=70}"/>
 
             <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding Path=OpenCommand}" >
-                <Image Source="{Binding SelectedPath}"/>
+                <Image Source="{Binding SelectedPath, TargetNullValue={x:Null}}"/>
             </Button>
             
             <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Gray"/>
@@ -42,7 +42,7 @@
 
             <Button Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                     Command="{Binding Path=SaveCommand}">
-                <Image Source="{Binding GeneratedBitmap}"/>
+                <Image Source="{Binding GeneratedBitmap, TargetNullValue={x:Null}}"/>
             </Button>
         </Grid>
     </Grid>
