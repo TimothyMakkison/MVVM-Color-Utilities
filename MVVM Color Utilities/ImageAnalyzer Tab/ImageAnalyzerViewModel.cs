@@ -34,6 +34,14 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         #endregion
 
+        #region Constructor
+        public ImageAnalyzerViewModel()
+        {
+            SelectedQuantizer = QuantizerList[0];
+            SelectedColorCount = 16;
+        }
+        #endregion
+
         #region Properties
         public PackIconKind Icon => PackIconKind.Paint;
         /// <summary>
@@ -60,15 +68,17 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         #region QuantizerList
         public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
-        public int QuantizerComboIndex => 0;
         public BaseColorQuantizer SelectedQuantizer
         {
+            get
+            {
+                return _selectedQuantizer;
+            }
             set
             {
                 _selectedQuantizer = value;
-                Debug.WriteLine("IA Quantizer set to " + _selectedQuantizer.Name.ToString());
                 model.SetQuantizer(_selectedQuantizer);
-                //Task.Run(() => GetNewPalette());
+                Debug.WriteLine("IA Quantizer set to " + _selectedQuantizer.Name.ToString());
                 GetNewPalette();
             }
         }
@@ -76,15 +86,17 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         #region ColorCountList
         public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountList;
-        public int ColorCountComboIndex => 4;
         public int SelectedColorCount
         {
+            get
+            {
+                return _selectedColorCount;
+            }
             set
             {
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
                 Debug.WriteLine("IA Color count set " + _selectedColorCount.ToString());
-                //Task.Run(() => GetNewPalette());
                 GetNewPalette();
             }
         }

@@ -15,12 +15,10 @@
 
         <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" >
             <ComboBox Width="150" Height="30"  ItemsSource="{Binding Path=QuantizerList}"
-                      SelectedValue="{Binding SelectedQuantizer}"
-                      SelectedIndex="{Binding Path=QuantizerComboIndex,Mode=OneTime}" DisplayMemberPath="Name"/>
+                      SelectedValue="{Binding SelectedQuantizer}" DisplayMemberPath="Name"/>
 
             <ComboBox Width="50" Height="30" ItemsSource="{Binding Path=ColorCountList}"
-                      SelectedValue="{Binding SelectedColorCount}"
-                      SelectedIndex="{Binding Path=ColorCountComboIndex,Mode=OneTime}"/>
+                      SelectedValue="{Binding SelectedColorCount}"/>
         </StackPanel>
         
         <Grid Grid.Row="1">

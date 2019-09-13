@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
-    class ImageBuffer
+    class ImageBuffer 
     {
         #region Fields
         private Bitmap _originalBitmap;
@@ -19,12 +19,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         private BaseColorQuantizer _activeQuantizer;
         private Int32 _colorCount;
         #endregion
-        //#region Constructor
-        //public ImageBuffer()
-        //{
-        //    _defaultBitmap = new Bitmap(OriginalBitmap.Width, OriginalBitmap.Height);
-        //}
-        //#endregion
+
         #region Properties
         public Bitmap OriginalBitmap
         {
@@ -75,18 +70,21 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 }
             }
         }
+        #region Dependant Properties
         /// <summary>
         /// Stores all of the colors in the bitmap.
         /// </summary>
-        public List<Int32> ColorList { get; set; } = new List<Int32>();
+        public List<Int32> ColorList { get; private set; } = new List<Int32>();
         /// <summary>
         /// Returns the generated palette
         /// </summary>
-        public List<Color> Palette { get; set; } = new List<Color>();
+        public List<Color> Palette { get; private set; } = new List<Color>();
         /// <summary>
         /// Generated bitmap
         /// </summary>
         public Bitmap GeneratedBitmap { get; set; }
+        #endregion
+
         #endregion
 
         #region Methods
@@ -126,9 +124,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         public bool GetPalette()
         {
             Debug.Write("Getting palette -> ");
-            if(Palette.Count != 0)
+            if(Palette.Count > 0)
             {
+                Debug.WriteLine("palette " + Palette[0].ToString());
                 Debug.WriteLine("Success, Palette of size "+ Palette.Count+ " already generated");
+
                 return true;
             }
             else if (ColorList.Count > 0  && ActiveQuantizer!= null && ColorCount>0)

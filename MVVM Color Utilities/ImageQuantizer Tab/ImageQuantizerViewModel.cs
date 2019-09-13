@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
@@ -33,7 +34,13 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         private readonly SaveFileDialog saveDialogBox = ImageBufferItems.SaveDialogBox;
         System.Windows.Media.Imaging.BitmapImage _generatedBitmap;
         #endregion
-
+        #region Constructor
+        public ImageQuantizerViewModel()
+        {
+            SelectedQuantizer = QuantizerList[0];
+            SelectedColorCount= 16;
+        }
+        #endregion
         #region Properties
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
 
@@ -62,15 +69,18 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
         #region QuantizerList
-        public List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
-        public int QuantizerComboIndex => 0;
+        public static List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
         public BaseColorQuantizer SelectedQuantizer
         {
+            get
+            {
+                return _selectedQuantizer;
+            }
             set
             {
                 _selectedQuantizer = value;
-                Debug.WriteLine("IQ Quantizer set to " + _selectedQuantizer.Name.ToString());
                 model.SetQuantizer(_selectedQuantizer);
+                Debug.WriteLine("IQ Quantizer set to " + _selectedQuantizer.Name.ToString());
                 GenerateNewImage();
             }
         }
@@ -78,14 +88,17 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         #region ColorCountList
         public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountList;
-        public int ColorCountComboIndex => 4;
         public int SelectedColorCount
         {
+            get
+            {
+                return _selectedColorCount;
+            }
             set
             {
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
-                Debug.WriteLine("IQ Color count set "+_selectedColorCount.ToString());
+                Debug.WriteLine("IQ Color count set " + _selectedColorCount.ToString());
                 GenerateNewImage();
             }
         }
