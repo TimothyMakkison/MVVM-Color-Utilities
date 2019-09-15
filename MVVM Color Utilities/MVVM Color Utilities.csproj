@@ -73,7 +73,6 @@
       <DependentUpon>ImageQuantizerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ImageQuantizer Tab\ImageQuantizerViewModel.cs" />
-    <Compile Include="ColorsList Tab\ColorListModel.cs" />
     <Compile Include="ColorsList Tab\ColorListViewModel.cs" />
     <Compile Include="ImageAnalyzer Tab\ImageAnalyzerModel.cs" />
     <Compile Include="ImageAnalyzer Tab\ImageAnalyzerViewModel.cs" />

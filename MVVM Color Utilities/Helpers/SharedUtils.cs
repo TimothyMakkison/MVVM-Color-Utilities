@@ -46,6 +46,36 @@ namespace MVVM_Color_Utilities.Helpers
             }
             catch { return false; }
         }
+        public static bool AddColorItem (int index, string hexString, string nameString)
+        {
+            index = MathUtils.Clamp(0, ColorClassList.Count, index);
+            ColorClassList.Insert(index, new ColorClass(NextID, hexString, nameString));
+            return SaveColorsList();
+        }
+        public static bool EditColorItem(int index, string hexString, string nameString)
+        {
+            if (ColorClassList.Count > index && ColorClassList.Count > 0)
+            {
+                ColorClassList[index] = new ColorClass(NextID, hexString, nameString);
+                return SaveColorsList();
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static bool DeleteColorItem(int index)
+        {
+            if (ColorClassList.Count > index && ColorClassList.Count > 0)
+            {
+                ColorClassList.RemoveAt(index);
+                return SaveColorsList();
+            }
+            else
+            {
+                return false;
+            }
+        }
         #endregion
     }
     #region Color Class

@@ -20,7 +20,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
     class ColorListViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
-        private readonly ColorListModel model = new ColorListModel();
         private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
         private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
 
@@ -113,7 +112,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         {
             get
             {
-                return model.ColorClassList;
+                return SharedUtils.ColorClassList;
             }
         }
         private ColorClass _selectedItem ;
@@ -248,8 +247,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// </summary>
         void AddNewItemMethod()
         {
-            model.AddColorItem(SelectedItemIndex, InputHex, InputName);
-            SelectedItemIndex = 0;
+            int currentIndex = SelectedItemIndex;
+            SharedUtils.AddColorItem(SelectedItemIndex, InputHex, InputName);
+            SelectedItemIndex = currentIndex;
         }
         /// <summary>
         /// Edits selected item.
@@ -257,7 +257,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         void EditItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            model.EditColorItem(SelectedItemIndex, InputHex, InputName);
+            SharedUtils.EditColorItem(SelectedItemIndex, InputHex, InputName);
             SelectedItemIndex = currentIndex;
         }
         /// <summary>
@@ -266,9 +266,12 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         void DeleteItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            model.DeleteColorItem(SelectedItemIndex);
+            SharedUtils.DeleteColorItem(SelectedItemIndex);
             SelectedItemIndex = currentIndex;
         }
+        /// <summary>
+        /// Gets the color of the pixel location.
+        /// </summary>
         void SampleColorMethod()
         {
             Color color =  ColorUtils.GetCursorColor();

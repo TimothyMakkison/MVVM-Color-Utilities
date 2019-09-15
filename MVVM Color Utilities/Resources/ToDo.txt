@@ -3,6 +3,7 @@
 	Add regex
 	Rework add edit mode backgrounds
 	Select same item after editing/deleting
+	On list change, save
 
 ImageBuffer 
 	Use multithreading (Get -> Get-> (Generate))
@@ -10,11 +11,9 @@ ImageBuffer
 
 Image Quantizer
 	Ditherer
-	rework to be functional
-
-ImageAnalyzer
 	
+ImageAnalyzer
+	Add threading
 
-In order to display an image in wpf I have used a binding to the location of the image
 Icons
 look at base classes
