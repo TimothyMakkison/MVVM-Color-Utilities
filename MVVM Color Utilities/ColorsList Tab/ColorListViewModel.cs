@@ -21,8 +21,8 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
     {
         #region Fields
         private readonly ColorListModel model = new ColorListModel();
-        private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$"); 
-        //private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"); 
+        private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
+        private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
 
         private bool _addingModeBool = true;
         private int _selectedItemIndex=0;
@@ -31,7 +31,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private string _inputHexString;
 
         private SolidColorBrush _inputBrush = Brushes.White;
-
         #region ICommands
         private ICommand _addSwitchCommand;
         private ICommand _editSwitchCommand;
@@ -86,12 +85,12 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                     _inputHexString = value;
                     OnPropertyChanged("InputHex");
                 }
-                try
+                if(_hexColorReg.IsMatch(value))
                 {
                     //Sets indicator to the new color
                     IndicatorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
                 }
-                catch { }
+                else { IndicatorBrush = Brushes.White; }
             }
         }
         #endregion
@@ -257,15 +256,18 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// </summary>
         void EditItemMethod()
         {
+            int currentIndex = SelectedItemIndex;
             model.EditColorItem(SelectedItemIndex, InputHex, InputName);
-            SelectedItemIndex = SelectedItemIndex;
+            SelectedItemIndex = currentIndex;
         }
         /// <summary>
         /// Deletes selected item.
         /// </summary>
         void DeleteItemMethod()
-        { 
+        {
+            int currentIndex = SelectedItemIndex;
             model.DeleteColorItem(SelectedItemIndex);
+            SelectedItemIndex = currentIndex;
         }
         void SampleColorMethod()
         {
