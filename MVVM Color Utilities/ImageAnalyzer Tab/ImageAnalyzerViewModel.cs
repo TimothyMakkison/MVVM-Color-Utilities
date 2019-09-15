@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using System.Reflection;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
@@ -71,6 +72,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _sampleColorSource = value;
+                MessageBox.Show("crashing");
                 OnPropertyChanged("SampleColorSource");
             }
         }
@@ -87,8 +89,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 _selectedQuantizer = value;
                 model.SetQuantizer(_selectedQuantizer);
                 Debug.WriteLine("IA Quantizer set to " + _selectedQuantizer.Name.ToString());
-                Dispatcher.CurrentDispatcher.Invoke(() => SampleColorSource = GetNewPalette());
-                //Task.Run(()=> GetNewPalette());
+                //Dispatcher.CurrentDispatcher.Invoke(() => SampleColorSource = GetNewPalette());
+                Task.Run(() => GetNewPalette());
             }
         }
         #endregion
@@ -107,7 +109,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 model.SetColorCount(_selectedColorCount);
                 Debug.WriteLine("IA Color count set to " + _selectedColorCount.ToString());
                 //Task.Run(() => GetNewPalette());
-                Dispatcher.CurrentDispatcher.Invoke(() => SampleColorSource = GetNewPalette());
+                //Dispatcher.CurrentDispatcher.Invoke(() => GetNewPalette());
             }
         }
         #endregion
@@ -133,28 +135,29 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private void OpenFile()
         {
+            //Task.Run(() => GetNewPalette());
+
             dialogBox.ShowDialog();
             string path = dialogBox.FileName;
             if (path != "" && SelectedPath != path) //Checks that the path exists and is not the previous path.
             {
                 SelectedPath = path;
                 model.SetBitmap(new Bitmap(Image.FromFile(path)));
-                //Task.Run(() => GetNewPalette());
-                Dispatcher.CurrentDispatcher.Invoke(() => SampleColorSource = GetNewPalette());
+                Task.Run(() => GetNewPalette());
+                //Dispatcher.CurrentDispatcher.Invoke(() => GetNewPalette());
             }
         }
         /// <summary>
         /// Clears previous palette and gets new colors.
         /// </summary>
-        private ObservableCollection<ColorClass> GetNewPalette()
+        private void GetNewPalette()
         {
             ObservableCollection<ColorClass> newColorSource = new ObservableCollection<ColorClass>();
             foreach (Color color in model.GetPalette())
             {
                 newColorSource.Add(new ColorClass(color));
             }
-            //SampleColorSource = newColorSource;
-            return newColorSource;
+            SampleColorSource = newColorSource;
         }
         #endregion
     }

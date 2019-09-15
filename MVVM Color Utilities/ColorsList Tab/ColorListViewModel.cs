@@ -25,7 +25,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         //private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$"); 
 
         private bool _addingModeBool = true;
-        private int _selectedItemIndex;
+        private int _selectedItemIndex=0;
 
         private string _inputNameString;
         private string _inputHexString;
@@ -41,13 +41,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private ICommand _deleteItemCommand;
         #endregion
 
-        #endregion
-
-        #region Constructors
-        public ColorListViewModel()
-        {
-            SelectedItemIndex = 0;
-        }
         #endregion
 
         #region Properties
@@ -124,33 +117,41 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 return model.ColorClassList;
             }
         }
-        public int SelectedItemIndex
+        private ColorClass _selectedItem ;
+        public ColorClass SelectedValue
         {
             get
             {
-                if (_selectedItemIndex >= ColorListSource.Count && ColorListSource.Count != 0)
-                {
-                    _selectedItemIndex = ColorListSource.Count - 1;
-                }
-                return _selectedItemIndex;
+                return _selectedItem;
             }
             set
             {
-                var ColorListCopy = ColorListSource;
-                _selectedItemIndex = MathUtils.Clamp(0, ColorListCopy.Count - 1, value);
-                if (ColorListCopy.Count > 0)
+                _selectedItem = value;
+                if ( _selectedItem!=null)
                 {
-                    InputHex = ColorListCopy[_selectedItemIndex].Hex;
-                    InputName = ColorListCopy[_selectedItemIndex].Name;
+                    InputName = _selectedItem.Name;
+                    InputHex = _selectedItem.Hex;
                 }
                 else
                 {
                     InputHex = "";
                     InputName = "";
                 }
-                OnPropertyChanged("SelectedItemIndex");
+                OnPropertyChanged("SelectedItem");
             }
         }
+        public int SelectedItemIndex
+        {
+            get
+            {
+                return _selectedItemIndex = MathUtils.Clamp(0, ColorListSource.Count - 1, _selectedItemIndex);
+            }
+            set
+            {
+                _selectedItemIndex = value;
+                OnPropertyChanged("SelectedItemIndex");
+            }
+        } 
         #endregion
 
         #endregion
@@ -235,9 +236,13 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         void ExecuteMethod()
         {
             if (AddingModeBool)
+            {
                 AddNewItemMethod();
+            }
             else
+            {
                 EditItemMethod();
+            }
         }
         /// <summary>
         /// Adds new item.
@@ -253,6 +258,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         void EditItemMethod()
         {
             model.EditColorItem(SelectedItemIndex, InputHex, InputName);
+            SelectedItemIndex = SelectedItemIndex;
         }
         /// <summary>
         /// Deletes selected item.

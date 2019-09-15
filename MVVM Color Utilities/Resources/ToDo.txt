@@ -2,6 +2,7 @@
 	Shared list header layout
 	Add regex
 	Rework add edit mode backgrounds
+	Select same item after editing/deleting
 
 ImageBuffer 
 	Use multithreading (Get -> Get-> (Generate))
@@ -12,7 +13,7 @@ Image Quantizer
 	rework to be functional
 
 ImageAnalyzer
-	Add threading
+	
 
 In order to display an image in wpf I have used a binding to the location of the image
 Icons

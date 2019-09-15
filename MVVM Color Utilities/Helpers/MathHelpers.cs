@@ -17,7 +17,7 @@
             return value>lower && value<upper ?true:false;
         }
         /// <summary>
-        /// Clamps value between upper and lower bounds.
+        /// Clamps value between upper and lower bounds. 
         /// </summary>
         /// <param name="lowerBound">LowerBound</param>
         /// <param name="upperBound">UpperBound</param>
@@ -25,6 +25,8 @@
         /// <returns></returns>
         public static int Clamp(int lowerBound, int upperBound, int value)
         {
+            if (upperBound < lowerBound)
+                upperBound = lowerBound;
             if (value < lowerBound)
                 value = lowerBound;
             else if (value > upperBound)

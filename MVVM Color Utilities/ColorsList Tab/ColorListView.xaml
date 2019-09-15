@@ -102,7 +102,8 @@
         <!--#endregion-->
         
 <!--#region ListBox-->
-        <ListBox Grid.Row="2" ItemsSource="{Binding ColorListSource}" SelectedIndex="{Binding SelectedItemIndex}">
+        <ListBox Grid.Row="2" ItemsSource="{Binding ColorListSource}" 
+                 SelectedItem="{Binding SelectedValue}" SelectedIndex="{Binding SelectedItemIndex}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

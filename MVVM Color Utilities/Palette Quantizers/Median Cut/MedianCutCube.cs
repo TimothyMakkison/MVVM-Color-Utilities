@@ -28,7 +28,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         }
         #endregion
 
-        #region Properties
+    #region Properties
 
         public Int32 PaletteIndex
         {

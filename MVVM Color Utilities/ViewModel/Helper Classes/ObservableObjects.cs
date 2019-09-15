@@ -10,7 +10,9 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         {
             var handler = PropertyChanged;
             if (PropertyChanged != null)
+            {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }
