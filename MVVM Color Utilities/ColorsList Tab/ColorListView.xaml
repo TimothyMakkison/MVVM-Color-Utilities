@@ -1,4 +1,4 @@
-﻿    <UserControl x:Class="MVVM_Color_Utilities.ColorsList_Tab.ColorListView"
+﻿<UserControl x:Class="MVVM_Color_Utilities.ColorsList_Tab.ColorListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections.Concurrent;
 using System.Windows;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
@@ -17,9 +18,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         #endregion
 
         #region Constructor
-        public MedianCutQuantizer(ICollection<Int32> colorList)
+        public MedianCutQuantizer(ConcurrentDictionary<int,int> colorDictionary)
         {
-            this.colorList = colorList;
+            this.colorList= colorDictionary.Keys;
         }
         public MedianCutQuantizer() { }
         #endregion
@@ -45,9 +46,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             }
         }
 
-        public override void SetColorList(ICollection<Int32> colorList)
+        public override void SetColorList(ConcurrentDictionary<int,int> colorDictionary)
         {
-            this.colorList = colorList;
+            this.colorList = colorDictionary.Keys;
         }
 
         Int32 GetColorCount 

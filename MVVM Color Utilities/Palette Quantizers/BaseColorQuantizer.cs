@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
+using System.Collections.Concurrent;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
+    /// <summary>
+    /// Uses an array of Colors to generate a palette of given size.
+    /// </summary>
     public abstract class BaseColorQuantizer
     {
         /// <summary>
         /// Sets the colors that will be sorted through.
         /// </summary>
-        /// <param name="colorList"></param>
-        public abstract void SetColorList(ICollection<Int32> colorList);
+        /// <param name="colorDictionary"></param>
+        public abstract void SetColorList(ConcurrentDictionary<int,int> colorDictionary);
         /// <summary>
         /// Generated Color Palette.
         /// </summary>
