@@ -23,7 +23,7 @@ namespace MVVM_Color_Utilities.Helpers
         #endregion
     }
     /// <summary>
-    /// Contains tools to find pixel colors on screen.
+    /// Contains color converters and pixel color finder.
     /// </summary>
     public static class ColorUtils
     {

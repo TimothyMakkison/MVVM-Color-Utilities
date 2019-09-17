@@ -26,8 +26,8 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private bool _addingModeBool = true;
         private int _selectedItemIndex=0;
 
-        private string _inputNameString;
-        private string _inputHexString;
+        private string _inputNameString="";
+        private string _inputHexString="";
 
         private SolidColorBrush _inputBrush = Brushes.White;
         #region ICommands
@@ -108,15 +108,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 OnPropertyChanged("AddingModeBool");
             }
         }
-        public ObservableCollection<ColorClass> ColorListSource
+        public ObservableCollection<ListColorClass> ColorListSource
         {
             get
             {
                 return SharedUtils.ColorClassList;
             }
         }
-        private ColorClass _selectedItem ;
-        public ColorClass SelectedValue
+        private ListColorClass _selectedItem ;
+        public ListColorClass SelectedValue
         {
             get
             {

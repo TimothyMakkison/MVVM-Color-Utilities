@@ -40,6 +40,5 @@ namespace MVVM_Color_Utilities
         {
             this.Close();
         }
-
     }
 }

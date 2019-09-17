@@ -15,5 +15,7 @@ Image Quantizer
 ImageAnalyzer
 	Add threading
 
+Shared hex to brush
+
 Icons
 look at base classes

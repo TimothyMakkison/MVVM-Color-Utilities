@@ -27,7 +27,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private BaseColorQuantizer _selectedQuantizer = QuantizerList[0];
         private int _selectedColorCount =16;
 
-        private ObservableCollection<ColorClass> _sampleColorSource;
+        private ObservableCollection<IAColorClass> _sampleColorSource;
 
         private ICommand _openCommand;
 
@@ -63,7 +63,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <summary>
         /// Contains image palette
         /// </summary>
-        public ObservableCollection<ColorClass> SampleColorSource
+        public ObservableCollection<IAColorClass> SampleColorSource
         {
             get
             {
@@ -152,64 +152,12 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private void GetNewPalette()
         {
-            ObservableCollection<ColorClass> newColorSource = new ObservableCollection<ColorClass>();
+            ObservableCollection<IAColorClass> newColorSource = new ObservableCollection<IAColorClass>();
             foreach (Color color in model.GetPalette())
             {
-                newColorSource.Add(new ColorClass(color));
+                newColorSource.Add(new IAColorClass(color));
             }
             SampleColorSource = newColorSource;
-        }
-        #endregion
-    }
-
-    class ColorClass
-    {
-        #region Fields
-        private ICommand _saveColorCommand;
-        #endregion
-
-        #region Constructor
-        public ColorClass(Color color)
-        {
-            Color = ColorUtils.ColorToBrush(color);
-            ColorHex = ColorUtils.ColorToHex(color);
-        }
-        #endregion
-
-        #region Properties
-        public System.Windows.Media.SolidColorBrush Color { get; set; }
-        public string ColorHex { get; set; }
-        #endregion
-
-        #region Commands
-        public ICommand SaveColorCommand
-        {
-            get
-            {
-                if (_saveColorCommand == null)
-                {
-                    _saveColorCommand = new RelayCommand(param => SaveColorMethod());
-                }
-                return _saveColorCommand;
-            }
-        }
-        #endregion
-
-        #region Methods
-        /// <summary>
-        /// Saves color to shared ColorList.    
-        /// </summary>
-        /// <returns></returns>
-        private bool SaveColorMethod()
-        {
-            try
-            {
-                int ID = SharedUtils.NextID;
-                SharedUtils.ColorClassList.Insert(0, new Helpers.ColorClass(ID, ColorHex, "Color " + ID.ToString()));
-                SharedUtils.SaveColorsList();
-                return true;
-            }
-            catch { return false; }
         }
         #endregion
     }
