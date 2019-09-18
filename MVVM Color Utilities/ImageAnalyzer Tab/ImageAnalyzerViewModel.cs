@@ -72,7 +72,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _sampleColorSource = value;
-                MessageBox.Show("crashing");
                 OnPropertyChanged("SampleColorSource");
             }
         }
@@ -90,7 +89,9 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 model.SetQuantizer(_selectedQuantizer);
                 Debug.WriteLine("IA Quantizer set to " + _selectedQuantizer.Name.ToString());
                 //Dispatcher.CurrentDispatcher.Invoke(() => SampleColorSource = GetNewPalette());
-                Task.Run(() => GetNewPalette());
+                //Task.Run(() => GetNewPalette());
+                GetNewPalette();
+
             }
         }
         #endregion
@@ -108,8 +109,9 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 _selectedColorCount = value;
                 model.SetColorCount(_selectedColorCount);
                 Debug.WriteLine("IA Color count set to " + _selectedColorCount.ToString());
-                //Task.Run(() => GetNewPalette());
                 //Dispatcher.CurrentDispatcher.Invoke(() => GetNewPalette());
+                //Task.Run(() => GetNewPalette());
+                GetNewPalette();
             }
         }
         #endregion
@@ -135,16 +137,13 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private void OpenFile()
         {
-            //Task.Run(() => GetNewPalette());
-
-            dialogBox.ShowDialog();
-            string path = dialogBox.FileName;
-            if (path != "" && SelectedPath != path) //Checks that the path exists and is not the previous path.
+            if (dialogBox.ShowDialog() == true && SelectedPath != dialogBox.FileName) //Checks that the path exists and is not the previous path.
             {
-                SelectedPath = path;
-                model.SetBitmap(new Bitmap(Image.FromFile(path)));
-                Task.Run(() => GetNewPalette());
+                SelectedPath = dialogBox.FileName;
+                model.SetBitmap(new Bitmap(Image.FromFile(SelectedPath)));
                 //Dispatcher.CurrentDispatcher.Invoke(() => GetNewPalette());
+                //Task.Run(() => GetNewPalette());
+                GetNewPalette();
             }
         }
         /// <summary>

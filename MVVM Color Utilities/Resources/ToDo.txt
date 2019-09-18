@@ -1,9 +1,9 @@
 ﻿ListColors
 	Shared list header layout
-	Add regex
 	Rework add edit mode backgrounds
 	Select same item after editing/deleting
 	On list change, save
+	Support for adding hash as hex
 
 ImageBuffer 
 	Use multithreading (Get -> Get-> (Generate))

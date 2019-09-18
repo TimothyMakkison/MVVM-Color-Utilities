@@ -13,8 +13,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
     {
         #region Fields
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();
-        private List<Color> _palette = new List<Color>();
         private ICollection<Int32> colorList = new List<Int32>();
+        private List<Color> _palette = new List<Color>();
         #endregion
 
         #region Constructor
@@ -26,13 +26,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         #endregion
 
         #region Properties
-        public override string Name
-        {
-            get
-            {
-                return "MedianCutQuantizer";
-            }
-        }
+        public override string Name { get; }= "MedianCutQuantizer";
 
         public override List<Color> Palette
         {
@@ -45,13 +39,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 _palette = value;
             }
         }
-
-        public override void SetColorList(ConcurrentDictionary<int,int> colorDictionary)
-        {
-            this.colorList = colorDictionary.Keys;
-        }
-
-        Int32 GetColorCount 
+        public override int GetColorCount 
         {
             get
             {
@@ -61,6 +49,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         #endregion
 
         #region Methods
+        public override void SetColorList(ConcurrentDictionary<int, int> colorDictionary)
+        {
+            this.colorList = colorDictionary.Keys;
+        }
         public void SplitCubes(Int32 colorCount)
         {
             // creates a holder for newly added cubes

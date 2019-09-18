@@ -88,6 +88,7 @@
     <Compile Include="Palette Quantizers\Median Cut\MedianCutCube.cs" />
     <Compile Include="Palette Quantizers\Median Cut\MedianCutQuantizer.cs" />
     <Compile Include="Helpers\ColorUtils.cs" />
+    <Compile Include="Palette Quantizers\PopularityQuantizer.cs" />
     <Compile Include="ViewModel\Helper Classes\IPageViewModel.cs" />
     <Compile Include="Helpers\MathHelpers.cs" />
     <Compile Include="ViewModel\Helper Classes\ObservableObjects.cs" />

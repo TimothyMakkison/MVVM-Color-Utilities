@@ -36,7 +36,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 if(_originalBitmap != value)
                 {
                     _originalBitmap = value;
-                    colorDictionary.Clear();
+                    ColorDictionary.Clear();
                     Palette = new List<Color>();
                     GeneratedBitmap = _defaultBitmap;
                 }
@@ -84,7 +84,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <summary>
         /// Stores all of the colors in the bitmap.
         /// </summary>
-        public ConcurrentDictionary<int, int> colorDictionary { get; private set; } = new ConcurrentDictionary<int, int>();
+        public ConcurrentDictionary<int, int> ColorDictionary { get; private set; } = new ConcurrentDictionary<int, int>();
         /// <summary>
         /// Returns the generated palette
         /// </summary>
@@ -109,7 +109,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             {
                 Debug.WriteLine("Fail, Original Bitmap is null");
             }
-            else if(colorDictionary.Count> 0)
+            else if(ColorDictionary.Count> 0)
             {
                 Debug.WriteLine("Success, ColorList already generated");
             }
@@ -126,7 +126,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                         Int32 key = pixelColor.R << 16 | pixelColor.G << 8 | pixelColor.B;
                         newColorList.AddOrUpdate(key, 1, (keyValue, value) => value + 1);
                     }
-                colorDictionary = newColorList;
+                ColorDictionary = newColorList;
                 Debug.WriteLine("Success, Found "+newColorList.Count.ToString()+" colors");
             }
         }
@@ -144,9 +144,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 
                 return true;
             }
-            else if (colorDictionary.Count > 0  && ActiveQuantizer!= null && ColorCount>0)
+            else if (ColorDictionary.Count > 0  && ActiveQuantizer!= null && ColorCount>0)
             {
-                _activeQuantizer.SetColorList(colorDictionary);
+                _activeQuantizer.SetColorList(ColorDictionary);
                 Palette = _activeQuantizer.GetPalette(ColorCount);
                 Debug.WriteLine("Success, Generated palette of "+ Palette.Count+" colors");
                 return true;
