@@ -13,16 +13,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
     {
         #region Fields
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();
-        private ICollection<Int32> colorList = new List<Int32>();
         private List<Color> _palette = new List<Color>();
-        #endregion
-
-        #region Constructor
-        public MedianCutQuantizer(ConcurrentDictionary<int,int> colorDictionary)
-        {
-            this.colorList= colorDictionary.Keys;
-        }
-        public MedianCutQuantizer() { }
         #endregion
 
         #region Properties
@@ -39,21 +30,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 _palette = value;
             }
         }
-        public override int GetColorCount 
-        {
-            get
-            {
-                return Palette.Count;
-            }
-        }
         #endregion
 
         #region Methods
-        public override void SetColorList(ConcurrentDictionary<int, int> colorDictionary)
-        {
-            this.colorList = colorDictionary.Keys;
-        }
-        public void SplitCubes(Int32 colorCount)
+        private void SplitCubes(Int32 colorCount)
         {
             // creates a holder for newly added cubes
             List<MedianCutCube> newCubes = new List<MedianCutCube>();
@@ -82,24 +62,24 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             }
         }
         /// <summary>
-        /// 
+        /// Generates Palette of same length or less than colorCount.
         /// </summary>
         /// <param name="colorCount"></param>
         /// <returns></returns>
-        public override List<Color> GetPalette(Int32 colorCount)
+        public override List<Color> GetPalette(Int32 colorCount, ConcurrentDictionary<int, int> colorDictionary)
         {
             cubeList.Clear();
-            cubeList.Add(new MedianCutCube(colorList));
+            cubeList.Add(new MedianCutCube(colorDictionary.Keys));
+            Palette.Clear();
 
-            if (colorList.Count == 0)//Returns empty if it has nothing to sort through.
+            if (colorDictionary.Count == 0)//Returns empty if it has nothing to sort through.
             {
                 return Palette;
             }
-            Palette.Clear();
 
             // finds the minimum iterations needed to achieve the cube count (color count) we need
             Int32 iterationCount = 1;
-            while ((1 << iterationCount) < colorCount) { iterationCount++; }
+            while ((1 << iterationCount) < colorCount) { iterationCount++; }//Equivalent of Log2(colorCount)
 
             for (Int32 iteration = 0; iteration < iterationCount; iteration++)
             {
@@ -118,7 +98,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             // returns the palette (should contain <= ColorCount colors)
             return Palette;
         }
-
+        /// <summary>
+        /// Returns index of the most similar color in Palette.
+        /// </summary>
+        /// <param name="color">Target Color</param>
+        /// <returns></returns>
         public override Int32 GetPaletteIndex(Color color)
         {
             //If palette doesnt include color then -1 is returned

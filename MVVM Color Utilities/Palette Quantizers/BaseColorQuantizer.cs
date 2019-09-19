@@ -11,9 +11,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     public abstract class BaseColorQuantizer
     {
         #region Fields
-        private ICollection<Int32> colorList = new List<Int32>();
         private List<Color> _palette = new List<Color>();
         #endregion
+
         #region Properties
         /// <summary>
         /// Sets the display name of derived quantizer.
@@ -38,27 +38,13 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         /// <param name="colorCount"></param>
         /// <returns></returns>
-        public abstract List<Color> GetPalette(Int32 colorCount);
+        public abstract List<Color> GetPalette(Int32 colorCount,ConcurrentDictionary<int, int> colorDictionary);
         /// <summary>
-        /// Returns the most similar  <see cref="Palette"/> index to the input color.
+        /// Returns index of the most similar color in Palette.
         /// </summary>
-        /// <param name="color"></param>
+        /// <param name="color">Original Color</param>
         /// <returns></returns>
         public abstract int GetPaletteIndex(Color color);
         #endregion
-        /// <summary>
-        /// Sets the colors that will be sorted through.
-        /// </summary>
-        /// <param name="colorDictionary"></param>
-        public abstract void SetColorList(ConcurrentDictionary<int,int> colorDictionary);
-      
-
-        public virtual int GetColorCount
-        {
-            get
-            {
-                return Palette.Count;
-            }
-        }
     }
 }
