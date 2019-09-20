@@ -106,16 +106,12 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public bool ScanBitmapColors()
         {
-            if (OriginalBitmap.IsNull("OriginalBitmap"))
-            {
-                return false;
-            }
-            else if (!ColorDictionary.IsNullOrEmpty())
+            if (!ColorDictionary.IsNullOrEmpty())//Checks to see it hasn't been scanned.
             {
                 Debug.WriteLine("Success, ColorDictionary already generated");
                 return true;
             }
-            else
+            else if(!OriginalBitmap.IsNull("OriginalBitmap"))
             {
                 //Iterates through each pixel adding it to the colorList
                 ConcurrentDictionary<int, int> newColorDict = new ConcurrentDictionary<int, int>();
@@ -131,6 +127,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 Debug.WriteLine("ScanBitmap Success, Found " + newColorDict.Count.ToString() + " colors");
                 return true;
             }
+            else
+            {
+                return false;
+            }
         }
         /// <summary>
         /// Generates a new Palette.
@@ -138,7 +138,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <returns>Returns success of operation</returns>
         public bool GetPalette()
         {
-            if(!Palette.IsNullOrEmpty())
+            if(!Palette.IsNullOrEmpty())//Checks that palette hasn't been made alreay.
             {
                 Debug.WriteLine("Success, Palette of size " + Palette.Count+ " already generated");
                 return true;
@@ -152,15 +152,17 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
             else
             {
+                Debug.WriteLine("Fail, cannot generate palette");
                 return false;
             }
         }
         /// <summary>
-        /// Uses the currentBitmap and Palette to generate a approximate image.
+        /// Uses the CurrentBitmap and Palette to generate an approximate image.
         /// </summary>
+        /// <returns>Returns success of operation.</returns>
         public bool GenerateNewImage()
         {
-            if(GeneratedBitmap != _defaultBitmap)
+            if(GeneratedBitmap != _defaultBitmap)//Checks that GeneratedBitmap hasn't been formed yet.
             {
                 Debug.WriteLine("Success, bitmap already generated");
                 return true;
@@ -169,6 +171,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 && !ActiveQuantizer.IsNull("ActiveQuantizer"))
             {
                 GeneratedBitmap = new Bitmap(OriginalBitmap.Width, OriginalBitmap.Height);
+
                 for (int x = 0; x < OriginalBitmap.Width; x++)
                     for (int y = 0; y < OriginalBitmap.Height; y++)
                     {
@@ -190,13 +193,19 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         /// <param name="path">Path</param>
         /// <param name="format">Image Format</param>
-        public void SaveGeneratedImage(string path, System.Drawing.Imaging.ImageFormat format)
+        /// <returns>Bool of success of operation</returns>
+        public bool SaveGeneratedImage(string path, System.Drawing.Imaging.ImageFormat format)
         {
             try
             {
                 GeneratedBitmap.Save(path, format);
+                return true;
             }
-            catch { Debug.WriteLine("Failed saving image to "+path); }
+            catch
+            {
+                Debug.WriteLine("Failed saving image to "+path);
+                return false;
+            }
         }
         #endregion
     }

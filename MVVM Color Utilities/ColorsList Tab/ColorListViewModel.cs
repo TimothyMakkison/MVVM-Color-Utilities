@@ -23,6 +23,8 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
         private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
 
+        private ListColorClass _selectedItem;
+
         private bool _addingModeBool = true;
         private int _selectedItemIndex=0;
 
@@ -83,13 +85,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 {
                     _inputHexString = value;
                     OnPropertyChanged("InputHex");
+                    IndicatorBrush = _hexColorReg.IsMatch(_inputHexString)
+                        ? new SolidColorBrush((Color)ColorConverter.ConvertFromString(_inputHexString)):
+                        IndicatorBrush = Brushes.White;
                 }
-                if(_hexColorReg.IsMatch(value))
-                {
-                    //Sets indicator to the new color
-                    IndicatorBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(value));
-                }
-                else { IndicatorBrush = Brushes.White; }
+              
             }
         }
         #endregion
@@ -115,7 +115,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 return SharedUtils.ColorClassList;
             }
         }
-        private ListColorClass _selectedItem ;
         public ListColorClass SelectedValue
         {
             get
@@ -146,7 +145,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             }
             set
             {
-                _selectedItemIndex = value;
+                _selectedItemIndex =  MathUtils.Clamp(0, ColorListSource.Count - 1, value);
                 OnPropertyChanged("SelectedItemIndex");
             }
         } 
@@ -259,6 +258,10 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             int currentIndex = SelectedItemIndex;
             SharedUtils.EditColorItem(SelectedItemIndex, InputHex, InputName);
             SelectedItemIndex = currentIndex;
+            if(ColorListSource.Count >0 && currentIndex == 0)
+            {
+                SelectedValue = ColorListSource[0];
+            }
         }
         /// <summary>
         /// Deletes selected item.
@@ -268,7 +271,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             int currentIndex = SelectedItemIndex;
             SharedUtils.DeleteColorItem(SelectedItemIndex);
             SelectedItemIndex = currentIndex;
-        }
+            if (ColorListSource.Count > 0 && currentIndex == 0)
+            {
+                SelectedValue = ColorListSource[0];
+            }
+            }
         /// <summary>
         /// Gets the color of the pixel location.
         /// </summary>

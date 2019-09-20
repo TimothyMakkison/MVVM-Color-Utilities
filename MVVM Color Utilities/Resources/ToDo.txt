@@ -1,9 +1,7 @@
 ﻿ListColors
-	Shared list header layout
+	Matching list header layout
 	Rework add edit mode backgrounds
-	Select same item after editing/deleting
 	On list change, save
-	Support for adding hash as hex
 
 ImageBuffer 
 	Use multithreading (Get -> Get-> (Generate))
@@ -18,4 +16,3 @@ ImageAnalyzer
 Shared hex to brush
 
 Icons
-look at base classes

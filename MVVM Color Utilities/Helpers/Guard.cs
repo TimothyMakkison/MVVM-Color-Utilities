@@ -11,17 +11,18 @@ namespace MVVM_Color_Utilities.Helpers
         /// <summary>
         /// Checks if an object is null.
         /// </summary>
-        /// <param name="argument">Target object</param>
-        /// <returns></returns>
+        /// <param name="argument">Object</param>
+        /// <returns>Returns true if null.</returns>
         public static bool IsNull(this Object argument)
         {
             return argument == null;
         }
         /// <summary>
-        /// Checks if an object is null
+        /// Checks if an object is null, if true then writes to debug.
         /// </summary>
         /// <param name="argument">Object</param>
         /// <param name="argumentName">Object name</param>
+        /// <returns>Returns true if null.</returns>
         public static bool IsNull(this Object argument, String argumentName)
         {
             if (argument==null)
@@ -36,7 +37,7 @@ namespace MVVM_Color_Utilities.Helpers
 
         #region Enumerable
         /// <summary>
-        /// Returns a true value if type is null or empty.
+        /// Checks if type is null or empty.
         /// </summary>
         /// <typeparam name="T">Extended type</typeparam>
         /// <param name="enumerable">Type name</param>
@@ -55,12 +56,12 @@ namespace MVVM_Color_Utilities.Helpers
             return !enumerable.Any();
         }
         /// <summary>
-        /// Returns a true value if type is null or empty and prints a message to debug.
+        /// Checks if type is null or empty, if true then writes a message to debug.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="enumerable">Extended type</param>
         /// <param name="typeName">Type Name</param>
-        /// <returns></returns>
+        /// <returns>Returns true if value is null or empty</returns>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable, string typeName)
         {
             if (enumerable.IsNullOrEmpty())
@@ -87,7 +88,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// Checks if integer is equal to 0, if true then writes to debug.
         /// </summary>
         /// <param name="integer">Integer</param>
-        /// <param name="integerName"></param>
+        /// <param name="integerName">IntegerName</param>
         /// <returns></returns>
         public static bool IsEmpty(this int integer,string integerName)
         {
