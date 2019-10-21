@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Collections.Concurrent;
 using System.Windows;
+using System.Diagnostics;
 
 
 namespace MVVM_Color_Utilities.Palette_Quantizers 
@@ -34,7 +35,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 
         #region Methods
         public override List<Color> GetPalette(int colorCount,ConcurrentDictionary<int, int> colorDictionary)
-        {
+        { 
             if (colorDictionary.Count > 0)
             {
                 Palette.Clear();
@@ -45,16 +46,17 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                     gridIndexColorDict.AddOrUpdate(gridIndex, colorDictionary[key], 
                         (keyValue, value) => value + colorDictionary[key]);
                 }
-                var myList = gridIndexColorDict.ToList();
-                myList.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
 
-                foreach(KeyValuePair<int,int> item in myList)
+                var sortedDict = gridIndexColorDict.ToList();
+                sortedDict.Sort((pair1, pair2) => pair2.Value.CompareTo(pair1.Value));
+
+                foreach (KeyValuePair<int,int> item in sortedDict.Take(colorCount))
                 {
-                    if (Palette.Count < colorCount)
-                    {
-                        Palette.Add(GridIndexToColor(item.Key));
-                    }
+                    Palette.Add(GridIndexToColor(item.Key));
                 }
+
+                //var temp = sortedDict.Take(colorCount).ForEach();
+                //var ree = sortedDict.ForEach(temp => GridIndexToColor(temp.Key));
             }
 
             return Palette;
@@ -78,14 +80,19 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <returns></returns>
         public override int GetPaletteIndex(Color color)
         {
-            int bestIndex=4;
+            //base.GetPaletteIndex();
+            if (!Palette.Any())
+            {
+                throw new ArgumentException("Cannot find a similar color match as Palette is empty. Try GetPalette first.", "Palette");
+            }
+            int bestIndex =0;
             int bestDistance = int.MaxValue;
             for(int i =0; i<Palette.Count; i++)
             {
                 int distance = EuclideanDistance(color, Palette[i]);
                 if (distance < bestDistance)
                 {
-                    if (distance < 27) //if color is in an cell.
+                    if (distance <= 27) //if color is in an cell.
                     {
                         return i;
                     }

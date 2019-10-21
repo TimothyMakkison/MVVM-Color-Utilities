@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Collections.Concurrent;
+using System.Linq;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
@@ -38,13 +39,20 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         /// <param name="colorCount"></param>
         /// <returns></returns>
-        public abstract List<Color> GetPalette(Int32 colorCount,ConcurrentDictionary<int, int> colorDictionary);
+        public abstract List<Color> GetPalette(Int32 colorCount, ConcurrentDictionary<int, int> colorDictionary);
         /// <summary>
         /// Returns index of the most similar color in Palette.
         /// </summary>
         /// <param name="color">Original Color</param>
         /// <returns></returns>
-        public abstract int GetPaletteIndex(Color color);
+        public virtual int GetPaletteIndex(Color color)
+        {
+            if (!Palette.Any())
+            {
+                throw new ArgumentException("Cannot access Palette as it is empty. Try GetPalette first.","Palette");
+            }
+            return 0;
+        }
         #endregion
     }
 }
