@@ -57,7 +57,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _selectedPath = value;
-                OnPropertyChanged("SelectedPath");
+                OnPropertyChanged();
             }
         }
         /// <summary>
@@ -72,7 +72,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _sampleColorSource = value;
-                OnPropertyChanged("SampleColorSource");
+                OnPropertyChanged();
             }
         }
         #region QuantizerList

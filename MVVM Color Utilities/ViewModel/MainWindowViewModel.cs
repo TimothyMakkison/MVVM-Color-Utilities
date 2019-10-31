@@ -67,7 +67,7 @@ namespace MVVM_Color_Utilities.ViewModel
                 if (_currentPageViewModel != value)
                 {
                     _currentPageViewModel = value;
-                    OnPropertyChanged("CurrentPageViewModel");
+                    OnPropertyChanged();
                 }
             }
         }

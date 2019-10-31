@@ -55,7 +55,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set
             {
                 _inputBrush = value;
-                OnPropertyChanged("IndicatorBrush");
+                OnPropertyChanged();
             }
         }
         #endregion
@@ -70,7 +70,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set
             {
                 _inputNameString = value;
-                OnPropertyChanged("InputName");
+                OnPropertyChanged();
             }
         }
         public string InputHex
@@ -84,7 +84,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 if (_hexCharactersReg.IsMatch(value)||value=="")//Only allows valid hex charcters ie start with # and the 1-9a-f
                 {
                     _inputHexString = value;
-                    OnPropertyChanged("InputHex");
+                    OnPropertyChanged();
                     IndicatorBrush = _hexColorReg.IsMatch(_inputHexString)
                         ? new SolidColorBrush((Color)ColorConverter.ConvertFromString(_inputHexString)):
                         IndicatorBrush = Brushes.White;
@@ -105,7 +105,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set
             {
                 _addingModeBool = value;
-                OnPropertyChanged("AddingModeBool");
+                OnPropertyChanged();
             }
         }
         public ObservableCollection<ListColorClass> ColorListSource
@@ -134,7 +134,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                     InputHex = "";
                     InputName = "";
                 }
-                OnPropertyChanged("SelectedItem");
+                OnPropertyChanged();
             }
         }
         public int SelectedItemIndex
@@ -146,7 +146,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set
             {
                 _selectedItemIndex =  MathUtils.Clamp(0, ColorListSource.Count - 1, value);
-                OnPropertyChanged("SelectedItemIndex");
+                OnPropertyChanged();
             }
         } 
         #endregion

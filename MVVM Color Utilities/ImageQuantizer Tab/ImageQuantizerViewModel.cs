@@ -58,7 +58,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set
             {
                 _selectedPath = value;
-                OnPropertyChanged("SelectedPath");
+                OnPropertyChanged();
             }
         }
         /// <summary>
@@ -73,7 +73,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set
             {
                 _generatedBitmap = value;
-                OnPropertyChanged("GeneratedBitmap");
+                OnPropertyChanged();
             }
         }
         #region QuantizerList

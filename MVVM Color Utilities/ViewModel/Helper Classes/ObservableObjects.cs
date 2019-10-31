@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
 {
@@ -6,7 +7,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             var handler = PropertyChanged;
             if (PropertyChanged != null)
