@@ -13,32 +13,18 @@ namespace MVVM_Color_Utilities
         }
 
         private void DragWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
+            => this.DragMove();
 
-        bool maximized = false;
         private void MinimizeWindowButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
+            => this.WindowState = WindowState.Minimized;
 
+        private bool maximized = false;
         private void ChangeWindowState_Click(object sender, RoutedEventArgs e)
         {
-            if (maximized)
-            {
-                this.WindowState = WindowState.Normal;
-                maximized = false;
-            }
-            else
-            {
-                this.WindowState = WindowState.Maximized;
-                maximized = true;
-            }
+            this.WindowState = maximized ? WindowState.Normal : WindowState.Maximized;
+            maximized = !maximized;
         }
-        private void CloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
+        private void CloseWindow_Click(object sender, RoutedEventArgs e) 
+            => this.Close();
     }
 }
