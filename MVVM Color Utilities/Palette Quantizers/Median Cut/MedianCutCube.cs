@@ -111,6 +111,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// <param name="secondMedianCutCube">The second created cube.</param>
         public void SplitAtMedian(sbyte componentIndex, out MedianCutCube firstMedianCutCube, out MedianCutCube secondMedianCutCube)
         {
+            int a = componentIndex switch
+            {
+                0=>4,
+            }
+
             List<Int32> colors;
 
             switch (componentIndex)

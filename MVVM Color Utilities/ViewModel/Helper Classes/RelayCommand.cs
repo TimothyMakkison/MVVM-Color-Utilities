@@ -38,10 +38,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         /// <param name="canExecute">The execution status logic.</param>
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
-
-            _execute = execute;
+            _execute = execute ?? throw new ArgumentNullException("Execution logic is null");
             _canExecute = canExecute;
         }
 

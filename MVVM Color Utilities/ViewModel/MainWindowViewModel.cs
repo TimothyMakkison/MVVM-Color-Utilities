@@ -9,7 +9,6 @@ namespace MVVM_Color_Utilities.ViewModel
     public class MainWindowViewModel : ObservableObject
     {
         #region Fields
-
         private ICommand _changePageCommand;
         private IPageViewModel _currentPageViewModel;
         private List<IPageViewModel> _pageViewModels;

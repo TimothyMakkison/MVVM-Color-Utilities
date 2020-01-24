@@ -89,7 +89,7 @@
             <Rectangle Height="18" Width="60" Fill="White"/>
             <Rectangle Height="18" Width="60" Fill="{Binding IndicatorBrush}" Stroke="Gray" StrokeThickness="0.4"/>
             
-            <TextBox Grid.Column="1" Width="160" Text="{Binding InputName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Column="1" Width="160" Text="{Binding InputName}" />
             <TextBox Grid.Column="2" Width="80" Text="{Binding InputHex, UpdateSourceTrigger=PropertyChanged}"/>
             
             <Button Grid.Column="4" Command="{Binding Path=SampleColorCommand}">

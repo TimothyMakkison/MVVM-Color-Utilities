@@ -60,23 +60,23 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <Rectangle  Grid.Column="1" Fill="{StaticResource BurgundyBrush}" Name="DragWindow" MouseDown="DragWindow_MouseDown"/>
+        <Rectangle Grid.Column="1" Fill="{StaticResource BurgundyBrush}" MouseDown="DragWindow_MouseDown"/>
         
         <!--Contains window content of chosen tab-->
         <ContentControl Grid.Column="1" Grid.RowSpan="2" Content="{Binding CurrentPageViewModel}" />
 
         <!--#region Window Controls-->
-        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" x:Name="Stack" Margin="7,0,0,0">
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Margin="7,0,0,0">
             <!--Minimise-->
-            <Button Click="MinimizeWindowButton_Click" x:Name="MinimizeWindowButton">
-                <materialDesign:PackIcon Kind="Remove"  Background="{x:Null}" BorderBrush="{x:Null}"/>
+            <Button Click="MinimizeWindowButton_Click">
+                <materialDesign:PackIcon Kind="Remove" Background="{x:Null}" BorderBrush="{x:Null}"/>
             </Button>
             <!--Toggle Window State-->
-            <Button Click="ChangeWindowState_Click" x:Name="ChangeWindowState" >
+            <Button Click="ChangeWindowState_Click">
                 <materialDesign:PackIcon Kind="CropSquare"  Background="{x:Null}" BorderBrush="{x:Null}"/>
             </Button>
             <!--Close Window-->
-            <Button Click="CloseWindow_Click" Height="Auto" x:Name="CloseWindow" >
+            <Button Click="CloseWindow_Click">
                 <materialDesign:PackIcon Kind="Close"  Background="{x:Null}" BorderBrush="{x:Null}"/>
             </Button>
         </StackPanel>
