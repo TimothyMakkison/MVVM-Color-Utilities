@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
+using MVVM_Color_Utilities.Palette_Quantizers.Naieve;
+
 using Microsoft.Win32;
 using System.Linq;
 
@@ -16,7 +18,8 @@ namespace MVVM_Color_Utilities.Helpers
         private readonly static List<BaseColorQuantizer> _quantizerList = new List<BaseColorQuantizer>
         {
             new MedianCutQuantizer(),
-            new PopularityQuantizer()
+            new PopularityQuantizer(),
+            new NaieveQuantizer(),
         };
         private readonly static List<Int32> _colorCountList =
            new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};

@@ -40,11 +40,12 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <param name="colorCount"></param>
         /// <returns></returns>
         public abstract List<Color> GetPalette(Int32 colorCount, ConcurrentDictionary<int, int> colorDictionary);
+        
         /// <summary>
         /// Returns index of the most similar color in Palette.
         /// </summary>
-        /// <param name="color">Original Color</param>
-        /// <returns></returns>
+        /// <param name="color">Target Color.</param>
+        /// <returns>Index of most similar color.</returns>
         public virtual int GetPaletteIndex(Color color)
         {
             if (!Palette.Any())
@@ -52,6 +53,17 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 throw new ArgumentException("Cannot access Palette as it is empty. Try GetPalette first.","Palette");
             }
             return 0;
+        }
+
+        /// <summary>
+        /// Throws exception if Palette is empty.
+        /// </summary>
+        protected void PaletteArgumentChecker()
+        {
+            if (!Palette.Any())
+            {
+                throw new ArgumentNullException("Palette is empty, please use GetPalette first.", "Palette");
+            }
         }
         #endregion
     }

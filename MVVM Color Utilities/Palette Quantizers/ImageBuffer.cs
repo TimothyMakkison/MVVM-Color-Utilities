@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using System.Windows;
 using System.IO;
 using System.Collections.Concurrent;
@@ -28,15 +27,12 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public Bitmap OriginalBitmap
         {
-            get
-            {
-                return _originalBitmap;
-            }
+            get => _originalBitmap;
             set
             {
-                Debug.WriteLine("Bitmap set, size is " + value.Width + "x" + value.Height+
-                    " with "+ value.Width* value.Height+" pixels");
-                if(_originalBitmap != value)
+                Debug.WriteLine("Bitmap set, size is " + value.Width + "x" + value.Height +
+                    " with " + value.Width * value.Height + " pixels");
+                if (_originalBitmap != value)
                 {
                     _originalBitmap = value;
                     ColorDictionary.Clear();
@@ -50,13 +46,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public BaseColorQuantizer ActiveQuantizer
         {
-            get
-            {
-                return _activeQuantizer;
-            }
+            get => _activeQuantizer;
             set
             {
-                if(_activeQuantizer != value)
+                if (_activeQuantizer != value)
                 {
                     _activeQuantizer = value;
                     Palette = new List<Color>();
@@ -69,10 +62,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public int ColorCount
         {
-            get
-            {
-                return _colorCount;
-            }
+            get => _colorCount;
             set
             {
                 if (_colorCount != value)

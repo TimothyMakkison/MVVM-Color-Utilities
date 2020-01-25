@@ -11,25 +11,17 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
     public class MedianCutQuantizer :BaseColorQuantizer
     {
+        //Created by Smart K8 at:
+        //https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C
+
         #region Fields
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();
-        private List<Color> _palette = new List<Color>();
         #endregion
 
         #region Properties
-        public override string Name { get; }= "MedianCutQuantizer";
+        public override string Name => "MedianCut Quantizer";
 
-        public override List<Color> Palette
-        {
-            get
-            {
-                return _palette;
-            }
-            set
-            {
-                _palette = value;
-            }
-        }
+        public override List<Color> Palette { get; set; } = new List<Color>();
         #endregion
 
         #region Methods
@@ -105,7 +97,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// <returns></returns>
         public override Int32 GetPaletteIndex(Color color)
         {
-            //If palette doesnt include color then -1 is returned
             //If palette isnt formed
             if (Palette.Count == 0)
             {
@@ -116,10 +107,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             {
                 if (cube.IsColorIn(color))
                 {
-                    //MessageBox.Show(cube.)
                     return cube.PaletteIndex;
                 }
             }
+            //If palette doesnt include color then 0 is returned
             return 0;
         }
         #endregion

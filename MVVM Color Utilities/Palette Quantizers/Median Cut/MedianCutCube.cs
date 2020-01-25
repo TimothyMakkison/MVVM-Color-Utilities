@@ -8,15 +8,14 @@ using System.Windows;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
-    class MedianCutCube
+    class MedianCutCube 
     {
         #region Fields
         private Int32 redLowBound = 255, redUpperBound = 0;
         private Int32 greenLowBound = 255, greenUpperBound = 0;
         private Int32 blueLowBound = 255, blueUpperBound = 0;
 
-        private Int32 _paletteIndex;
-        private Color _averageColor;
+        private Color avergageColor;
         private readonly ICollection<Int32> colorList;
         #endregion
 
@@ -30,17 +29,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 
         #region Properties
 
-        public Int32 PaletteIndex
-        {
-            get
-            {
-                return _paletteIndex;
-            }
-            set
-            {
-                _paletteIndex = value;
-            }
-        }
+        public int PaletteIndex { get; set; }
 
         public Color AverageColor
         {
@@ -57,9 +46,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 red = colorList.Count == 0 ? 0 : red / colorList.Count;
                 green = colorList.Count == 0 ? 0 : green / colorList.Count;
                 blue = colorList.Count == 0 ? 0 : blue / colorList.Count;
-                _averageColor = Color.FromArgb(255, red, green, blue);
+                avergageColor = Color.FromArgb(255, red, green, blue);
 
-                return _averageColor;
+                return avergageColor;
             }
         }
 
@@ -111,11 +100,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// <param name="secondMedianCutCube">The second created cube.</param>
         public void SplitAtMedian(sbyte componentIndex, out MedianCutCube firstMedianCutCube, out MedianCutCube secondMedianCutCube)
         {
-            int a = componentIndex switch
-            {
-                0=>4,
-            }
-
             List<Int32> colors;
 
             switch (componentIndex)
@@ -137,7 +121,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 
                 default:
                     throw new NotSupportedException("Only three color components are supported (R, G and B).");
-
             }
 
             // retrieves the median index (a half point)
@@ -158,9 +141,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             int red = color.R;
             int green = color.G;
             int blue = color.B;
-            return (red >= redLowBound && red <= redUpperBound) &&
-                   (green >= greenLowBound && green <= greenUpperBound) &&
-                   (blue >= blueLowBound && blue <= blueUpperBound);
+            return red >= redLowBound && red <= redUpperBound &&
+                   green >= greenLowBound && green <= greenUpperBound &&
+                   blue >= blueLowBound && blue <= blueUpperBound;
         }
         #endregion
     }
