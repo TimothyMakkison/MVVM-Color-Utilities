@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVM_Color_Utilities.Helpers.DistanceCalculator;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,6 +9,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
 {
     class NaieveQuantizer : BaseColorQuantizer
     {
+        #region Fields
+        private IDistanceCalculator distanceCalculator = new ManhattenDistance();
+        #endregion
+
         #region Properties
         public override string Name => "Naieve Quantizer";
 
@@ -19,13 +24,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
         /// <param name="colorCount">Number of colors in Palette.</param>
         /// <param name="colorDictionary">Input colors and frequencies.</param>
         /// <returns>Palette as a list of colors.</returns>
-        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary) 
-            => Palette = colorDictionary.OrderBy(x => x.Value)
-                                         .Take(colorCount)
-                                         .Select(x => Color.FromArgb((x.Key & 0xFF0000) >> 16,
-                                                                     (x.Key & 0xFF00) >> 8,
-                                                                     x.Key & 0xFF))
-                                         .ToList();
+        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary) => Palette = colorDictionary.OrderBy(x => x.Value)
+                                                    .Take(colorCount)
+                                                    .Select(x => Color.FromArgb(255, Color.FromArgb(x.Key)))
+                                                    .ToList();
 
         /// <summary>
         /// Returns index of most similar color in Palette.
@@ -40,10 +42,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
             int bestDistance = int.MaxValue;
             for (int i = 0; i < Palette.Count; i++)
             {
-                int distance = EuclideanDistance(color, Palette[i]);
+                int distance = distanceCalculator.Distance(color, Palette[i]);
                 if (distance < bestDistance)
                 {
-                    if (distance <= 12) //if color is in cell. 27 = 3 * 3^2
+                    if (distance <= 12) //if color is in cell. 9 = 3 * 3
                     {
                         return i;
                     }
@@ -52,23 +54,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
                 }
             }
             return bestIndex;
-        }
-        #endregion
-
-        #region Private Methods
-        /// <summary>
-        /// Finds the euclidean distance between two colors.
-        /// </summary>
-        /// <param name="color1">First color.</param>
-        /// <param name="color2">Second color.</param>
-        /// <returns>Distance between colors.</returns>
-        private int EuclideanDistance(Color color1, Color color2)
-        {
-            int redDifference = Math.Abs(color1.R - color2.R);
-            int greenDifference = Math.Abs(color1.G - color2.G);
-            int blueDifference = Math.Abs(color1.B - color2.B);
-
-            return redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
         }
         #endregion
     }

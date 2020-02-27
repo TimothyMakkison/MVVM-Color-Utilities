@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Windows;
 using MVVM_Color_Utilities.Helpers;
 using System.Windows.Input;
+using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -156,6 +157,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             {
                 newColorSource.Add(new IAColorClass(color));
             }
+
             SampleColorSource = newColorSource;
         }
         #endregion

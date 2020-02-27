@@ -3,6 +3,9 @@ using System.Drawing;
 
 namespace MVVM_Color_Utilities.Helpers.DistanceCalculator
 {
+    /// <summary>
+    /// Finds the euclidean distance between two objects.
+    /// </summary>
     public class EuclideanDistance : IDistanceCalculator
     {
         int IDistanceCalculator.Distance(Color a, Color b)

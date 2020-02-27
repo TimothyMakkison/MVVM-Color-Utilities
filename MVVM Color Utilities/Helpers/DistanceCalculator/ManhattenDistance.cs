@@ -3,6 +3,9 @@ using System.Drawing;
 
 namespace MVVM_Color_Utilities.Helpers.DistanceCalculator
 {
+    /// <summary>
+    /// Finds the manhatten distance between two objects.
+    /// </summary>
     public class ManhattenDistance :IDistanceCalculator
     {
         public int Distance(Color a, Color b)

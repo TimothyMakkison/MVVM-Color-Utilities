@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers
+namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
 {
     /// <summary>
     /// Divides each colors values by 4, compressing them and then creates a palette from the most common values
