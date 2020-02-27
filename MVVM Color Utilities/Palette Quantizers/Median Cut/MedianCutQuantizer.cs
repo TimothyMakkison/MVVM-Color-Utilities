@@ -1,15 +1,15 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
-using System.Collections.Concurrent;
 using System.Windows;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
-    public class MedianCutQuantizer :BaseColorQuantizer
+    public class MedianCutQuantizer : BaseColorQuantizer
     {
         //Created by Smart K8 at:
         //https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C
@@ -25,7 +25,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         #endregion
 
         #region Methods
-        private void SplitCubes(Int32 colorCount)
+        private void SplitCubes(int colorCount)
         {
             // creates a holder for newly added cubes
             List<MedianCutCube> newCubes = new List<MedianCutCube>();
@@ -33,14 +33,21 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             foreach (MedianCutCube cube in cubeList)
             {
                 // if another new cubes should be over the top; don't do it and just stop here
-                if (newCubes.Count >= colorCount) break;
+                if (newCubes.Count >= colorCount)
+                {
+                    break;
+                }
 
                 cube.SplitAtMedian(cube.ChannelIndex, out MedianCutCube newMedianCutCubeA
                     , out MedianCutCube newMedianCutCubeB);
 
                 // adds newly created cubes to our list; but one by one and if there's enough cubes stops the process
                 newCubes.Add(newMedianCutCubeA);
-                if (newCubes.Count >= colorCount) break;
+                if (newCubes.Count >= colorCount)
+                {
+                    break;
+                }
+
                 newCubes.Add(newMedianCutCubeB);
             }
 
@@ -58,7 +65,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// </summary>
         /// <param name="colorCount"></param>
         /// <returns></returns>
-        public override List<Color> GetPalette(Int32 colorCount, ConcurrentDictionary<int, int> colorDictionary)
+        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
         {
             cubeList.Clear();
             cubeList.Add(new MedianCutCube(colorDictionary.Keys));
@@ -70,16 +77,16 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             }
 
             // finds the minimum iterations needed to achieve the cube count (color count) we need
-            Int32 iterationCount = 1;
+            int iterationCount = 1;
             while ((1 << iterationCount) < colorCount) { iterationCount++; }//Equivalent of Log2(colorCount)
 
-            for (Int32 iteration = 0; iteration < iterationCount; iteration++)
+            for (int iteration = 0; iteration < iterationCount; iteration++)
             {
                 SplitCubes(colorCount);
             }
 
             // initializes the result palette
-            Int32 paletteIndex = 0;
+            int paletteIndex = 0;
 
             // adds all the cubes' colors to the palette, and mark that cube with palette index for later use
             foreach (MedianCutCube cube in cubeList)
@@ -95,7 +102,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// </summary>
         /// <param name="color">Target Color</param>
         /// <returns></returns>
-        public override Int32 GetPaletteIndex(Color color)
+        public override int GetPaletteIndex(Color color)
         {
             //If palette isnt formed
             if (Palette.Count == 0)
@@ -103,7 +110,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 return 0;
             }
             //Test every cube for whether it contains the target color
-            foreach(MedianCutCube cube in cubeList)
+            foreach (MedianCutCube cube in cubeList)
             {
                 if (cube.IsColorIn(color))
                 {

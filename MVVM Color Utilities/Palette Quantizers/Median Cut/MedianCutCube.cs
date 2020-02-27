@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
-using System.Threading.Tasks;
-using System.Windows;
+using System.Linq;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
-    class MedianCutCube 
+    internal class MedianCutCube
     {
         #region Fields
-        private Int32 redLowBound = 255, redUpperBound = 0;
-        private Int32 greenLowBound = 255, greenUpperBound = 0;
-        private Int32 blueLowBound = 255, blueUpperBound = 0;
+        private int redLowBound = 255, redUpperBound = 0;
+        private int greenLowBound = 255, greenUpperBound = 0;
+        private int blueLowBound = 255, blueUpperBound = 0;
 
         private Color avergageColor;
-        private readonly ICollection<Int32> colorList;
+        private readonly ICollection<int> colorList;
         #endregion
 
         #region Constructor
-        public MedianCutCube(ICollection<Int32> colors)
+        public MedianCutCube(ICollection<int> colors)
         {
             colorList = colors;
             Shrink();
@@ -28,26 +25,28 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         #endregion
 
         #region Properties
-
         public int PaletteIndex { get; set; }
 
         public Color AverageColor
         {
             get
             {
-                Int32 red = 0, green = 0, blue = 0;
-                foreach (Int32 argb in colorList)
+                if (avergageColor == default)
                 {
-                    Color color = Color.FromArgb(argb);
-                    red += color.R;
-                    green += color.G;
-                    blue += color.B;
-                }
-                red = colorList.Count == 0 ? 0 : red / colorList.Count;
-                green = colorList.Count == 0 ? 0 : green / colorList.Count;
-                blue = colorList.Count == 0 ? 0 : blue / colorList.Count;
-                avergageColor = Color.FromArgb(255, red, green, blue);
+                    int red = 0, green = 0, blue = 0;
+                    foreach (int argb in colorList)
+                    {
+                        Color color = Color.FromArgb(argb);
+                        red += color.R;
+                        green += color.G;
+                        blue += color.B;
+                    }
 
+                    red = colorList.Count == 0 ? 0 : red / colorList.Count;
+                    green = colorList.Count == 0 ? 0 : green / colorList.Count;
+                    blue = colorList.Count == 0 ? 0 : blue / colorList.Count;
+                    avergageColor = Color.FromArgb(255, red, green, blue);
+                }
                 return avergageColor;
             }
         }
@@ -64,11 +63,18 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 int blueSize = blueUpperBound - blueLowBound;
 
                 if (redSize >= greenSize && redSize >= blueSize)
+                {
                     return 0;
+                }
+
                 if (greenSize >= redSize && greenSize >= blueSize)
+                {
                     return 1;
+                }
                 else
+                {
                     return 2;
+                }
             }
         }
         #endregion
@@ -76,20 +82,43 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         #region Methods
         private void Shrink()
         {
-            foreach (Int32 argb in colorList)
+            foreach (int argb in colorList)
             {
                 Color color = Color.FromArgb(argb);
 
-                Int32 red = color.R;
-                Int32 green = color.G;
-                Int32 blue = color.B;
+                int red = color.R;
+                int green = color.G;
+                int blue = color.B;
 
-                if (red < redLowBound) redLowBound = red;
-                if (red > redUpperBound) redUpperBound = red;
-                if (green < greenLowBound) greenLowBound = green;
-                if (green > greenUpperBound) greenUpperBound = green;
-                if (blue < blueLowBound) blueLowBound = blue;
-                if (blue > blueUpperBound) blueUpperBound = blue;
+                if (red < redLowBound)
+                {
+                    redLowBound = red;
+                }
+
+                if (red > redUpperBound)
+                {
+                    redUpperBound = red;
+                }
+
+                if (green < greenLowBound)
+                {
+                    greenLowBound = green;
+                }
+
+                if (green > greenUpperBound)
+                {
+                    greenUpperBound = green;
+                }
+
+                if (blue < blueLowBound)
+                {
+                    blueLowBound = blue;
+                }
+
+                if (blue > blueUpperBound)
+                {
+                    blueUpperBound = blue;
+                }
             }
         }
         /// <summary>
@@ -100,7 +129,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// <param name="secondMedianCutCube">The second created cube.</param>
         public void SplitAtMedian(sbyte componentIndex, out MedianCutCube firstMedianCutCube, out MedianCutCube secondMedianCutCube)
         {
-            List<Int32> colors;
+            List<int> colors;
 
             switch (componentIndex)
             {
@@ -124,7 +153,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             }
 
             // retrieves the median index (a half point)
-            Int32 medianIndex = colorList.Count >> 1;
+            int medianIndex = colorList.Count >> 1;
 
             // creates the two half-cubes
             firstMedianCutCube = new MedianCutCube(colors.GetRange(0, medianIndex));
@@ -134,8 +163,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// <summary>
         /// Determines whether the color is within the cube.
         /// </summary>
-        /// <param name="color"></param>
-        /// <returns></returns>
+        /// <param name="color">Target color</param>
+        /// <returns>Whether cube contains target color.</returns>
         public bool IsColorIn(Color color)
         {
             int red = color.R;

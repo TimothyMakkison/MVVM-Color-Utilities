@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using MVVM_Color_Utilities.Palette_Quantizers.Naieve;
+using MVVM_Color_Utilities.Palette_Quantizers.Octree;
+
 
 using Microsoft.Win32;
 using System.Linq;
@@ -20,6 +22,7 @@ namespace MVVM_Color_Utilities.Helpers
             new MedianCutQuantizer(),
             new PopularityQuantizer(),
             new NaieveQuantizer(),
+            new OctreeQuantizer(),
         };
         private readonly static List<Int32> _colorCountList =
            new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
@@ -33,21 +36,9 @@ namespace MVVM_Color_Utilities.Helpers
         { Filter = "JPG (*.jpg;*.jpeg)|(*.jpg;*.jpeg)", Title = "Save Image" };
         //|PNG(*.png)| (*.png)|BMP(*.bmp)| (*.bmp)"
 
-        public static List<Int32> ColorCountList
-        {
-            get
-            {
-                return _colorCountList.ToList();
-            }
-        }
-      
-        public static List<BaseColorQuantizer> QuantizerList
-        {
-            get
-            {
-                return _quantizerList.ToList();
-            }
-        }
+        public static List<Int32> ColorCountList => _colorCountList.ToList();
+
+        public static List<BaseColorQuantizer> QuantizerList => _quantizerList.ToList();
         #endregion
     }
 }

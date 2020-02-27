@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVVM_Color_Utilities.Helpers.DistanceCalculator;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -18,6 +19,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     {
         #region Fields
         private List<Color> _palette = new List<Color>();
+
+        private IDistanceCalculator distanceCalculator = new ManhattenDistance();
         #endregion
 
         #region Properties
@@ -89,7 +92,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             int bestDistance = int.MaxValue;
             for (int i = 0; i < Palette.Count; i++)
             {
-                int distance = EuclideanDistance(color, Palette[i]);
+                int distance = distanceCalculator.Distance(color, Palette[i]);
                 if (distance < bestDistance)
                 {
                     if (distance <= 27) //if color is in cell. 27 = 3 * 3^2
@@ -101,22 +104,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 }
             }
             return bestIndex;
-        }
-        private int EuclideanDistance(Color color1, Color color2)
-        {
-            int redDifference = Math.Abs(color1.R - color2.R);
-            int greenDifference = Math.Abs(color1.G - color2.G);
-            int blueDifference = Math.Abs(color1.B - color2.B);
-
-            return redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
-        }
-        private int ManhattenDistance(Color color1, Color color2)
-        {
-            int redDifference = Math.Abs(color1.R - color2.R);
-            int greenDifference = Math.Abs(color1.G - color2.G);
-            int blueDifference = Math.Abs(color1.B - color2.B);
-
-            return redDifference + greenDifference + blueDifference;
         }
         #endregion
     }

@@ -16,9 +16,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     {
         #region Fields
         private Bitmap _originalBitmap;
-        private readonly Bitmap _defaultBitmap = new Bitmap(1, 1);
+        private readonly Bitmap _defaultBitmap = default;
         private BaseColorQuantizer _activeQuantizer;
-        private Int32 _colorCount;
+        private int _colorCount;
         #endregion
 
         #region Properties
@@ -170,6 +170,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                         GeneratedBitmap.SetPixel(x, y, Palette[index]);
                     }
                 Debug.WriteLine("Success, generated image");
+
                 return true;
             }
             else

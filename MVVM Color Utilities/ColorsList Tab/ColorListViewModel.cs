@@ -108,23 +108,14 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 OnPropertyChanged();
             }
         }
-        public ObservableCollection<ListColorClass> ColorListSource
-        {
-            get
-            {
-                return SharedUtils.ColorClassList;
-            }
-        }
+        public ObservableCollection<ListColorClass> ColorListSource => SharedUtils.ColorClassList;
         public ListColorClass SelectedValue
         {
-            get
-            {
-                return _selectedItem;
-            }
+            get => _selectedItem;
             set
             {
                 _selectedItem = value;
-                if ( _selectedItem!=null)
+                if (_selectedItem != null)
                 {
                     InputName = _selectedItem.Name;
                     InputHex = _selectedItem.Hex;
@@ -139,16 +130,13 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         }
         public int SelectedItemIndex
         {
-            get
-            {
-                return _selectedItemIndex = MathUtils.Clamp(0, ColorListSource.Count - 1, _selectedItemIndex);
-            }
+            get => _selectedItemIndex = MathUtils.Clamp(0, ColorListSource.Count - 1, _selectedItemIndex);
             set
             {
-                _selectedItemIndex =  MathUtils.Clamp(0, ColorListSource.Count - 1, value);
+                _selectedItemIndex = MathUtils.Clamp(0, ColorListSource.Count - 1, value);
                 OnPropertyChanged();
             }
-        } 
+        }
         #endregion
 
         #endregion

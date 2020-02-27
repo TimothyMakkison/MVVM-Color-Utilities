@@ -32,13 +32,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// <summary>
         /// Returns the next viable ID.
         /// </summary>
-        public static int NextID
-        {
-            get
-            {
-                return ColorClassList.Count > 0 ? ColorClassList[0].ID + 1 : 0;
-            }
-        }
+        public static int NextID => ColorClassList.Count > 0 ? ColorClassList[0].ID + 1 : 0;
         #endregion
 
         #region Methods

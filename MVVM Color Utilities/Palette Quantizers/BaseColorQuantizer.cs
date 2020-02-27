@@ -19,21 +19,18 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <summary>
         /// Sets the display name of derived quantizer.
         /// </summary>
-        public virtual string Name { get; } = "BaseColorQuantizer";
+        public virtual string Name => "BaseColorQuantizer";
         /// <summary>
         /// Generated Color Palette.
         /// </summary>
         public virtual List<Color> Palette
         {
-            get
-            {
-                return _palette;
-            }
-            set
-            {
-                _palette = value;
-            }
+            get => _palette;
+            set => _palette = value;
         }
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Generates a new palette
         /// </summary>
