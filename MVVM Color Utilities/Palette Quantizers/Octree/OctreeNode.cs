@@ -9,9 +9,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
         #region Fields 
         private Color averageColor;
 
-        private int redLowerBound, redUpperBound;
-        private int greenLowerBound, greenUpperBound;
-        private int blueLowerBound, blueUpperBound;
+        private readonly int redLowerBound, redUpperBound;
+        private readonly int greenLowerBound, greenUpperBound;
+        private readonly int blueLowerBound, blueUpperBound;
         #endregion
 
         #region Constructor

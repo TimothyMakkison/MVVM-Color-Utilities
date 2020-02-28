@@ -92,6 +92,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\DistanceCalculator\ChebyshevDistance.cs" />
     <Compile Include="Helpers\DistanceCalculator\EuclideanDistance.cs" />
     <Compile Include="Helpers\DistanceCalculator\IDistanceCalculator.cs" />
     <Compile Include="Helpers\DistanceCalculator\ManhattenDistance.cs" />

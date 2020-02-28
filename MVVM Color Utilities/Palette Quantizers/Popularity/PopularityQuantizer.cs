@@ -20,7 +20,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
         #region Fields
         private List<Color> _palette = new List<Color>();
 
-        private IDistanceCalculator distanceCalculator = new ManhattenDistance();
+        private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
         #endregion
 
         #region Properties

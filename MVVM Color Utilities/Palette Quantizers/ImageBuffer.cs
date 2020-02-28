@@ -171,6 +171,39 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                     }
                 Debug.WriteLine("Success, generated image");
 
+                #region Pixelator
+                //int division = 10;
+
+                //Bitmap temp = new Bitmap((GeneratedBitmap.Width / division) - 1, (GeneratedBitmap.Height / division) - 1);
+
+                //for (int x = 0; x < temp.Width; x++)
+                //{
+                //    for (int y = 0; y < temp.Height; y++)
+                //    {
+                //        temp.SetPixel(x, y, Sample(x * division, y * division));
+                //    }
+                //    Debug.WriteLine(x);
+                //}
+
+                //GeneratedBitmap = temp;
+
+                //Debug.WriteLine("done");
+
+                //Color Sample(int x, int y)
+                //{
+                //    ConcurrentDictionary<Color, int> color = new ConcurrentDictionary<Color, int>();
+
+                //    for (int dx = x; dx < x + division; dx++)
+                //    {
+                //        for (int dy = y; dy < y + division; dy++)
+                //        {
+                //            color.AddOrUpdate(GeneratedBitmap.GetPixel(dx, dy), 1, (keyValue, value) => value + 1);
+                //        }
+                //    }
+                //    return color.Aggregate((z, m) => z.Value > m.Value ? z : m).Key;
+                //}
+                #endregion
+
                 return true;
             }
             else

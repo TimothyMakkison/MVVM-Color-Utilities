@@ -1,31 +1,17 @@
-﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Win32;
-using MVVM_Color_Utilities.Palette_Quantizers;
+﻿using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Security;
-using System.Text;
-using System.Windows;
-using MVVM_Color_Utilities.Helpers;
-using System.Windows.Input;
-using System.Threading.Tasks;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
-    class ImageQuantizerModel : ObservableObject
+    internal class ImageQuantizerModel : ObservableObject
     {
         #region Fields
         private readonly ImageBuffer buffer = new ImageBuffer();
         #endregion
 
         #region Methods
-        
+
         #region Get Methods
         public bool GetNewImage()
         {
@@ -54,7 +40,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// <param name="quantizer"></param>
         public void SetQuantizer(BaseColorQuantizer quantizer)
         {
-            buffer.ActiveQuantizer= quantizer;
+            buffer.ActiveQuantizer = quantizer;
         }
         #endregion
 

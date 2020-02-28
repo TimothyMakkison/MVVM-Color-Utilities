@@ -12,7 +12,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
     {
         #region Fields
         private List<OctreeNode> octreeNodes = new List<OctreeNode>();
-        private IDistanceCalculator distanceCalculator = new ManhattenDistance();
+        private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
         #endregion
 
         #region Properties

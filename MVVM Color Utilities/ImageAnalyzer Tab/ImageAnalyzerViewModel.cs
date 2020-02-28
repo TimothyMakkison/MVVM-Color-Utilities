@@ -51,39 +51,22 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         public string SelectedPath
         {
-            get
-            {
-                return _selectedPath;
-            }
-            set
-            {
-                _selectedPath = value;
-                OnPropertyChanged();
-            }
+            get => _selectedPath;
+            set => SetProperty(ref _selectedPath, value);
         }
         /// <summary>
         /// Contains image palette
         /// </summary>
         public ObservableCollection<IAColorClass> SampleColorSource
         {
-            get
-            {
-                return _sampleColorSource;
-            }
-            set
-            {
-                _sampleColorSource = value;
-                OnPropertyChanged();
-            }
+            get => _sampleColorSource;
+            set => SetProperty(ref _sampleColorSource, value);
         }
         #region QuantizerList
-        public static List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
+        public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
         public BaseColorQuantizer SelectedQuantizer
         {
-            get
-            {
-                return _selectedQuantizer;
-            }
+            get => _selectedQuantizer;
             set
             {
                 _selectedQuantizer = value;
@@ -92,19 +75,15 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 //Dispatcher.CurrentDispatcher.Invoke(() => SampleColorSource = GetNewPalette());
                 //Task.Run(() => GetNewPalette());
                 GetNewPalette();
-
             }
         }
         #endregion
 
         #region ColorCountList
-        public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountList;
+        public List<Int32> ColorCountList => ImageBufferItems.ColorCountList;
         public int SelectedColorCount
         {
-            get
-            {
-                return _selectedColorCount;
-            }
+            get => _selectedColorCount;
             set
             {
                 _selectedColorCount = value;

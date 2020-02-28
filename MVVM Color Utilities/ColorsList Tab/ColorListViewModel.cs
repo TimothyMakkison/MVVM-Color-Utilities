@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Input;
 using MVVM_Color_Utilities.Helpers;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 
@@ -48,48 +49,31 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #region Brushes
         public SolidColorBrush IndicatorBrush
         {
-            get
-            {
-                return _inputBrush;
-            }
-            set
-            {
-                _inputBrush = value;
-                OnPropertyChanged();
-            }
+            get => _inputBrush;
+            set => SetProperty(ref _inputBrush, value);
         }
         #endregion
 
         #region Strings
         public string InputName
         {
-            get
-            {
-                return _inputNameString;
-            }
-            set
-            {
-                _inputNameString = value;
-                OnPropertyChanged();
-            }
+            get => _inputNameString;
+            set => SetProperty(ref _inputNameString, value);
         }
         public string InputHex
         {
-            get
-            {
-                return _inputHexString;
-            }
+            get => _inputHexString;
             set
             {
-                if (_hexCharactersReg.IsMatch(value)||value=="")//Only allows valid hex charcters ie start with # and the 1-9a-f
+                if (_hexCharactersReg.IsMatch(value) || value == "")//Only allows valid hex charcters ie start with # and the 1-9a-f
                 {
                     _inputHexString = value;
                     OnPropertyChanged();
                     IndicatorBrush = _hexColorReg.IsMatch(_inputHexString)
-                        ? new SolidColorBrush((Color)ColorConverter.ConvertFromString(_inputHexString)):
+                        ? new SolidColorBrush((Color)ColorConverter.ConvertFromString(_inputHexString)) :
                         IndicatorBrush = Brushes.White;
                 }
-              
+
             }
         }
         #endregion
@@ -98,15 +82,8 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         public PackIconKind Icon => PackIconKind.Palette;
         public bool AddingModeBool
         {
-            get
-            {
-                return _addingModeBool;
-            }
-            set
-            {
-                _addingModeBool = value;
-                OnPropertyChanged();
-            }
+            get => _addingModeBool;
+            set => SetProperty(ref _addingModeBool, value);
         }
         public ObservableCollection<ListColorClass> ColorListSource => SharedUtils.ColorClassList;
         public ListColorClass SelectedValue
@@ -114,7 +91,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             get => _selectedItem;
             set
             {
-                _selectedItem = value;
+                SetProperty(ref _selectedItem, value);
                 if (_selectedItem != null)
                 {
                     InputName = _selectedItem.Name;
@@ -125,17 +102,12 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                     InputHex = "";
                     InputName = "";
                 }
-                OnPropertyChanged();
             }
         }
         public int SelectedItemIndex
         {
             get => _selectedItemIndex = MathUtils.Clamp(0, ColorListSource.Count - 1, _selectedItemIndex);
-            set
-            {
-                _selectedItemIndex = MathUtils.Clamp(0, ColorListSource.Count - 1, value);
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _selectedItemIndex, MathUtils.Clamp(0, ColorListSource.Count - 1, value));
         }
         #endregion
 
@@ -207,14 +179,8 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #endregion
 
         #region Methods
-        void AddSwitchMethod()
-        {
-            AddingModeBool = true;
-        }
-        void EditSwitchMethod()
-        {
-            AddingModeBool = false;
-        }
+        void AddSwitchMethod() => AddingModeBool = true;
+        void EditSwitchMethod() => AddingModeBool = false;
         /// <summary>
         /// Adds or edits item depending on selected setting.
         /// </summary>
@@ -261,17 +227,13 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {
-                SelectedValue = ColorListSource[0];
+                SelectedValue = ColorListSource.FirstOrDefault();
             }
             }
         /// <summary>
         /// Gets the color of the pixel location.
         /// </summary>
-        void SampleColorMethod()
-        {
-            Color color =  ColorUtils.GetCursorColor();
-            InputHex = ColorUtils.ColorToHex(color);
-        }
+        void SampleColorMethod() => InputHex = ColorUtils.ColorToHex(ColorUtils.GetCursorColor());
         #endregion
     }
 }

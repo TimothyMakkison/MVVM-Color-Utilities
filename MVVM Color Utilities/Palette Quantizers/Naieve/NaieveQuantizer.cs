@@ -10,7 +10,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
     class NaieveQuantizer : BaseColorQuantizer
     {
         #region Fields
-        private IDistanceCalculator distanceCalculator = new ManhattenDistance();
+        private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
         #endregion
 
         #region Properties

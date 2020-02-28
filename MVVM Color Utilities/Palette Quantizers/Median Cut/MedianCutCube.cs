@@ -12,7 +12,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         private int greenLowBound = 255, greenUpperBound = 0;
         private int blueLowBound = 255, blueUpperBound = 0;
 
-        private Color avergageColor;
+        private Color averageColor;
         private readonly ICollection<int> colorList;
         #endregion
 
@@ -31,26 +31,13 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         {
             get
             {
-                if (avergageColor == default)
+                if(averageColor == default)
                 {
-                    int red = 0, green = 0, blue = 0;
-                    foreach (int argb in colorList)
-                    {
-                        Color color = Color.FromArgb(argb);
-                        red += color.R;
-                        green += color.G;
-                        blue += color.B;
-                    }
-
-                    red = colorList.Count == 0 ? 0 : red / colorList.Count;
-                    green = colorList.Count == 0 ? 0 : green / colorList.Count;
-                    blue = colorList.Count == 0 ? 0 : blue / colorList.Count;
-                    avergageColor = Color.FromArgb(255, red, green, blue);
+                    averageColor = GetAverageColor();
                 }
-                return avergageColor;
+                return averageColor;
             }
         }
-
         /// <summary>
         /// Gets the index of the greatest length axis in the cube. 0 = Red, 1 = Green, 2 = Blue.
         /// </summary>
@@ -80,6 +67,29 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         #endregion
 
         #region Methods
+        /// <summary>
+        /// Calculcates the cubes average color by summing and averaging every color item.
+        /// </summary>
+        /// <returns>Cubes average color</returns>
+        private Color GetAverageColor()
+        {
+            int red = 0, green = 0, blue = 0;
+            foreach (int argb in colorList)
+            {
+                Color color = Color.FromArgb(argb);
+                red += color.R;
+                green += color.G;
+                blue += color.B;
+            }
+
+            red = colorList.Count == 0 ? 0 : red / colorList.Count;
+            green = colorList.Count == 0 ? 0 : green / colorList.Count;
+            blue = colorList.Count == 0 ? 0 : blue / colorList.Count;
+            return Color.FromArgb(255, red, green, blue);
+        }
+        /// <summary>
+        /// Reduce bounds to range of rgb values.
+        /// </summary>
         private void Shrink()
         {
             foreach (int argb in colorList)

@@ -51,57 +51,38 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         public string SelectedPath
         {
-            get
-            {
-                return _selectedPath;
-            }
-            set
-            {
-                _selectedPath = value;
-                OnPropertyChanged();
-            }
+            get => _selectedPath;
+            set => SetProperty(ref _selectedPath, value);
         }
         /// <summary>
         /// Displayed by save bitmap button
         /// </summary>
         public System.Windows.Media.Imaging.BitmapImage GeneratedBitmap
         {
-            get
-            {
-                return _generatedBitmap;
-            }
-            set
-            {
-                _generatedBitmap = value;
-                OnPropertyChanged();
-            }
+            get => _generatedBitmap;
+            set => SetProperty(ref _generatedBitmap, value);
         }
+
         #region QuantizerList
-        public static List<BaseColorQuantizer> QuantizerList { get; } = ImageBufferItems.QuantizerList;
+        public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
         public BaseColorQuantizer SelectedQuantizer
         {
-            get
-            {
-                return _selectedQuantizer;
-            }
+            get => _selectedQuantizer;
             set
             {
                 _selectedQuantizer = value;
                 model.SetQuantizer(_selectedQuantizer);
                 Debug.WriteLine("IQ Quantizer set to " + _selectedQuantizer.Name.ToString());
-                Task.Run(()=>GenerateNewImage());
+                Task.Run(() => GenerateNewImage());
             }
         }
         #endregion
 
         #region ColorCountList
-        public List<Int32> ColorCountList { get; } = ImageBufferItems.ColorCountList;
+        public List<int> ColorCountList => ImageBufferItems.ColorCountList;
         public int SelectedColorCount
         {
-            get
-            {
-                return _selectedColorCount;
-            }
+            get => _selectedColorCount;
             set
             {
                 _selectedColorCount = value;
