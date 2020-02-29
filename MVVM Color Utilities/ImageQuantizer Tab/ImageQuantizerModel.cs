@@ -36,19 +36,10 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// Sets the quantizer that will read the bitmap.
         /// </summary>
         /// <param name="quantizer"></param>
-        public void SetQuantizer(BaseColorQuantizer quantizer)
-        {
-            buffer.ActiveQuantizer = quantizer;
-        }
+        public void SetQuantizer(BaseColorQuantizer quantizer) => buffer.ActiveQuantizer = quantizer;
         #endregion
 
-        public Bitmap GeneratedBitmap
-        {
-            get
-            {
-                return buffer.GeneratedBitmap;
-            }
-        }
+        public Bitmap GeneratedBitmap => buffer.GeneratedBitmap;
         /// <summary>
         /// Save generated image to location and with given type.
         /// </summary>

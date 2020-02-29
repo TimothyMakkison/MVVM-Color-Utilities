@@ -16,14 +16,25 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        #region Singleton
         protected T Singleton<T>(ref T storage, Func<T> func)
         {
-            if(storage == null)
+            if (storage == null)
             {
                 storage = func.Invoke();
             }
             return storage;
         }
+        protected T Singleton<T>(ref T storage, bool empty, Func<T> func)
+        {
+            if (empty)
+            {
+                storage = func.Invoke();
+            }
+            return storage;
+        }
+        #endregion
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {

@@ -92,6 +92,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
         #endregion
+
         #endregion
 
         #region Commands
@@ -149,14 +150,12 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         private void GenerateNewImage()
         {
-            if(model.GeneratedBitmap != null)
+            Debug.WriteLine("private Generating new image");
+
+            if (!model.GeneratedBitmap.IsNull())
             {
                 GeneratedBitmap = Imageutils.ConvertToBitmapImage(model.GeneratedBitmap);
             }
-            //if (model.GetNewImage())
-            //{
-            //    GeneratedBitmap = Imageutils.ConvertToBitmapImage(model.GeneratedBitmap);
-            //}
         }
         #endregion
     }
