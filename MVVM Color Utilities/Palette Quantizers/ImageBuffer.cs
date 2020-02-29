@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using MVVM_Color_Utilities.Helpers;
+using System.Runtime.InteropServices;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
@@ -106,13 +107,31 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 //Iterates through each pixel adding it to the colorList
                 ConcurrentDictionary<int, int> newColorDict = new ConcurrentDictionary<int, int>();
 
-                for (int x = 0; x < OriginalBitmap.Width; x++)
-                    for (int y = 0; y < OriginalBitmap.Height; y++)
-                    {
-                        Color pixelColor = OriginalBitmap.GetPixel(x, y);
-                        Int32 key = pixelColor.R << 16 | pixelColor.G << 8 | pixelColor.B;
-                        newColorDict.AddOrUpdate(key, 1, (keyValue, value) => value + 1);
-                    }
+                Stopwatch s = new Stopwatch();
+                s.Start();
+
+                var m = new Bitmap(OriginalBitmap);
+
+                var t = m.LockBits(new Rectangle(0, 0, OriginalBitmap.Width, OriginalBitmap.Height),
+                                        System.Drawing.Imaging.ImageLockMode.ReadOnly,
+                                        OriginalBitmap.PixelFormat);
+
+                var pixelBytes = t.Scan0;
+                var Pixels = new byte[OriginalBitmap.Width * OriginalBitmap.Height * 4];
+                Marshal.Copy(pixelBytes, Pixels, 0, Pixels.Length);
+
+                for (int i = 0; i < Pixels.Length - 2; i += 4)
+                {
+                    int key = Pixels[i + 2] << 16 | Pixels[i + 1] << 8 | Pixels[i];
+                    newColorDict.AddOrUpdate(key, 1, (keyValue, value) => value + 1);
+                }
+
+                Debug.WriteLine(s.ElapsedMilliseconds);
+
+                s.Restart();
+
+                Debug.WriteLine(s.ElapsedMilliseconds);
+
                 ColorDictionary = newColorDict;
                 Debug.WriteLine("ScanBitmap Success, Found " + newColorDict.Count.ToString() + " colors");
                 return true;
@@ -161,6 +180,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 && !ActiveQuantizer.IsNull("ActiveQuantizer"))
             {
                 GeneratedBitmap = new Bitmap(OriginalBitmap.Width, OriginalBitmap.Height);
+
 
                 for (int x = 0; x < OriginalBitmap.Width; x++)
                     for (int y = 0; y < OriginalBitmap.Height; y++)

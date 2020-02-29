@@ -84,6 +84,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public int SelectedColorCount
         {
             get => _selectedColorCount;
+
             set
             {
                 _selectedColorCount = value;
