@@ -6,6 +6,7 @@
 ImageBuffer 
 	Use multithreading (Get -> Get-> (Generate))
 	Refactor
+	Recursively generate values
 
 Image Quantizer
 	Ditherer

@@ -16,7 +16,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        protected T Singleteon<T>(ref T storage, Func<T> func)
+        protected T Singleton<T>(ref T storage, Func<T> func)
         {
             if(storage == null)
             {

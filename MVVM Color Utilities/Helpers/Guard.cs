@@ -13,17 +13,14 @@ namespace MVVM_Color_Utilities.Helpers
         /// </summary>
         /// <param name="argument">Object</param>
         /// <returns>Returns true if null.</returns>
-        public static bool IsNull(this Object argument)
-        {
-            return argument == null;
-        }
+        public static bool IsNull(this object argument) => argument == null;
         /// <summary>
         /// Checks if an object is null, if true then writes to debug.
         /// </summary>
         /// <param name="argument">Object</param>
         /// <param name="argumentName">Object name</param>
         /// <returns>Returns true if null.</returns>
-        public static bool IsNull(this Object argument, String argumentName)
+        public static bool IsNull(this object argument, string argumentName)
         {
             if (argument==null)
             {
@@ -48,8 +45,7 @@ namespace MVVM_Color_Utilities.Helpers
             {
                 return true;
             }
-            var collection = enumerable as ICollection<T>;
-            if (collection != null)
+            if (enumerable is ICollection<T> collection)
             {
                 return collection.Count < 1;
             }

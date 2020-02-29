@@ -37,7 +37,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <returns></returns>
         public List<Color> GetPalette()
         {
-            buffer.ScanBitmapColors();
+            buffer.GetBitmapColors();
             buffer.GetPalette();
             return buffer.Palette;
         }

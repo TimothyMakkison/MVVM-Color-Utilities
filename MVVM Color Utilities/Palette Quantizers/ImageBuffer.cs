@@ -17,10 +17,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     class ImageBuffer 
     {
         #region Fields
-        private Bitmap _originalBitmap;
-        private readonly Bitmap _defaultBitmap = default;
-        private BaseColorQuantizer _activeQuantizer;
-        private int _colorCount;
+        private Bitmap originalBitmap;
+        private ConcurrentDictionary<int, int> bitmapColors;
+        private BaseColorQuantizer activeQuantizer;
+        private int colorCount;
+        private List<Color> palette;
         #endregion
 
         #region Properties
@@ -29,33 +30,34 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public Bitmap OriginalBitmap
         {
-            get => _originalBitmap;
+            get => originalBitmap;
             set
             {
                 Debug.WriteLine("Bitmap set, size is " + value.Width + "x" + value.Height +
                     " with " + value.Width * value.Height + " pixels");
-                if (_originalBitmap != value)
+                if (originalBitmap != value)
                 {
-                    _originalBitmap = value;
-                    ColorDictionary.Clear();
-                    Palette = new List<Color>();
-                    GeneratedBitmap = _defaultBitmap;
+                    originalBitmap = value;
+                    BitmapColors.Clear();
+                    Palette.Clear();
+                    GeneratedBitmap = null;
                 }
             }
         }
+       
         /// <summary>
         /// Currently selected quantizer.
         /// </summary>
         public BaseColorQuantizer ActiveQuantizer
         {
-            get => _activeQuantizer;
+            get => activeQuantizer;
             set
             {
-                if (_activeQuantizer != value)
+                if (activeQuantizer != value)
                 {
-                    _activeQuantizer = value;
-                    Palette = new List<Color>();
-                    GeneratedBitmap = _defaultBitmap;
+                    activeQuantizer = value;
+                    Palette.Clear();
+                    GeneratedBitmap = null;
                 }
             }
         }
@@ -64,30 +66,64 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public int ColorCount
         {
-            get => _colorCount;
+            get => colorCount;
             set
             {
-                if (_colorCount != value)
+                if (colorCount != value)
                 {
-                    _colorCount = value;
-                    Palette = new List<Color>();
-                    GeneratedBitmap = _defaultBitmap;
+                    colorCount = value;
+                    GeneratedBitmap = null;
+                    Palette.Clear();
                 }
             }
         }
         #region Dependant Properties
-        /// <summary>
-        /// Stores all of the colors in the bitmap.
-        /// </summary>
-        public ConcurrentDictionary<int, int> ColorDictionary { get; private set; } = new ConcurrentDictionary<int, int>();
-        /// <summary>
-        /// Returns the generated palette
-        /// </summary>
-        public List<Color> Palette { get; private set; } = new List<Color>();
+        private Bitmap generatedBitmap;
         /// <summary>
         /// Generated bitmap
         /// </summary>
-        public Bitmap GeneratedBitmap { get; private set; }
+        public Bitmap GeneratedBitmap
+        {
+            get
+            {
+                if (generatedBitmap.IsNull())
+                {
+                    generatedBitmap = GenerateNewImage();
+                }
+                return generatedBitmap;
+            }
+            set => generatedBitmap = value;
+        }
+        ///// <summary>
+        ///// Stores all of the colors in the bitmap.
+        ///// </summary>
+        //public ConcurrentDictionary<int, int> ColorDictionary { get; private set; } = new ConcurrentDictionary<int, int>();
+        public ConcurrentDictionary<int, int> BitmapColors
+        {
+            get
+            {
+                if (bitmapColors == null || bitmapColors.IsEmpty)
+                {
+                    bitmapColors = GetBitmapColors();
+                }
+                return bitmapColors;
+            }
+        }
+        /// <summary>
+        /// Returns the generated palette
+        /// </summary>
+        public List<Color> Palette
+        {
+            get
+            {
+                if (palette.IsNullOrEmpty())
+                {
+                    palette = GetPalette();
+                }
+                return palette;
+            }
+        }
+       
         #endregion
 
         #endregion
@@ -96,137 +132,114 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <summary>
         /// Iterates through OriginalBitmap, adding each color to the ColorList.
         /// </summary>
-        public bool ScanBitmapColors()
+        public ConcurrentDictionary<int, int> GetBitmapColors()
         {
-            if (!ColorDictionary.IsNullOrEmpty())//Checks to see it hasn't been scanned.
-            {
-                Debug.WriteLine("Success, ColorDictionary already generated");
-                return true;
-            }
-            else if(!OriginalBitmap.IsNull("OriginalBitmap"))
-            {
-                ConcurrentDictionary<int, int> newColorDict = new ConcurrentDictionary<int, int>();
+            Debug.WriteLine($"Scanning bitmap for colors");
 
-                //Gets the raw pixel data from bitmap and reads each 4 byte segment as a color.
-                using (Bitmap lockableBitmap = new Bitmap(OriginalBitmap))
+            if (OriginalBitmap.IsNull())
+            {
+                return new ConcurrentDictionary<int, int>();
+            }
+
+            ConcurrentDictionary<int, int> colorDict = new ConcurrentDictionary<int, int>();
+
+            //Gets the raw pixel data from bitmap and reads each 4 byte segment as a color.
+            using (Bitmap lockableBitmap = new Bitmap(OriginalBitmap))
+            {
+                //Get raw bitmap data 
+                BitmapData bitmapData = lockableBitmap.LockBits(new Rectangle(0, 0, lockableBitmap.Width, lockableBitmap.Height),
+                                        ImageLockMode.ReadOnly,
+                                        lockableBitmap.PixelFormat);
+
+                IntPtr pixelBytes = bitmapData.Scan0; //Get byte array of every pixel
+                byte[] Pixels = new byte[OriginalBitmap.Width * OriginalBitmap.Height * 4];
+                Marshal.Copy(pixelBytes, Pixels, 0, Pixels.Length);
+
+                //Iterate through each 4 byte group calculating the color value
+                Parallel.For(0, Pixels.Length / 4, i =>
                 {
-                    //Get raw bitmap data 
-                    BitmapData bitmapData = lockableBitmap.LockBits(new Rectangle(0, 0, OriginalBitmap.Width, OriginalBitmap.Height),
-                                            ImageLockMode.ReadOnly,
-                                            OriginalBitmap.PixelFormat);
-
-                    IntPtr pixelBytes = bitmapData.Scan0; //Get byte array of every pixel
-                    byte[] Pixels = new byte[OriginalBitmap.Width * OriginalBitmap.Height * 4];
-                    Marshal.Copy(pixelBytes, Pixels, 0, Pixels.Length);
-
-                    //Iterate through each 4 byte group calculating the color value
-                    Parallel.For(0, Pixels.Length / 4, i =>
-                    {
-                        i *= 4;
-                        int key = Pixels[i + 2] << 16 | Pixels[i + 1] << 8 | Pixels[i];
-                        newColorDict.AddOrUpdate(key, 1, (keyValue, value) => value + 1);
-                    });
-                }
-
-                ColorDictionary = newColorDict;
-                Debug.WriteLine("ScanBitmap Success, Found " + newColorDict.Count.ToString() + "unique colors");
-                return true;
+                    i *= 4;
+                    int key = Pixels[i + 2] << 16 | Pixels[i + 1] << 8 | Pixels[i];
+                    colorDict.AddOrUpdate(key, 1, (keyValue, value) => value + 1);
+                });
             }
-            else
-            {
-                return false;
-            }
+
+            Debug.WriteLine($"ScanBitmap Success, Found {colorDict.Count.ToString()} unique colors");
+            return colorDict;
         }
         /// <summary>
         /// Generates a new Palette.
         /// </summary>
         /// <returns>Returns success of operation</returns>
-        public bool GetPalette()
+        public List<Color> GetPalette()
         {
-            if(!Palette.IsNullOrEmpty())//Checks that palette hasn't been made alreay.
+            if (BitmapColors.IsNullOrEmpty())
             {
-                Debug.WriteLine("Success, Palette of size " + Palette.Count+ " already generated");
-                return true;
+                Debug.WriteLine("Get palette returning null values");
+
+                return new List<Color>();
             }
-            else if (!ColorDictionary.IsNullOrEmpty("ColorDictionary") && !ActiveQuantizer.IsNull("ActiveQuantizer")
-                && !ColorCount.IsEmpty("ColorCount"))
-            {
-                Palette = _activeQuantizer.GetPalette(ColorCount,ColorDictionary);
-                Debug.WriteLine("Success, Generated palette of " + Palette.Count+" unique colors");
-                return true;
-            }
-            else
-            {
-                Debug.WriteLine("Fail, cannot generate palette");
-                return false;
-            }
+            var palette = activeQuantizer.GetPalette(ColorCount, BitmapColors);
+            Debug.WriteLine("Success, Generated palette of " + palette.Count + " unique colors");
+            return palette;
         }
         /// <summary>
         /// Uses the CurrentBitmap and Palette to generate an approximate image.
         /// </summary>
         /// <returns>Returns success of operation.</returns>
-        public bool GenerateNewImage()
+        public Bitmap GenerateNewImage()
         {
-            if(GeneratedBitmap != _defaultBitmap)//Checks that GeneratedBitmap hasn't been formed yet.
+            Debug.WriteLine("Generating new image");
+            if (OriginalBitmap.IsNull())
             {
-                Debug.WriteLine("Success, bitmap already generated");
-                return true;
+                return null;
             }
-            else if (!OriginalBitmap.IsNull("OrigninalBitmap") && !Palette.IsNullOrEmpty("Palette") 
-                && !ActiveQuantizer.IsNull("ActiveQuantizer"))
-            {
-                GeneratedBitmap = new Bitmap(OriginalBitmap.Width, OriginalBitmap.Height);
+            var newBitmap = new Bitmap(OriginalBitmap.Width, OriginalBitmap.Height);
+            var n= Palette;
 
+            for (int x = 0; x < newBitmap.Width; x++)
+                for (int y = 0; y < newBitmap.Height; y++)
+                {
+                    Color pixelColor = OriginalBitmap.GetPixel(x, y);
+                    int index = ActiveQuantizer.GetPaletteIndex(pixelColor);
+                    newBitmap.SetPixel(x, y, Palette[index]);
+                }
+            Debug.WriteLine("Success, generated image");
 
-                for (int x = 0; x < OriginalBitmap.Width; x++)
-                    for (int y = 0; y < OriginalBitmap.Height; y++)
-                    {
-                        Color pixelColor = OriginalBitmap.GetPixel(x, y);
-                        int index = ActiveQuantizer.GetPaletteIndex(pixelColor);
-                        GeneratedBitmap.SetPixel(x, y, Palette[index]);
-                    }
-                Debug.WriteLine("Success, generated image");
+            #region Pixelator
+            //int division = 10;
 
-                #region Pixelator
-                //int division = 10;
+            //Bitmap temp = new Bitmap((GeneratedBitmap.Width / division) - 1, (GeneratedBitmap.Height / division) - 1);
 
-                //Bitmap temp = new Bitmap((GeneratedBitmap.Width / division) - 1, (GeneratedBitmap.Height / division) - 1);
+            //for (int x = 0; x < temp.Width; x++)
+            //{
+            //    for (int y = 0; y < temp.Height; y++)
+            //    {
+            //        temp.SetPixel(x, y, Sample(x * division, y * division));
+            //    }
+            //    Debug.WriteLine(x);
+            //}
 
-                //for (int x = 0; x < temp.Width; x++)
-                //{
-                //    for (int y = 0; y < temp.Height; y++)
-                //    {
-                //        temp.SetPixel(x, y, Sample(x * division, y * division));
-                //    }
-                //    Debug.WriteLine(x);
-                //}
+            //GeneratedBitmap = temp;
 
-                //GeneratedBitmap = temp;
+            //Debug.WriteLine("done");
 
-                //Debug.WriteLine("done");
+            //Color Sample(int x, int y)
+            //{
+            //    ConcurrentDictionary<Color, int> color = new ConcurrentDictionary<Color, int>();
 
-                //Color Sample(int x, int y)
-                //{
-                //    ConcurrentDictionary<Color, int> color = new ConcurrentDictionary<Color, int>();
+            //    for (int dx = x; dx < x + division; dx++)
+            //    {
+            //        for (int dy = y; dy < y + division; dy++)
+            //        {
+            //            color.AddOrUpdate(GeneratedBitmap.GetPixel(dx, dy), 1, (keyValue, value) => value + 1);
+            //        }
+            //    }
+            //    return color.Aggregate((z, m) => z.Value > m.Value ? z : m).Key;
+            //}
+            #endregion
 
-                //    for (int dx = x; dx < x + division; dx++)
-                //    {
-                //        for (int dy = y; dy < y + division; dy++)
-                //        {
-                //            color.AddOrUpdate(GeneratedBitmap.GetPixel(dx, dy), 1, (keyValue, value) => value + 1);
-                //        }
-                //    }
-                //    return color.Aggregate((z, m) => z.Value > m.Value ? z : m).Key;
-                //}
-                #endregion
-
-                return true;
-            }
-            else
-            {
-                Debug.WriteLine("Fail, Either OriginalBitmap or Palette is null");
-                return false;
-            }
+            return newBitmap;
         }
         /// <summary>
         /// Save generated image to location and with given type.
@@ -234,7 +247,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <param name="path">Path</param>
         /// <param name="format">Image Format</param>
         /// <returns>Bool of success of operation</returns>
-        public bool SaveGeneratedImage(string path, System.Drawing.Imaging.ImageFormat format)
+        public bool SaveGeneratedImage(string path, ImageFormat format)
         {
             try
             {
@@ -246,6 +259,14 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 Debug.WriteLine("Failed saving image to "+path);
                 return false;
             }
+        }
+        protected T Singleton<T>(ref T storage, Func<T> func)
+        {
+            if (storage.IsNull())
+            {
+                storage = func.Invoke();
+            }
+            return storage;
         }
         #endregion
     }

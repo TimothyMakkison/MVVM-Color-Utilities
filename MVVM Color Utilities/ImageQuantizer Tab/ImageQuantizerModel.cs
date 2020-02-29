@@ -13,11 +13,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         #region Methods
 
         #region Get Methods
-        public bool GetNewImage()
+        public void GetNewImage()
         {
-            buffer.ScanBitmapColors();
-            buffer.GetPalette();
-            return buffer.GenerateNewImage();
+            buffer.GenerateNewImage();
         }
         #endregion
 

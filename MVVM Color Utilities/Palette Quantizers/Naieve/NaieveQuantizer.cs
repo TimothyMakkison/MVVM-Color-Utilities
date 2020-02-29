@@ -24,7 +24,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
         /// <param name="colorCount">Number of colors in Palette.</param>
         /// <param name="colorDictionary">Input colors and frequencies.</param>
         /// <returns>Palette as a list of colors.</returns>
-        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary) => Palette = colorDictionary.OrderBy(x => x.Value)
+        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary) => Palette = colorDictionary.OrderByDescending(x => x.Value)
                                                     .Take(colorCount)
                                                     .Select(x => Color.FromArgb(255, Color.FromArgb(x.Key)))
                                                     .ToList();
@@ -36,7 +36,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
         /// <returns>Index of most </returns>
         public override int GetPaletteIndex(Color color)
         {
-            base.PaletteArgumentChecker();
+            PaletteArgumentChecker();
 
             int bestIndex = 0;
             int bestDistance = int.MaxValue;
