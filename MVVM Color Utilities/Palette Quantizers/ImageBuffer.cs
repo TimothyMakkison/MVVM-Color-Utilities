@@ -10,6 +10,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using MVVM_Color_Utilities.Helpers;
 using System.Runtime.InteropServices;
+using System.Drawing.Imaging;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
@@ -104,36 +105,31 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
             else if(!OriginalBitmap.IsNull("OriginalBitmap"))
             {
-                //Iterates through each pixel adding it to the colorList
                 ConcurrentDictionary<int, int> newColorDict = new ConcurrentDictionary<int, int>();
 
-                Stopwatch s = new Stopwatch();
-                s.Start();
-
-                var m = new Bitmap(OriginalBitmap);
-
-                var t = m.LockBits(new Rectangle(0, 0, OriginalBitmap.Width, OriginalBitmap.Height),
-                                        System.Drawing.Imaging.ImageLockMode.ReadOnly,
-                                        OriginalBitmap.PixelFormat);
-
-                var pixelBytes = t.Scan0;
-                var Pixels = new byte[OriginalBitmap.Width * OriginalBitmap.Height * 4];
-                Marshal.Copy(pixelBytes, Pixels, 0, Pixels.Length);
-
-                for (int i = 0; i < Pixels.Length - 2; i += 4)
+                //Gets the raw pixel data from bitmap and reads each 4 byte segment as a color.
+                using (Bitmap lockableBitmap = new Bitmap(OriginalBitmap))
                 {
-                    int key = Pixels[i + 2] << 16 | Pixels[i + 1] << 8 | Pixels[i];
-                    newColorDict.AddOrUpdate(key, 1, (keyValue, value) => value + 1);
+                    //Get raw bitmap data 
+                    BitmapData bitmapData = lockableBitmap.LockBits(new Rectangle(0, 0, OriginalBitmap.Width, OriginalBitmap.Height),
+                                            ImageLockMode.ReadOnly,
+                                            OriginalBitmap.PixelFormat);
+
+                    IntPtr pixelBytes = bitmapData.Scan0; //Get byte array of every pixel
+                    byte[] Pixels = new byte[OriginalBitmap.Width * OriginalBitmap.Height * 4];
+                    Marshal.Copy(pixelBytes, Pixels, 0, Pixels.Length);
+
+                    //Iterate through each 4 byte group calculating the color value
+                    Parallel.For(0, Pixels.Length / 4, i =>
+                    {
+                        i *= 4;
+                        int key = Pixels[i + 2] << 16 | Pixels[i + 1] << 8 | Pixels[i];
+                        newColorDict.AddOrUpdate(key, 1, (keyValue, value) => value + 1);
+                    });
                 }
 
-                Debug.WriteLine(s.ElapsedMilliseconds);
-
-                s.Restart();
-
-                Debug.WriteLine(s.ElapsedMilliseconds);
-
                 ColorDictionary = newColorDict;
-                Debug.WriteLine("ScanBitmap Success, Found " + newColorDict.Count.ToString() + " colors");
+                Debug.WriteLine("ScanBitmap Success, Found " + newColorDict.Count.ToString() + "unique colors");
                 return true;
             }
             else
