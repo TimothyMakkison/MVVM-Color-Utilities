@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
 {
@@ -31,6 +32,14 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
             if (empty)
             {
                 storage = func.Invoke();
+            }
+            return storage;
+        }
+        protected ICommand ASingleton(ref ICommand storage, ICommand command)
+        {
+            if (storage == null)
+            {
+                storage = command;
             }
             return storage;
         }

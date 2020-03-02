@@ -101,7 +101,6 @@
     <Compile Include="Helpers\ListColorClass.cs" />
     <Compile Include="Helpers\SharedUtils.cs" />
     <Compile Include="ImageAnalyzer Tab\IAColorClass.cs" />
-    <Compile Include="ImageQuantizer Tab\ImageQuantizerModel.cs" />
     <Compile Include="ImageQuantizer Tab\ImageQuantizerView.xaml.cs">
       <DependentUpon>ImageQuantizerView.xaml</DependentUpon>
     </Compile>

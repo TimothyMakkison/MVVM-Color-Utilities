@@ -1,46 +1,39 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
+using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
-using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Windows;
-using MVVM_Color_Utilities.Helpers;
-using System.Windows.Input;
-using System.Linq;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using System.Reflection;
+using System.Drawing;
+using System.Windows.Input;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
     /// <summary>
     /// ViewModel for ImageAnalyzer, gets the constituent colors of an image.
     /// </summary>
-    class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
+    internal class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
         private string _selectedPath;
         private BaseColorQuantizer _selectedQuantizer = QuantizerList[0];
-        private int _selectedColorCount =16;
+        private int _selectedColorCount = 16;
 
         private ObservableCollection<IAColorClass> _sampleColorSource;
 
         private ICommand _openCommand;
 
         private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
-        private readonly ImageAnalyzerModel model = new ImageAnalyzerModel();
+        private readonly ImageBuffer imageBuffer = new ImageBuffer();
         #endregion
 
         #region Constructor
         public ImageAnalyzerViewModel()
         {
-            model.SetQuantizer(SelectedQuantizer);
-            model.SetColorCount(SelectedColorCount );
+            imageBuffer.ActiveQuantizer = SelectedQuantizer;
+            imageBuffer.ColorCount = SelectedColorCount;
         }
         #endregion
 
@@ -70,28 +63,23 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 _selectedQuantizer = value;
-                model.SetQuantizer(_selectedQuantizer);
+                imageBuffer.ActiveQuantizer = _selectedQuantizer;
                 Debug.WriteLine("IA Quantizer set to " + _selectedQuantizer.Name.ToString());
-                //Dispatcher.CurrentDispatcher.Invoke(() => SampleColorSource = GetNewPalette());
-                //Task.Run(() => GetNewPalette());
                 GetNewPalette();
             }
         }
         #endregion
 
         #region ColorCountList
-        public List<Int32> ColorCountList => ImageBufferItems.ColorCountList;
+        public List<int> ColorCountList => ImageBufferItems.ColorCountList;
         public int SelectedColorCount
         {
             get => _selectedColorCount;
-
             set
             {
                 _selectedColorCount = value;
-                model.SetColorCount(_selectedColorCount);
+                imageBuffer.ColorCount = _selectedColorCount;
                 Debug.WriteLine("IA Color count set to " + _selectedColorCount.ToString());
-                //Dispatcher.CurrentDispatcher.Invoke(() => GetNewPalette());
-                //Task.Run(() => GetNewPalette());
                 GetNewPalette();
             }
         }
@@ -121,9 +109,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             if (dialogBox.ShowDialog() == true && SelectedPath != dialogBox.FileName) //Checks that the path exists and is not the previous path.
             {
                 SelectedPath = dialogBox.FileName;
-                model.SetBitmap(new Bitmap(Image.FromFile(SelectedPath)));
-                //Dispatcher.CurrentDispatcher.Invoke(() => GetNewPalette());
-                //Task.Run(() => GetNewPalette());
+                imageBuffer.OriginalBitmap = new Bitmap(Image.FromFile(SelectedPath));
                 GetNewPalette();
             }
         }
@@ -133,7 +119,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private void GetNewPalette()
         {
             ObservableCollection<IAColorClass> newColorSource = new ObservableCollection<IAColorClass>();
-            foreach (Color color in model.GetPalette())
+            foreach (Color color in imageBuffer.Palette)
             {
                 newColorSource.Add(new IAColorClass(color));
             }

@@ -22,25 +22,27 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     class ImageQuantizerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
-        private string _selectedPath;
-        private BaseColorQuantizer _selectedQuantizer = QuantizerList[0];
-        private int _selectedColorCount = 16;
+        private string selectedPath;
+        private BaseColorQuantizer selectedQuantizer = QuantizerList[0];
+        private int selectedColorCount = 16;
 
-        System.Windows.Media.Imaging.BitmapImage _generatedBitmap;
+        System.Windows.Media.Imaging.BitmapImage generatedBitmap;
 
-        private ICommand _openCommand;
-        private ICommand _saveCommand;
+        private ICommand openCommand;
+        private ICommand saveCommand;
 
         private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
         private readonly SaveFileDialog saveDialogBox = ImageBufferItems.SaveDialogBox;
-        private readonly ImageQuantizerModel model = new ImageQuantizerModel();
+        //private readonly ImageQuantizerModel model = new ImageQuantizerModel();
+
+        private readonly ImageBuffer imageBuffer = new ImageBuffer();
         #endregion
 
         #region Constructor
         public ImageQuantizerViewModel()
         {
-            model.SetQuantizer(SelectedQuantizer);
-            model.SetColorCount(SelectedColorCount);
+            imageBuffer.ActiveQuantizer = SelectedQuantizer;
+            imageBuffer.ColorCount = SelectedColorCount;
         }
         #endregion
 
@@ -51,29 +53,37 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         public string SelectedPath
         {
-            get => _selectedPath;
-            set => SetProperty(ref _selectedPath, value);
+            get => selectedPath;
+            set => SetProperty(ref selectedPath, value);
         }
         /// <summary>
         /// Displayed by save bitmap button
         /// </summary>
         public System.Windows.Media.Imaging.BitmapImage GeneratedBitmap
         {
-            get => _generatedBitmap;
-            set => SetProperty(ref _generatedBitmap, value);
+            get
+            {
+                //if (!model.GeneratedBitmap.IsNull())
+                //{
+                //    _generatedBitmap =     Imageutils.ConvertToBitmapImage(imageBuffer.GeneratedBitmap);
+                //}
+                //return _generatedBitmap
+                return generatedBitmap;
+            }
+            set => SetProperty(ref generatedBitmap, value);
         }
 
         #region QuantizerList
         public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
         public BaseColorQuantizer SelectedQuantizer
         {
-            get => _selectedQuantizer;
+            get => selectedQuantizer;
             set
             {
-                _selectedQuantizer = value;
-                model.SetQuantizer(_selectedQuantizer);
-                Debug.WriteLine("IQ Quantizer set to " + _selectedQuantizer.Name.ToString());
-                Task.Run(() => GenerateNewImage());
+                selectedQuantizer = value;
+                imageBuffer.ActiveQuantizer = selectedQuantizer;
+                Debug.WriteLine("IQ Quantizer set to " + selectedQuantizer.Name.ToString());
+                GenerateNewImage();
             }
         }
         #endregion
@@ -82,13 +92,13 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         public List<int> ColorCountList => ImageBufferItems.ColorCountList;
         public int SelectedColorCount
         {
-            get => _selectedColorCount;
+            get => selectedColorCount;
             set
             {
-                _selectedColorCount = value;
-                model.SetColorCount(_selectedColorCount);
-                Debug.WriteLine("IQ Color count set to " + _selectedColorCount.ToString());
-                Task.Run(() => GenerateNewImage());
+                selectedColorCount = value;
+                imageBuffer.ColorCount  = selectedColorCount;
+                Debug.WriteLine("IQ Color count set to " + selectedColorCount.ToString());
+                GenerateNewImage();
             }
         }
         #endregion
@@ -100,22 +110,23 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         {
             get
             {
-                if (_openCommand == null)
+                //ASingleton(ref _openCommand, new RelayCommand(param => DialogGetImage()));
+                if (openCommand == null)
                 {
-                    _openCommand = new RelayCommand(param => DialogGetImage());
+                    openCommand = new RelayCommand(param => DialogGetImage());
                 }
-                return _openCommand;
+                return openCommand;
             }
         }
         public ICommand SaveCommand
         {
             get
             {
-                if (_saveCommand== null)
+                if (saveCommand== null)
                 {
-                    _saveCommand = new RelayCommand(param => DialogSaveImage());
+                    saveCommand = new RelayCommand(param => DialogSaveImage());
                 }
-                return _saveCommand;
+                return saveCommand;
             }
         }
         #endregion
@@ -130,10 +141,13 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             if (dialogBox.ShowDialog()==true && SelectedPath != dialogBox.FileName)
             {
                 SelectedPath = dialogBox.FileName;
-                model.SetBitmap(new Bitmap(Image.FromFile(SelectedPath)));
-                Task.Run(() => GenerateNewImage());
+                //imageBuffer.SetBitmap(new Bitmap(Image.FromFile(SelectedPath)));
+                imageBuffer.OriginalBitmap = new Bitmap(Image.FromFile(SelectedPath));
+
+                GenerateNewImage();
             }
         }
+
         /// <summary>
         /// Opens save dialog and saves generated image.
         /// </summary>
@@ -142,7 +156,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             if (saveDialogBox.ShowDialog() == true)
             {
                 string path = saveDialogBox.FileName;
-                model.SaveGeneratedImage(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                imageBuffer.SaveGeneratedImage(path, System.Drawing.Imaging.ImageFormat.Jpeg);
             }
         }
         /// <summary>
@@ -150,12 +164,13 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         private void GenerateNewImage()
         {
-            Debug.WriteLine("private Generating new image");
-
-            if (!model.GeneratedBitmap.IsNull())
+            Task.Run(() =>
             {
-                GeneratedBitmap = Imageutils.ConvertToBitmapImage(model.GeneratedBitmap);
-            }
+                if (!imageBuffer.GeneratedBitmap.IsNull())
+                {
+                    GeneratedBitmap = Imageutils.ConvertToBitmapImage(imageBuffer.GeneratedBitmap);
+                }
+            });
         }
         #endregion
     }

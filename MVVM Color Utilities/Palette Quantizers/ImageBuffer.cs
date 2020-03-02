@@ -35,14 +35,13 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => originalBitmap;
             set
             {
-                Debug.WriteLine("Bitmap set, size is " + value.Width + "x" + value.Height +
-                    " with " + value.Width * value.Height + " pixels");
-                if (originalBitmap != value)
+                if (SetProperty(ref originalBitmap,value))
                 {
-                    originalBitmap = value;
-                    BitmapColors.Clear();
-                    Palette.Clear();
+                    BitmapColors = new ConcurrentDictionary<int, int>();
+                    Palette = new List<Color>();
                     GeneratedBitmap = null;
+                    Debug.WriteLine($"Bitmap set, size is {value.Width}x{value.Height} " +
+                        $"with {value.Width * value.Height} pixels");
                 }
             }
         }
@@ -57,7 +56,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             {
                 if (SetProperty(ref activeQuantizer,value))
                 {
-                    Palette.Clear();
+                    Palette = new List<Color>();
                     GeneratedBitmap = null;
                 }
             }
@@ -70,22 +69,21 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => colorCount;
             set
             {
-                if (colorCount != value)
+                if (SetProperty(ref colorCount,value))
                 {
-                    colorCount = value;
                     GeneratedBitmap = null;
-                    Palette.Clear();
+                    Palette = new List<Color>();
                 }
             }
         }
-        #region Dependant Properties
+        #region Dependent Properties
         /// <summary>
         /// Generated bitmap
         /// </summary>
         public Bitmap GeneratedBitmap
         {
-            get => Singleton(ref generatedBitmap, GenerateNewImage);
-            set => generatedBitmap = value;
+            get => Singleton(ref generatedBitmap, GenerateNewBitmap);
+            set => SetProperty(ref generatedBitmap,value);
         }
 
         /// <summary>
@@ -93,11 +91,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public ConcurrentDictionary<int, int> BitmapColors
         {
-            get
-            {
-                Debug.WriteLine("Calling bit");
-                return Singleton(ref bitmapColors, bitmapColors.IsNullOrEmpty(), GetBitmapColors);
-            }
+            get =>  Singleton(ref bitmapColors, bitmapColors.IsNullOrEmpty(), GetBitmapColors);
+            set => bitmapColors = value;
         }
 
         /// <summary>
@@ -113,6 +108,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 }
                 return ActiveQuantizer.Palette;
             }
+            set => ActiveQuantizer.Palette = value;
         }
         #endregion
 
@@ -120,6 +116,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 
         #region Methods
 
+        #region Scanning bitmap
         /// <summary>
         /// Iterates through OriginalBitmap, adding each color to the ColorList.
         /// </summary>
@@ -159,12 +156,16 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             Debug.WriteLine($"ScanBitmap Success, Found {colorDict.Count.ToString()} unique colors");
             return colorDict;
         }
+        #endregion
+
+        #region Generate palette
         /// <summary>
         /// Generates a new Palette.
         /// </summary>
         /// <returns>Color palette.</returns>
         public List<Color> GetPalette()
         {
+            Debug.WriteLine("Getting palette");
             if (BitmapColors.IsNullOrEmpty())
             {
                 Debug.WriteLine("Get palette returning null values");
@@ -175,14 +176,14 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             Debug.WriteLine("Success, Generated palette of " + palette.Count + " unique colors");
             return palette;
         }
-
+        #endregion
 
         #region Generate bitmap
         /// <summary>
         /// Uses the CurrentBitmap and Palette to generate an approximate image.
         /// </summary>
         /// <returns>Generated bitmap.</returns>
-        public Bitmap GenerateNewImage()
+        public Bitmap GenerateNewBitmap()
         {
             Debug.WriteLine("Generating new image");
             if (OriginalBitmap.IsNull())
