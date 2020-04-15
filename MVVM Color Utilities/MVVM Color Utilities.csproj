@@ -92,6 +92,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\Derived Classes\AsyncObservableCollection.cs" />
     <Compile Include="Helpers\DistanceCalculator\ChebyshevDistance.cs" />
     <Compile Include="Helpers\DistanceCalculator\EuclideanDistance.cs" />
     <Compile Include="Helpers\DistanceCalculator\IDistanceCalculator.cs" />
@@ -106,7 +107,6 @@
     </Compile>
     <Compile Include="ImageQuantizer Tab\ImageQuantizerViewModel.cs" />
     <Compile Include="ColorsList Tab\ColorListViewModel.cs" />
-    <Compile Include="ImageAnalyzer Tab\ImageAnalyzerModel.cs" />
     <Compile Include="ImageAnalyzer Tab\ImageAnalyzerViewModel.cs" />
     <Compile Include="Helpers\ImageUItils.cs" />
     <Compile Include="Palette Quantizers\BaseColorQuantizer.cs" />

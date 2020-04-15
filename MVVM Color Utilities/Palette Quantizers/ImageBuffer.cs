@@ -153,7 +153,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 });
             }
 
-            Debug.WriteLine($"ScanBitmap Success, Found {colorDict.Count.ToString()} unique colors");
+            Debug.WriteLine($"ScanBitmap Success, Found {colorDict.Count} unique colors");
             return colorDict;
         }
         #endregion
@@ -190,52 +190,41 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             {
                 return null;
             }
-            var newBitmap = new Bitmap(OriginalBitmap.Width, OriginalBitmap.Height);
-            var refresh = Palette; //Call palette (quanitzer will generate palette if current is null or empty)
 
-            for (int x = 0; x < newBitmap.Width; x++)
-                for (int y = 0; y < newBitmap.Height; y++)
-                {
-                    Color pixelColor = OriginalBitmap.GetPixel(x, y);
-                    int index = ActiveQuantizer.GetPaletteIndex(pixelColor);
-                    newBitmap.SetPixel(x, y, Palette[index]);
-                }
-            Debug.WriteLine("Success, generated image");
+            if(ActiveQuantizer.Palette.IsNullOrEmpty())
+            {
+                Debug.WriteLine("\n getting pal \n");
+                Palette = GetPalette();
+            }
 
-            #region Pixelator
-            //int division = 10;
+            Bitmap lockableBitmap = new Bitmap(OriginalBitmap);
+            //Get raw bitmap data 
+            BitmapData bitmapData = lockableBitmap.LockBits(new Rectangle(0, 0, lockableBitmap.Width, lockableBitmap.Height),
+                                    ImageLockMode.ReadWrite,
+                                    lockableBitmap.PixelFormat);
 
-            //Bitmap temp = new Bitmap((GeneratedBitmap.Width / division) - 1, (GeneratedBitmap.Height / division) - 1);
+            IntPtr ptr = bitmapData.Scan0; //Get address of first line
+            byte[] rgbBytes = new byte[OriginalBitmap.Width * OriginalBitmap.Height * 4];
+            Marshal.Copy(ptr, rgbBytes, 0, rgbBytes.Length);
 
-            //for (int x = 0; x < temp.Width; x++)
-            //{
-            //    for (int y = 0; y < temp.Height; y++)
-            //    {
-            //        temp.SetPixel(x, y, Sample(x * division, y * division));
-            //    }
-            //    Debug.WriteLine(x);
-            //}
+            //Iterate through each 4 byte group calculating the color value
+            Parallel.For(0, rgbBytes.Length / 4, i =>
+            {
+                i *= 4;
+                var color = Color.FromArgb(rgbBytes[i + 2], rgbBytes[i + 1], rgbBytes[i]);
+                int index = ActiveQuantizer.GetPaletteIndex(color);
+                var newColor = Palette[index];
+                rgbBytes[i + 2] = newColor.R;
+                rgbBytes[i + 1] = newColor.G;
+                rgbBytes[i] = newColor.B;
+            });
 
-            //GeneratedBitmap = temp;
+            Marshal.Copy(rgbBytes, 0, ptr, rgbBytes.Length);
 
-            //Debug.WriteLine("done");
+            // Unlock the bits.
+            lockableBitmap.UnlockBits(bitmapData);
 
-            //Color Sample(int x, int y)
-            //{
-            //    ConcurrentDictionary<Color, int> color = new ConcurrentDictionary<Color, int>();
-
-            //    for (int dx = x; dx < x + division; dx++)
-            //    {
-            //        for (int dy = y; dy < y + division; dy++)
-            //        {
-            //            color.AddOrUpdate(GeneratedBitmap.GetPixel(dx, dy), 1, (keyValue, value) => value + 1);
-            //        }
-            //    }
-            //    return color.Aggregate((z, m) => z.Value > m.Value ? z : m).Key;
-            //}
-            #endregion
-
-            return newBitmap;
+            return lockableBitmap;
         }
         #endregion
 

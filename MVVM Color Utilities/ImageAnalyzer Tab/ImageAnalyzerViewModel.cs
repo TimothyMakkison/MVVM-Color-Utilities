@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using MVVM_Color_Utilities.Helpers.Derived_Classes;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
@@ -17,13 +19,14 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     internal class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
-        private string _selectedPath;
-        private BaseColorQuantizer _selectedQuantizer = QuantizerList[0];
-        private int _selectedColorCount = 16;
+        private string selectedPath;
+        private BaseColorQuantizer selectedQuantizer = QuantizerList[0];
+        private int selectedColorCount = ColorCountList[4];
 
-        private ObservableCollection<IAColorClass> _sampleColorSource;
+        private AsyncObservableCollection<IAColorClass> sampleColorSource 
+            = new AsyncObservableCollection<IAColorClass>();
 
-        private ICommand _openCommand;
+        private ICommand openCommand;
 
         private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
@@ -44,42 +47,42 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         public string SelectedPath
         {
-            get => _selectedPath;
-            set => SetProperty(ref _selectedPath, value);
+            get => selectedPath;
+            set => SetProperty(ref selectedPath, value);
         }
         /// <summary>
         /// Contains image palette
         /// </summary>
-        public ObservableCollection<IAColorClass> SampleColorSource
+        public AsyncObservableCollection<IAColorClass> SampleColorSource
         {
-            get => _sampleColorSource;
-            set => SetProperty(ref _sampleColorSource, value);
+            get => sampleColorSource;
+            set => SetProperty(ref sampleColorSource, value);
         }
         #region QuantizerList
         public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
         public BaseColorQuantizer SelectedQuantizer
         {
-            get => _selectedQuantizer;
+            get => selectedQuantizer;
             set
             {
-                _selectedQuantizer = value;
-                imageBuffer.ActiveQuantizer = _selectedQuantizer;
-                Debug.WriteLine("IA Quantizer set to " + _selectedQuantizer.Name.ToString());
+                selectedQuantizer = value;
+                imageBuffer.ActiveQuantizer = selectedQuantizer;
+                Debug.WriteLine("IA Quantizer set to " + selectedQuantizer.Name.ToString());
                 GetNewPalette();
             }
         }
         #endregion
 
         #region ColorCountList
-        public List<int> ColorCountList => ImageBufferItems.ColorCountList;
+        public static List<int> ColorCountList => ImageBufferItems.ColorCountList;
         public int SelectedColorCount
         {
-            get => _selectedColorCount;
+            get => selectedColorCount;
             set
             {
-                _selectedColorCount = value;
-                imageBuffer.ColorCount = _selectedColorCount;
-                Debug.WriteLine("IA Color count set to " + _selectedColorCount.ToString());
+                selectedColorCount = value;
+                imageBuffer.ColorCount = selectedColorCount;
+                Debug.WriteLine("IA Color count set to " + selectedColorCount.ToString());
                 GetNewPalette();
             }
         }
@@ -91,11 +94,11 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         {
             get
             {
-                if (_openCommand == null)
+                if (openCommand == null)
                 {
-                    _openCommand = new RelayCommand(param => OpenFile());
+                    openCommand = new RelayCommand(param => OpenFile());
                 }
-                return _openCommand;
+                return openCommand;
             }
         }
         #endregion
@@ -118,13 +121,21 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private void GetNewPalette()
         {
-            ObservableCollection<IAColorClass> newColorSource = new ObservableCollection<IAColorClass>();
+            //var t = new List<Color>();
+            //Task.Run(() =>
+            //{
+            //    SampleColorSource.Clear();
+            //    t = imageBuffer.Palette;
+            //    Debug.WriteLine(t.Count);
+
+            //});
+            //Debug.WriteLine(t.Count);
+
+            SampleColorSource.Clear();
             foreach (Color color in imageBuffer.Palette)
             {
-                newColorSource.Add(new IAColorClass(color));
+                SampleColorSource.Add(new IAColorClass(color));
             }
-
-            SampleColorSource = newColorSource;
         }
         #endregion
     }

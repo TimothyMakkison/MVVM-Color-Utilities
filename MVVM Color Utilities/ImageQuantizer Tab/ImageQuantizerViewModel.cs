@@ -141,7 +141,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             if (dialogBox.ShowDialog()==true && SelectedPath != dialogBox.FileName)
             {
                 SelectedPath = dialogBox.FileName;
-                //imageBuffer.SetBitmap(new Bitmap(Image.FromFile(SelectedPath)));
                 imageBuffer.OriginalBitmap = new Bitmap(Image.FromFile(SelectedPath));
 
                 GenerateNewImage();
@@ -156,7 +155,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             if (saveDialogBox.ShowDialog() == true)
             {
                 string path = saveDialogBox.FileName;
-                imageBuffer.SaveGeneratedImage(path, System.Drawing.Imaging.ImageFormat.Jpeg);
+                imageBuffer.SaveGeneratedImage(path, System.Drawing.Imaging.ImageFormat.Png);
             }
         }
         /// <summary>

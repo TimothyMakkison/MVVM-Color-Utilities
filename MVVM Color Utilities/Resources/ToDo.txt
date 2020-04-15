@@ -5,8 +5,6 @@
 
 ImageBuffer 
 	Use multithreading (Get -> Get-> (Generate))
-	Refactor
-	Recursively generate values
 
 Image Quantizer
 	Ditherer
@@ -17,3 +15,4 @@ ImageAnalyzer
 Shared hex to brush
 
 Icons
+Add base Property
