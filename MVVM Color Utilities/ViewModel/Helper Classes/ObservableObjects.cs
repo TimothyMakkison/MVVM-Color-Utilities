@@ -35,22 +35,23 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
             }
             return storage;
         }
-        protected ICommand ASingleton(ref ICommand storage, ICommand command)
+        protected ICommand CommandSingleton(ref ICommand storage, Action command)
         {
             if (storage == null)
             {
-                storage = command;
+                storage = new RelayCommand(param => command());
             }
             return storage;
         }
         #endregion
-
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value)) return false;
 
             storage = value;
             OnPropertyChanged(propertyName);
+            System.Diagnostics.Debug.WriteLine(storage);
+
             return true;
         }
     }

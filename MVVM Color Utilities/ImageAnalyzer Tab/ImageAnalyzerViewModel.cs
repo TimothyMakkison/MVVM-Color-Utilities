@@ -92,17 +92,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         #endregion
 
         #region Commands
-        public ICommand OpenCommand
-        {
-            get
-            {
-                if (openCommand == null)
-                {
-                    openCommand = new RelayCommand(param => OpenFile());
-                }
-                return openCommand;
-            }
-        }
+        public ICommand OpenCommand => CommandSingleton(ref openCommand, OpenFile);
         #endregion
 
         #region Methods

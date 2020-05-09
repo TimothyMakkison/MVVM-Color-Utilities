@@ -106,29 +106,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         #endregion
 
         #region Commands
-        public ICommand OpenCommand
-        {
-            get
-            {
-                //ASingleton(ref _openCommand, new RelayCommand(param => DialogGetImage()));
-                if (openCommand == null)
-                {
-                    openCommand = new RelayCommand(param => DialogGetImage());
-                }
-                return openCommand;
-            }
-        }
-        public ICommand SaveCommand
-        {
-            get
-            {
-                if (saveCommand== null)
-                {
-                    saveCommand = new RelayCommand(param => DialogSaveImage());
-                }
-                return saveCommand;
-            }
-        }
+        public ICommand OpenCommand => CommandSingleton(ref openCommand, DialogGetImage);
+        public ICommand SaveCommand => CommandSingleton(ref saveCommand, DialogSaveImage);
         #endregion
 
         #region Methods
