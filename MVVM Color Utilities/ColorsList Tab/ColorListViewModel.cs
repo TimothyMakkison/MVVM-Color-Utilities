@@ -116,66 +116,19 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #region Commands
 
         #region WindowCommands
-        public ICommand AddSwitchCommand
-        {
-            get
-            {
-                if (_addSwitchCommand == null)
-                {
-                    _addSwitchCommand = new RelayCommand(param => AddSwitchMethod());
-                }
-                return _addSwitchCommand;
-            }
-        }
-        public ICommand EditSwitchCommand
-        {
-            get
-            {
-                if(_editSwitchCommand == null)
-                {
-                    _editSwitchCommand = new RelayCommand(param => EditSwitchMethod());
-                }
-                return _editSwitchCommand;
-            }
-        }
+        public ICommand AddSwitchCommand => CommandSingleton(ref _addSwitchCommand, AddSwitchMethod);
+        public ICommand EditSwitchCommand => CommandSingleton(ref _editSwitchCommand, EditSwitchMethod);
+
         #endregion
 
         #region FunctionalCommands
-        public ICommand ExecuteCommand
-        {
-            get
-            {
-                if (_executeCommand == null)
-                {
-                    _executeCommand = new RelayCommand(param => ExecuteMethod());
-                }
-                return _executeCommand;
-            }
-        }
-        public ICommand SampleColorCommand
-        {
-            get
-            {
-                if (_sampleColorCommand == null)
-                {
-                    _sampleColorCommand = new RelayCommand(param => SampleColorMethod());
-                }
-                return _sampleColorCommand;
-            }
-
-        }
-        public ICommand DeleteItem
-        {
-            get
-            {
-                if (_deleteItemCommand == null)
-                {
-                    _deleteItemCommand = new RelayCommand(param => DeleteItemMethod());
-                }
-                return _deleteItemCommand;
-            }
-        }
+        public ICommand ExecuteCommand => CommandSingleton(ref _executeCommand, ExecuteMethod);
+      
+        public ICommand SampleColorCommandExecuteMethod => CommandSingleton(ref _sampleColorCommand, SampleColorMethod);
+      
+        public ICommand DeleteItem => CommandSingleton(ref _deleteItemCommand, DeleteItemMethod);
         #endregion
+
         #endregion
 
         #region Methods
@@ -229,7 +182,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             {
                 SelectedValue = ColorListSource.FirstOrDefault();
             }
-            }
+        }
         /// <summary>
         /// Gets the color of the pixel location.
         /// </summary>

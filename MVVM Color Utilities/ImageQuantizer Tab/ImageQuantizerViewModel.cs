@@ -61,15 +61,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         public System.Windows.Media.Imaging.BitmapImage GeneratedBitmap
         {
-            get
-            {
-                //if (!model.GeneratedBitmap.IsNull())
-                //{
-                //    _generatedBitmap =     Imageutils.ConvertToBitmapImage(imageBuffer.GeneratedBitmap);
-                //}
-                //return _generatedBitmap
-                return generatedBitmap;
-            }
+            get => generatedBitmap;
             set => SetProperty(ref generatedBitmap, value);
         }
 
