@@ -1,19 +1,22 @@
 ﻿using System.Text.RegularExpressions;
 using System.Windows.Media;
-using System.Windows;
-using System;
 
 namespace MVVM_Color_Utilities.Helpers
 {
     public class ListColorClass
     {
         #region Fields
-        private SolidColorBrush _sampleBrush;
-        private string _hex;
-        private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
+        private string hex="";
+        private readonly Regex hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
         #endregion
 
         #region Constructor
+        /// <summary>
+        /// Constructs an instance of <see cref="ListColorClass"/> using its ID, color in hex format and given name.
+        /// </summary>
+        /// <param name="id">Id of color.</param>
+        /// <param name="hex">Hexadecimal form of color.</param>
+        /// <param name="name">Name of color.</param>
         public ListColorClass(int id, string hex, string name)
         {
             ID = id;
@@ -23,72 +26,46 @@ namespace MVVM_Color_Utilities.Helpers
         #endregion
 
         #region Properties
+        /// <summary>
+        /// ID value of ColorItem.
+        /// </summary>
         public int ID { get; set; }
+
+        /// <summary>
+        /// Color in hex format.
+        /// </summary>
         public string Hex
         {
-            get
-            {
-                return _hex;
-            }
+            get => hex;
             set
             {
-                _hex = value;
-                SampleBrush = null;
+                hex = hexColorReg.IsMatch(value) ? value : "#FFFF";
+                SampleBrush = HexToBrush(hex);
             }
         }
+        /// <summary>
+        /// Name of color.
+        /// </summary>
         public string Name { get; set; }
 
-        public SolidColorBrush SampleBrush
+        /// <summary>
+        /// Brush form of color.
+        /// </summary>
+        public SolidColorBrush SampleBrush { get; set; }
+
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Converts valid hex color into <see cref="SolidColorBrush"/> format.
+        /// </summary>
+        /// <param name="hexString">Input hexstring.</param>
+        /// <returns>Color in <see cref="SolidColorBrush"/> format.</returns>
+        private SolidColorBrush HexToBrush(string hexString)
         {
-            get
-            {
-                if(_sampleBrush == null)
-                {
-                    _sampleBrush = HexToBrush();
-                }
-                return _sampleBrush;
-            }
-            set
-            {
-                _sampleBrush = value;
-            }
-        }
-        private SolidColorBrush HexToBrush()
-        {
-            Color color;
-            if (Hex == null)
-            {
-                Hex = "";
-            }
-
-            if (_hexColorReg.IsMatch(Hex))
-            {
-                color = (Color)ColorConverter.ConvertFromString(Hex);
-                string location = (color.R>>2 << 12 | color.G>>2 << 6 | color.B >>2).ToString();
-
-                string string10 = (color.R << 16 | color.G << 8 | color.B).ToString();
-                int base10 = Int32.Parse(string10);
-                int gridIndex = (base10 & 0xFF0000)>>18 << 12 | (base10 & 0xFF00) >> 10<< 6 
-                    | (base10 & 0xFF) >> 2;
-                //int back = (locationTest & 0x400000)
-                int backToBase = (gridIndex & 0x3F000) << 6 | (gridIndex & 0xCF0) << 4 | (gridIndex & 0x3F) << 2;
-
-                System.Diagnostics.Debug.WriteLine(((gridIndex & 0x3F000) >> 10).ToString()
-                  + "," + color.R.ToString());
-                System.Diagnostics.Debug.WriteLine(((gridIndex & 0xFC0) >> 4).ToString()
-                   + "," + color.G.ToString());
-                System.Diagnostics.Debug.WriteLine(((gridIndex & 0x3F) << 2).ToString() 
-                  + "," + color.B.ToString());
-               
-                System.Diagnostics.Debug.WriteLine("base:"+backToBase);
-
-                System.Diagnostics.Debug.WriteLine("original:"+string10+", location:"+location+", "+gridIndex);
-             }
-            else
-            {
-                color = (Color)ColorConverter.ConvertFromString("#FFFF");
-                Hex = "#FFFF";
-            }
+            Color color = hexColorReg.IsMatch(hexString)
+                ? (Color)ColorConverter.ConvertFromString(Hex)
+                : Color.FromRgb(255,255,255);
             return new SolidColorBrush(color);
         }
         #endregion
