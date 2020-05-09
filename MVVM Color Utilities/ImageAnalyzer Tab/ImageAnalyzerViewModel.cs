@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MVVM_Color_Utilities.Helpers.Derived_Classes;
+using System.Linq;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
@@ -23,8 +24,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private BaseColorQuantizer selectedQuantizer = QuantizerList[0];
         private int selectedColorCount = ColorCountList[4];
 
-        private AsyncObservableCollection<IAColorClass> sampleColorSource 
-            = new AsyncObservableCollection<IAColorClass>();
+        private List<IAColorClass> sampleColorSource = new List<IAColorClass>();
 
         private ICommand openCommand;
 
@@ -53,11 +53,12 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <summary>
         /// Contains image palette
         /// </summary>
-        public AsyncObservableCollection<IAColorClass> SampleColorSource
+        public List<IAColorClass> SampleColorSource
         {
             get => sampleColorSource;
             set => SetProperty(ref sampleColorSource, value);
         }
+
         #region QuantizerList
         public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
         public BaseColorQuantizer SelectedQuantizer
@@ -87,6 +88,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             }
         }
         #endregion
+
         #endregion
 
         #region Commands
@@ -121,21 +123,11 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private void GetNewPalette()
         {
-            //var t = new List<Color>();
-            //Task.Run(() =>
-            //{
-            //    SampleColorSource.Clear();
-            //    t = imageBuffer.Palette;
-            //    Debug.WriteLine(t.Count);
-
-            //});
-            //Debug.WriteLine(t.Count);
-
-            SampleColorSource.Clear();
-            foreach (Color color in imageBuffer.Palette)
+            Task.Run(() =>
             {
-                SampleColorSource.Add(new IAColorClass(color));
-            }
+                SampleColorSource.Clear();
+                SampleColorSource = imageBuffer.Palette.Select(x => new IAColorClass(x)).ToList();
+            });
         }
         #endregion
     }

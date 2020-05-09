@@ -24,6 +24,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public IAColorClass(Color color)
         {
             Color = ColorUtils.ColorToBrush(color);
+            Color.Freeze();
             ColorHex = ColorUtils.ColorToHex(color);
         }
         #endregion
