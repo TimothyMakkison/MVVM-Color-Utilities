@@ -98,8 +98,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         #endregion
 
         #region Commands
-        public ICommand OpenCommand => CommandSingleton(ref openCommand, DialogGetImage);
-        public ICommand SaveCommand => CommandSingleton(ref saveCommand, DialogSaveImage);
+        public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, DialogGetImage);
+        public ICommand SaveCommand => PatternHandler.Singleton(ref saveCommand, DialogSaveImage);
         #endregion
 
         #region Methods

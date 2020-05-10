@@ -116,17 +116,18 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         #region Commands
 
         #region WindowCommands
-        public ICommand AddSwitchCommand => CommandSingleton(ref _addSwitchCommand, AddSwitchMethod);
-        public ICommand EditSwitchCommand => CommandSingleton(ref _editSwitchCommand, EditSwitchMethod);
+        public ICommand AddSwitchCommand => PatternHandler.Singleton(ref _addSwitchCommand, AddSwitchMethod);
+
+        public ICommand EditSwitchCommand => PatternHandler.Singleton(ref _editSwitchCommand, EditSwitchMethod);
 
         #endregion
 
         #region FunctionalCommands
-        public ICommand ExecuteCommand => CommandSingleton(ref _executeCommand, ExecuteMethod);
+        public ICommand ExecuteCommand => PatternHandler.Singleton(ref _executeCommand, ExecuteMethod);
       
-        public ICommand SampleColorCommandExecuteMethod => CommandSingleton(ref _sampleColorCommand, SampleColorMethod);
+        public ICommand SampleColorCommandExecuteMethod => PatternHandler.Singleton(ref _sampleColorCommand, SampleColorMethod);
       
-        public ICommand DeleteItem => CommandSingleton(ref _deleteItemCommand, DeleteItemMethod);
+        public ICommand DeleteItem => PatternHandler.Singleton(ref _deleteItemCommand, DeleteItemMethod);
         #endregion
 
         #endregion

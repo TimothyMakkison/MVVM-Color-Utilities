@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MVVM_Color_Utilities.Helpers.Derived_Classes;
 using System.Linq;
+//using PatternHelper;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
@@ -92,7 +93,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         #endregion
 
         #region Commands
-        public ICommand OpenCommand => CommandSingleton(ref openCommand, OpenFile);
+        public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, OpenFile);
         #endregion
 
         #region Methods

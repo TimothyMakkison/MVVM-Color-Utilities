@@ -82,8 +82,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public Bitmap GeneratedBitmap
         {
-            get => Singleton(ref generatedBitmap, GenerateNewBitmap);
-            set => SetProperty(ref generatedBitmap,value);
+            get => PatternHandler.Singleton(ref generatedBitmap, GenerateNewBitmap);
+            set => SetProperty(ref generatedBitmap, value);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         public ConcurrentDictionary<int, int> BitmapColors
         {
-            get =>  Singleton(ref bitmapColors, bitmapColors.IsNullOrEmpty(), GetBitmapColors);
+            get => PatternHandler.Singleton(ref bitmapColors, bitmapColors.IsNullOrEmpty(), GetBitmapColors);
             set => bitmapColors = value;
         }
 
