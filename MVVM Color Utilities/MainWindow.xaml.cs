@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace MVVM_Color_Utilities
 {
@@ -13,7 +14,10 @@ namespace MVVM_Color_Utilities
         }
 
         private void DragWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-            => this.DragMove();
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
 
         private void MinimizeWindowButton_Click(object sender, RoutedEventArgs e)
             => this.WindowState = WindowState.Minimized;
