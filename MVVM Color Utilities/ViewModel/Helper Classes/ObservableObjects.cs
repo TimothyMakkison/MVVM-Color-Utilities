@@ -18,7 +18,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
             }
         }
 
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected bool Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value)) return false;
 

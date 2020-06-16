@@ -49,7 +49,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public string SelectedPath
         {
             get => selectedPath;
-            set => SetProperty(ref selectedPath, value);
+            set => Set(ref selectedPath, value);
         }
         /// <summary>
         /// Contains image palette
@@ -57,7 +57,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public List<IAColorClass> SampleColorSource
         {
             get => sampleColorSource;
-            set => SetProperty(ref sampleColorSource, value);
+            set => Set(ref sampleColorSource, value);
         }
 
         #region QuantizerList

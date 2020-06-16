@@ -25,6 +25,8 @@ namespace MVVM_Color_Utilities.ViewModel
             CurrentPageViewModel = PageViewModels[0];
         }
         #endregion
+
+        #region Properties
         /// <summary>
         /// Changes page to the relative source
         /// </summary>
@@ -34,8 +36,8 @@ namespace MVVM_Color_Utilities.ViewModel
             {
                 if (_changePageCommand == null)
                 {
-                    _changePageCommand = new RelayCommand(
-                        p => ChangeViewModel((IPageViewModel)p),p => p is IPageViewModel);
+                    _changePageCommand = new RelayCommand(p => ChangeViewModel((IPageViewModel)p),
+                                                          p => p is IPageViewModel);
                 }
                 return _changePageCommand;
             }
@@ -43,24 +45,14 @@ namespace MVVM_Color_Utilities.ViewModel
         /// <summary>
         /// List of all available viewmodels
         /// </summary>
-        public List<IPageViewModel> PageViewModels
-        {
-            get
-            {
-                if (_pageViewModels == null)
-                    _pageViewModels = new List<IPageViewModel>();
-                return _pageViewModels;
-            }
-        }
+        public List<IPageViewModel> PageViewModels =>
+            _pageViewModels ?? (_pageViewModels = new List<IPageViewModel>());
         /// <summary>
         /// Updates or returns current page
         /// </summary>
         public IPageViewModel CurrentPageViewModel
         {
-            get
-            {
-                return _currentPageViewModel;
-            }
+            get => _currentPageViewModel;
             set
             {
                 if (_currentPageViewModel != value)
@@ -70,6 +62,9 @@ namespace MVVM_Color_Utilities.ViewModel
                 }
             }
         }
+        #endregion
+
+        #region Methods
         /// <summary>
         /// Sets current viewmodel to given one
         /// </summary>
@@ -80,8 +75,8 @@ namespace MVVM_Color_Utilities.ViewModel
             {
                 PageViewModels.Add(viewModel);
             }
-            CurrentPageViewModel = PageViewModels
-                .FirstOrDefault(vm => vm == viewModel);
+            CurrentPageViewModel = PageViewModels.FirstOrDefault(vm => vm == viewModel);
         }
+        #endregion
     }
 }

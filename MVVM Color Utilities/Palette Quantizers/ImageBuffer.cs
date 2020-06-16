@@ -35,7 +35,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => originalBitmap;
             set
             {
-                if (SetProperty(ref originalBitmap,value))
+                if (Set(ref originalBitmap,value))
                 {
                     BitmapColors = new ConcurrentDictionary<int, int>();
                     Palette = new List<Color>();
@@ -54,7 +54,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => activeQuantizer;
             set
             {
-                if (SetProperty(ref activeQuantizer,value))
+                if (Set(ref activeQuantizer,value))
                 {
                     Palette = new List<Color>();
                     GeneratedBitmap = null;
@@ -69,7 +69,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => colorCount;
             set
             {
-                if (SetProperty(ref colorCount,value))
+                if (Set(ref colorCount,value))
                 {
                     GeneratedBitmap = null;
                     Palette = new List<Color>();
@@ -83,7 +83,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         public Bitmap GeneratedBitmap
         {
             get => PatternHandler.Singleton(ref generatedBitmap, GenerateNewBitmap);
-            set => SetProperty(ref generatedBitmap, value);
+            set => Set(ref generatedBitmap, value);
         }
 
         /// <summary>

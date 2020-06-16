@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:MVVM_Color_Utilities"
+        xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+
         mc:Ignorable="d"
         
         xmlns:ViewModel ="clr-namespace:MVVM_Color_Utilities.ViewModel"

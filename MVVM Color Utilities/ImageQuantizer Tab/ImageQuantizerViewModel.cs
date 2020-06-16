@@ -54,7 +54,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         public string SelectedPath
         {
             get => selectedPath;
-            set => SetProperty(ref selectedPath, value);
+            set => Set(ref selectedPath, value);
         }
         /// <summary>
         /// Displayed by save bitmap button
@@ -62,7 +62,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         public System.Windows.Media.Imaging.BitmapImage GeneratedBitmap
         {
             get => generatedBitmap;
-            set => SetProperty(ref generatedBitmap, value);
+            set => Set(ref generatedBitmap, value);
         }
 
         #region QuantizerList

@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MVVM_Color_Utilities.ColorsList_Tab"
+             xmlns:cc="clr-namespace:MVVM_Color_Utilities"
+              
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              >
@@ -58,7 +60,7 @@
                 </Rectangle.Style>
             </Rectangle>
 
-            <Button Grid.Column="0" Command="{Binding Path=AddSwitchCommand}" >
+            <Button Grid.Column="0" Command="{Binding Path=AddSwitchCommand}">
                 <materialDesign:PackIcon Kind="Add"/>
             </Button>
             <Button Grid.Column="1" Command="{Binding Path=EditSwitchCommand}"  >
@@ -111,7 +113,6 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="true"/>
-                                <Condition Property="Selector.IsSelectionActive" Value="true"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Background" Value="Gray"/>
                         </MultiTrigger>
@@ -120,15 +121,12 @@
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid
-                        >
+                    <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.8*"/>
                             <ColumnDefinition Width="1.5*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="0.7*"/>
-                            <ColumnDefinition Width="1.2*"/>
+                            <ColumnDefinition Width="3*"/>
                         </Grid.ColumnDefinitions>
                         <Rectangle  Height="18" Width="60" Fill="{Binding SampleBrush}" Stroke="Gray" StrokeThickness="0.4"/>
                         <TextBlock Text="{Binding Name}" Width="160" Grid.Column="1"/>

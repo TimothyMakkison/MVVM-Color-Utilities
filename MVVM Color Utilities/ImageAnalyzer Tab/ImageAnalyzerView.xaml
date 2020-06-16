@@ -21,7 +21,7 @@
                         <Button Foreground="Black" Command="{Binding SaveColorCommand}">
                             <materialDesign:PackIcon Kind="Plus"/>
                         </Button>
-                        <TextBlock  TextAlignment="Center" Text="{Binding ColorHex}" />
+                        <TextBlock TextAlignment="Center" Text="{Binding ColorHex}" />
                     </StackPanel>
                 </StackPanel>
             </Grid>

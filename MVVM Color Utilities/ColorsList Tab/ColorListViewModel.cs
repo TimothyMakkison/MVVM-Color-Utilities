@@ -50,7 +50,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         public SolidColorBrush IndicatorBrush
         {
             get => _inputBrush;
-            set => SetProperty(ref _inputBrush, value);
+            set => Set(ref _inputBrush, value);
         }
         #endregion
 
@@ -58,7 +58,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         public string InputName
         {
             get => _inputNameString;
-            set => SetProperty(ref _inputNameString, value);
+            set => Set(ref _inputNameString, value);
         }
         public string InputHex
         {
@@ -83,7 +83,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         public bool AddingModeBool
         {
             get => _addingModeBool;
-            set => SetProperty(ref _addingModeBool, value);
+            set => Set(ref _addingModeBool, value);
         }
         public ObservableCollection<ListColorClass> ColorListSource => SharedUtils.ColorClassList;
         public ListColorClass SelectedValue
@@ -91,7 +91,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             get => _selectedItem;
             set
             {
-                SetProperty(ref _selectedItem, value);
+                Set(ref _selectedItem, value);
                 if (_selectedItem != null)
                 {
                     InputName = _selectedItem.Name;
@@ -107,7 +107,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         public int SelectedItemIndex
         {
             get => _selectedItemIndex = MathUtils.Clamp(0, ColorListSource.Count - 1, _selectedItemIndex);
-            set => SetProperty(ref _selectedItemIndex, MathUtils.Clamp(0, ColorListSource.Count - 1, value));
+            set => Set(ref _selectedItemIndex, MathUtils.Clamp(0, ColorListSource.Count - 1, value));
         }
         #endregion
 
