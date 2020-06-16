@@ -46,8 +46,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Rectangle Grid.Column="1" Fill="{StaticResource BurgundyBrush}" />
-        <Rectangle Grid.RowSpan="2" Fill="{StaticResource CyanTerracottaBrush}" Margin="0,0,-0.5,0"/>
+        <Rectangle Grid.Column="1" Fill="{StaticResource PrimaryHueDarkBrush}" />
+        <Rectangle Grid.RowSpan="2" Fill="{StaticResource SecondaryHueDarkBrush}" Margin="0,0,-0.5,0"/>
 
         <ItemsControl Grid.Row="1" ItemsSource="{Binding PageViewModels}" HorizontalAlignment="Stretch">
             <ItemsControl.ItemTemplate>
@@ -62,7 +62,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <Rectangle Grid.Column="1" Fill="{StaticResource BurgundyBrush}" MouseDown="DragWindow_MouseDown"/>
+        <Rectangle Grid.Column="1" Fill="{StaticResource PrimaryHueDarkBrush}" MouseDown="DragWindow_MouseDown"/>
         
         <!--Contains window content of chosen tab-->
         <ContentControl Grid.Column="1" Grid.RowSpan="2" Content="{Binding CurrentPageViewModel}" />

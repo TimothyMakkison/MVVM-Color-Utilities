@@ -18,7 +18,7 @@
                       SelectedValue="{Binding SelectedQuantizer}" DisplayMemberPath="Name"/>
 
             <ComboBox Width="50" Height="30" ItemsSource="{Binding Path=ColorCountList}"
-                      Background="Pink"
+                      Background="{StaticResource PrimaryHueLightBrush}"
                       SelectedValue="{Binding SelectedColorCount}"/>
         </StackPanel>
         

@@ -8,6 +8,7 @@
         <ResourceDictionary Source="Colors.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
+
     <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{x:Null}"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
@@ -20,7 +21,7 @@
         <Setter Property="Height" Value="Auto"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{StaticResource BurgundyFaintBrush}"/>
+        <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="White"/>

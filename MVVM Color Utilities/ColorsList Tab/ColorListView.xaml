@@ -37,10 +37,10 @@
             <Rectangle Grid.Column="0" >
                 <Rectangle.Style>
                     <Style TargetType="Rectangle">
-                        <Setter Property="Fill" Value="{StaticResource BurgundyBrush}"/>
+                        <Setter Property="Fill" Value="{StaticResource PrimaryHueDarkBrush}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding AddingModeBool}" Value="True">
-                                <Setter Property="Fill" Value="{StaticResource BurgundyLightBrush}"/>
+                                <Setter Property="Fill" Value="{StaticResource PrimaryHueMidBrush}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -50,10 +50,10 @@
             <Rectangle Grid.Column="1">
                 <Rectangle.Style>
                     <Style TargetType="Rectangle">
-                        <Setter Property="Fill" Value="{StaticResource BurgundyLightBrush}"/>
+                        <Setter Property="Fill" Value="{StaticResource PrimaryHueMidBrush}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding AddingModeBool}" Value="True">
-                                <Setter Property="Fill" Value="{StaticResource BurgundyBrush}"/>
+                                <Setter Property="Fill" Value="{StaticResource PrimaryHueDarkBrush}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
@@ -72,7 +72,7 @@
         </Grid>
             
 <!--#region ListBox Header-->
-        <Grid Grid.Row="1" Background="{StaticResource BurgundyLightBrush}" >
+        <Grid Grid.Row="1" Background="{StaticResource PrimaryHueMidBrush}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.8*"/>
                 <ColumnDefinition Width="1.5*"/>
@@ -83,7 +83,7 @@
             </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <Style TargetType="TextBox">
-                    <Setter Property="Background" Value="{StaticResource BurgundyFaintBrush}"/>
+                    <Setter Property="Background" Value="{StaticResource PrimaryHueLightBrush}"/>
                     <Setter Property="Height" Value="20"/>
                 </Style>
             </Grid.Resources>
