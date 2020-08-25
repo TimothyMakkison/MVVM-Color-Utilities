@@ -45,15 +45,12 @@ namespace MVVM_Color_Utilities.Helpers
         /// <returns>Returns true if type if null or empty</returns>
         public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
         {
-            if (enumerable == null)
+            return enumerable switch
             {
-                return true;
-            }
-            if (enumerable is ICollection<T> collection)
-            {
-                return collection.Count < 1;
-            }
-            return !enumerable.Any();
+                null => true,
+                ICollection<T> collection => collection.Count < 1,
+                _ => !enumerable.Any(),
+            };
         }
 
         /// <summary>
@@ -83,10 +80,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// </summary>
         /// <param name="integer">Integer</param>
         /// <returns></returns>
-        public static bool IsEmpty(this int integer)
-        {
-            return integer == 0;
-        }
+        public static bool IsEmpty(this int integer) => integer == 0;
 
         /// <summary>
         /// Checks if integer is equal to 0, if true then writes to debug.

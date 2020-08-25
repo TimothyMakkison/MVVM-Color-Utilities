@@ -49,13 +49,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         /// <param name="storage">Referable object storage.</param>
         /// <param name="command">Delegate command to be assigned to storage.</param>
         /// <returns>Returns command.</returns>
-        public static ICommand Singleton(ref ICommand storage, Action command)
-        {
-            if (storage == null)
-                storage = new RelayCommand(param => command());
-
-            return storage;
-        }
+        public static ICommand Singleton(ref ICommand storage, Action command) => storage ??= new RelayCommand(param => command());
 
         #endregion Singleton
     }

@@ -4,6 +4,7 @@ using System.IO;
 
 namespace MVVM_Color_Utilities.Helpers
 {
+    //TODO create a dedicated database handler and add database
     internal static class SharedUtils
     {
         #region Fields
@@ -23,12 +24,8 @@ namespace MVVM_Color_Utilities.Helpers
         {
             get
             {
-                if (_colorClassList == null)
-                {
-                    _colorClassList =
+                return _colorClassList ??= 
                     JsonConvert.DeserializeObject<ObservableCollection<ListColorClass>>(File.ReadAllText(colorsFilePath));
-                }
-                return _colorClassList;
             }
         }
 
@@ -101,10 +98,7 @@ namespace MVVM_Color_Utilities.Helpers
                 ColorClassList.RemoveAt(index);
                 return SaveColorsList();
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
         #endregion Methods

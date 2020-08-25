@@ -38,8 +38,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                     break;
                 }
 
-                cube.SplitAtMedian(cube.ChannelIndex, out MedianCutCube newMedianCutCubeA
-                    , out MedianCutCube newMedianCutCubeB);
+                cube.SplitAtMedian(cube.ChannelIndex, out MedianCutCube newMedianCutCubeA,
+                    out MedianCutCube newMedianCutCubeB);
 
                 // adds newly created cubes to our list; but one by one and if there's enough cubes stops the process
                 newCubes.Add(newMedianCutCubeA);
@@ -53,6 +53,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 
             // clears the old cubes
             cubeList = new List<MedianCutCube>();
+
+            //TODO use linq
 
             // adds the new cubes to the official cube list
             foreach (MedianCutCube medianCutCube in newCubes)

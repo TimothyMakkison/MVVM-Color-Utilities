@@ -16,20 +16,18 @@ namespace MVVM_Color_Utilities.Helpers
         /// <returns></returns>
         public static BitmapImage ConvertToBitmapImage(Bitmap bitmap)
         {
-            using (var memory = new MemoryStream())
-            {
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Png);
-                memory.Position = 0;
+            using var memory = new MemoryStream();
+            bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Png);
+            memory.Position = 0;
 
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = memory;
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
+            var bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
+            bitmapImage.StreamSource = memory;
+            bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+            bitmapImage.EndInit();
+            bitmapImage.Freeze();
 
-                return bitmapImage;
-            }
+            return bitmapImage;
         }
     }
 }

@@ -17,6 +17,10 @@
             return value > lower && value < upper ? true : false;
         }
 
+        //TODO implement IComparable TestRange
+
+        //TODO refactor clamp
+
         /// <summary>
         /// Clamps value between upper and lower bounds.
         /// </summary>
