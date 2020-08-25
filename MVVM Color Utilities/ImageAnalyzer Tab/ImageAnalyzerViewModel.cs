@@ -4,13 +4,12 @@ using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MVVM_Color_Utilities.Helpers.Derived_Classes;
-using System.Linq;
+
 //using PatternHelper;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
@@ -21,6 +20,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     internal class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
+
         private string selectedPath;
         private BaseColorQuantizer selectedQuantizer = QuantizerList[0];
         private int selectedColorCount = ColorCountList[4];
@@ -31,18 +31,23 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
-        #endregion
+
+        #endregion Fields
 
         #region Constructor
+
         public ImageAnalyzerViewModel()
         {
             imageBuffer.ActiveQuantizer = SelectedQuantizer;
             imageBuffer.ColorCount = SelectedColorCount;
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Properties
+
         public PackIconKind Icon => PackIconKind.Paint;
+
         /// <summary>
         /// Button displays image from this location.
         /// </summary>
@@ -51,6 +56,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             get => selectedPath;
             set => Set(ref selectedPath, value);
         }
+
         /// <summary>
         /// Contains image palette
         /// </summary>
@@ -61,7 +67,9 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         }
 
         #region QuantizerList
+
         public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
+
         public BaseColorQuantizer SelectedQuantizer
         {
             get => selectedQuantizer;
@@ -73,10 +81,13 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 GetNewPalette();
             }
         }
-        #endregion
+
+        #endregion QuantizerList
 
         #region ColorCountList
+
         public static List<int> ColorCountList => ImageBufferItems.ColorCountList;
+
         public int SelectedColorCount
         {
             get => selectedColorCount;
@@ -88,15 +99,19 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 GetNewPalette();
             }
         }
-        #endregion
 
-        #endregion
+        #endregion ColorCountList
+
+        #endregion Properties
 
         #region Commands
+
         public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, OpenFile);
-        #endregion
+
+        #endregion Commands
 
         #region Methods
+
         /// <summary>
         /// Opens a dilog box and if a selection is made, a new palette is created.
         /// </summary>
@@ -109,6 +124,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 GetNewPalette();
             }
         }
+
         /// <summary>
         /// Clears previous palette and gets new colors.
         /// </summary>
@@ -120,6 +136,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 SampleColorSource = imageBuffer.Palette.Select(x => new IAColorClass(x)).ToList();
             });
         }
-        #endregion
+
+        #endregion Methods
     }
 }

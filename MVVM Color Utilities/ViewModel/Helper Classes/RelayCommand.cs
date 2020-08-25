@@ -5,7 +5,7 @@ using System.Windows.Input;
 namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
 {
     /// <summary>
-    /// A command whose sole purpose is to 
+    /// A command whose sole purpose is to
     /// relay its functionality to other
     /// objects by invoking delegates. The
     /// default return value for the CanExecute
@@ -15,10 +15,10 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
     {
         #region Fields
 
-        readonly Action<object> _execute;
-        readonly Predicate<object> _canExecute;
+        private readonly Action<object> _execute;
+        private readonly Predicate<object> _canExecute;
 
-        #endregion // Fields
+        #endregion Fields
 
         #region Constructors
 
@@ -42,7 +42,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
             _canExecute = canExecute;
         }
 
-        #endregion // Constructors
+        #endregion Constructors
 
         #region ICommand Members
 
@@ -63,6 +63,6 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
             _execute(parameters);
         }
 
-        #endregion // ICommand Members
+        #endregion ICommand Members
     }
 }

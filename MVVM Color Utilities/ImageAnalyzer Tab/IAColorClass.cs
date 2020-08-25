@@ -1,56 +1,46 @@
-﻿using MVVM_Color_Utilities.ViewModel.Helper_Classes;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using MVVM_Color_Utilities.Helpers;
+using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Drawing;
-using System.Windows;
-using MVVM_Color_Utilities.Helpers;
 using System.Windows.Input;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows.Threading;
-using System.Reflection;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
-    class IAColorClass
+    internal class IAColorClass
     {
         #region Fields
-        private ICommand _saveColorCommand;
-        #endregion
+
+        private ICommand saveColorCommand;
+
+        #endregion Fields
 
         #region Constructor
+
         public IAColorClass(Color color)
         {
             Color = ColorUtils.ColorToBrush(color);
             Color.Freeze();
             ColorHex = ColorUtils.ColorToHex(color);
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Properties
+
         public System.Windows.Media.SolidColorBrush Color { get; set; }
         public string ColorHex { get; set; }
-        #endregion
+
+        #endregion Properties
 
         #region Commands
-        public ICommand SaveColorCommand
-        {
-            get
-            {
-                if (_saveColorCommand == null)
-                {
-                    _saveColorCommand = new RelayCommand(param => SaveColorMethod());
-                }
-                return _saveColorCommand;
-            }
-        }
-        #endregion
+
+        public ICommand SaveColorCommand => saveColorCommand ??= new RelayCommand(param => SaveColorMethod());
+
+        #endregion Commands
 
         #region Methods
+
         /// <summary>
-        /// Saves color to shared ColorList.    
+        /// Saves color to shared ColorList.
         /// </summary>
         /// <returns></returns>
         private bool SaveColorMethod()
@@ -64,6 +54,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             }
             catch { return false; }
         }
-        #endregion
+
+        #endregion Methods
     }
 }

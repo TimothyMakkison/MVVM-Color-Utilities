@@ -1,49 +1,48 @@
 ﻿<UserControl x:Class="MVVM_Color_Utilities.ImageQuantizer_Tab.ImageQuantizerView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:MVVM_Color_Utilities.ImageQuantizer_Tab"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" >
+        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal">
             <ComboBox Width="150" Height="30"  ItemsSource="{Binding Path=QuantizerList}"
-                      SelectedValue="{Binding SelectedQuantizer}" DisplayMemberPath="Name"/>
+                      SelectedValue="{Binding SelectedQuantizer}" DisplayMemberPath="Name" />
 
             <ComboBox Width="50" Height="30" ItemsSource="{Binding Path=ColorCountList}"
-                      Background="{StaticResource PrimaryHueLightBrush}"
-                      SelectedValue="{Binding SelectedColorCount}"/>
+                      SelectedValue="{Binding SelectedColorCount}" />
         </StackPanel>
-        
+
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
-            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70" 
-                   Foreground="White" Content="{materialDesign:PackIcon Kind=FormatVerticalAlignTop,Size=70}"/>
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70"
+                   Foreground="White" Content="{materialDesign:PackIcon Kind=FormatVerticalAlignTop,Size=70}" />
 
-            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding Path=OpenCommand}" >
-                <Image Source="{Binding SelectedPath, TargetNullValue={x:Null}}"/>
+            <Button HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Command="{Binding Path=OpenCommand}">
+                <Image Source="{Binding SelectedPath, TargetNullValue={x:Null}}" />
             </Button>
-            
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Gray"/>
 
-            <Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70"  
-                  Foreground="White" Content="{materialDesign:PackIcon Kind=FormatVerticalAlignBottom,Size=70}"/>
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Background="Gray" />
 
-            <Button Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+            <Label Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70"
+                  Foreground="White" Content="{materialDesign:PackIcon Kind=FormatVerticalAlignBottom,Size=70}" />
+
+            <Button Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Command="{Binding Path=SaveCommand}">
-                <Image Source="{Binding GeneratedBitmap, TargetNullValue={x:Null}}"/>
+                <Image Source="{Binding GeneratedBitmap, TargetNullValue={x:Null}}" />
             </Button>
         </Grid>
     </Grid>

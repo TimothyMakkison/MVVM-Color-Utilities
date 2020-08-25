@@ -1,17 +1,19 @@
 ﻿using System.Text.RegularExpressions;
 using System.Windows.Media;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 
 namespace MVVM_Color_Utilities.Helpers
 {
     public class ListColorClass
     {
         #region Fields
-        private string hex="";
+
+        private string hex = "";
         private readonly Regex hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
-        #endregion
+
+        #endregion Fields
 
         #region Constructor
+
         /// <summary>
         /// Constructs an instance of <see cref="ListColorClass"/> using its ID, color in hex format and given name.
         /// </summary>
@@ -24,9 +26,11 @@ namespace MVVM_Color_Utilities.Helpers
             Name = name;
             Hex = hex;
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Properties
+
         /// <summary>
         /// ID value of ColorItem.
         /// </summary>
@@ -44,6 +48,7 @@ namespace MVVM_Color_Utilities.Helpers
                 SampleBrush = HexToBrush(hex);
             }
         }
+
         /// <summary>
         /// Name of color.
         /// </summary>
@@ -54,9 +59,10 @@ namespace MVVM_Color_Utilities.Helpers
         /// </summary>
         public SolidColorBrush SampleBrush { get; set; }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Converts valid hex color into <see cref="SolidColorBrush"/> format.
         /// </summary>
@@ -66,9 +72,10 @@ namespace MVVM_Color_Utilities.Helpers
         {
             Color color = hexColorReg.IsMatch(hexString)
                 ? (Color)ColorConverter.ConvertFromString(Hex)
-                : Color.FromRgb(255,255,255);
+                : Color.FromRgb(255, 255, 255);
             return new SolidColorBrush(color);
         }
-        #endregion
+
+        #endregion Methods
     }
 }

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MVVM_Color_Utilities.Helpers.DistanceCalculator
 {
     /// <summary>
-    /// Calculates the Chebyshev distance between two points. 
+    /// Calculates the Chebyshev distance between two points.
     /// This is done by finding the largest distance between each norm.
     /// </summary>
     public class ChebyshevDistance : IDistanceCalculator

@@ -6,15 +6,18 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
 {
     public class OctreeNode : List<Color>
     {
-        #region Fields 
+        #region Fields
+
         private Color averageColor;
 
         private readonly int redLowerBound, redUpperBound;
         private readonly int greenLowerBound, greenUpperBound;
         private readonly int blueLowerBound, blueUpperBound;
-        #endregion
+
+        #endregion Fields
 
         #region Constructor
+
         public OctreeNode(int redLowerBound, int greenLowerBound, int blueLowerBound, int size)
         {
             this.redLowerBound = redLowerBound;
@@ -25,20 +28,23 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             int distance = Size - 1;
             redUpperBound = redLowerBound + distance;
             greenUpperBound = greenLowerBound + distance;
-            blueUpperBound= blueLowerBound + distance;
-
+            blueUpperBound = blueLowerBound + distance;
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Properties
+
         /// <summary>
         /// Size of node.
         /// </summary>
         public int Size { get; private set; }
+
         /// <summary>
         /// Palette color index of this node.
         /// </summary>
         public int PaletteIndex { get; set; }
+
         /// <summary>
         /// Average color of node, found by averaging every color item.
         /// </summary>
@@ -53,11 +59,13 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
                 return averageColor;
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Method
 
         #region InBounds
+
         /// <summary>
         /// Returns boolean value of whether node contains color.
         /// </summary>
@@ -66,9 +74,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
         public bool InBounds(Color color) => color.R >= redLowerBound && color.R <= redUpperBound
                 && color.G >= greenLowerBound && color.G <= greenUpperBound
                 && color.B >= blueLowerBound && color.B <= blueUpperBound;
-        #endregion
+
+        #endregion InBounds
 
         #region Split
+
         /// <summary>
         /// Creates 8 sub nodes from this node.
         /// </summary>
@@ -92,7 +102,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             };
 
             //Adds each color to its corresponding cube.
-            foreach(var color in this)
+            foreach (var color in this)
             {
                 int index = 0;
 
@@ -106,9 +116,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             //Find all non empty nodes
             return nodes.Where(x => x.Count() > 0);
         }
-        #endregion
+
+        #endregion Split
 
         #region Get average color
+
         /// <summary>
         /// Calculates the average color of this node.
         /// </summary>
@@ -131,23 +143,27 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
                     blue += color.B;
                 }
 
-                //Calculates average color channels from sum of values, returns zero if 
+                //Calculates average color channels from sum of values, returns zero if
                 red /= Count;
                 green /= Count;
                 blue /= Count;
 
-                return averageColor =  Color.FromArgb(255, red, green, blue);
+                return averageColor = Color.FromArgb(255, red, green, blue);
             }
         }
-        #endregion
+
+        #endregion Get average color
 
         #region Override
+
         public override string ToString() => $"Octree node of size: {Size}, index: {PaletteIndex} and count {Count}" +
                 $"\n Color: {AverageColor}" +
                 $"\n Red: {redLowerBound} - {redUpperBound}," +
                 $" Green: {greenLowerBound} - {greenUpperBound}," +
                 $" Blue: {blueLowerBound} - {blueUpperBound}";
-        #endregion
-        #endregion
+
+        #endregion Override
+
+        #endregion Method
     }
 }

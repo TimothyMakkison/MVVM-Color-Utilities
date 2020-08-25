@@ -6,8 +6,9 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
     public static class PatternHandler
     {
         #region Singleton
+
         /// <summary>
-        /// Singleton function that constructs an instance of an object when first called and then 
+        /// Singleton function that constructs an instance of an object when first called and then
         /// returns the object in subsequent calls.
         /// </summary>
         /// <typeparam name="T">Type of object.</typeparam>
@@ -18,7 +19,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         {
             if (storage == null)
                 storage = func.Invoke();
-            
+
             return storage;
         }
 
@@ -37,11 +38,12 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
 
             return storage;
         }
+
         /// <param name="func">Object constructor.</param>
         /// <returns>Object.</returns>
 
         /// <summary>
-        /// Singleton function that constructs an instance of an <see cref="ICommand"/> object when first called and then 
+        /// Singleton function that constructs an instance of an <see cref="ICommand"/> object when first called and then
         /// returns the object in subsequent calls.
         /// </summary>
         /// <param name="storage">Referable object storage.</param>
@@ -54,6 +56,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
 
             return storage;
         }
-        #endregion
+
+        #endregion Singleton
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace MVVM_Color_Utilities.Helpers
@@ -8,12 +8,14 @@ namespace MVVM_Color_Utilities.Helpers
     public static class Guard
     {
         #region Objects
+
         /// <summary>
         /// Checks if an object is null.
         /// </summary>
         /// <param name="argument">Object</param>
         /// <returns>Returns true if null.</returns>
         public static bool IsNull(this object argument) => argument == null;
+
         /// <summary>
         /// Checks if an object is null, if true then writes to debug.
         /// </summary>
@@ -22,7 +24,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// <returns>Returns true if null.</returns>
         public static bool IsNull(this object argument, string argumentName)
         {
-            if (argument==null)
+            if (argument == null)
             {
                 String message = string.Format("Object {0} is  null", argumentName);
                 Debug.WriteLine(message);
@@ -30,9 +32,11 @@ namespace MVVM_Color_Utilities.Helpers
             }
             return false;
         }
-        #endregion
+
+        #endregion Objects
 
         #region Enumerable
+
         /// <summary>
         /// Checks if type is null or empty.
         /// </summary>
@@ -51,6 +55,7 @@ namespace MVVM_Color_Utilities.Helpers
             }
             return !enumerable.Any();
         }
+
         /// <summary>
         /// Checks if type is null or empty, if true then writes a message to debug.
         /// </summary>
@@ -68,9 +73,11 @@ namespace MVVM_Color_Utilities.Helpers
             }
             return false;
         }
-        #endregion
+
+        #endregion Enumerable
 
         #region Int
+
         /// <summary>
         /// Checks if integer is equal to 0.
         /// </summary>
@@ -78,23 +85,25 @@ namespace MVVM_Color_Utilities.Helpers
         /// <returns></returns>
         public static bool IsEmpty(this int integer)
         {
-            return integer ==0;
+            return integer == 0;
         }
+
         /// <summary>
         /// Checks if integer is equal to 0, if true then writes to debug.
         /// </summary>
         /// <param name="integer">Integer</param>
         /// <param name="integerName">IntegerName</param>
         /// <returns></returns>
-        public static bool IsEmpty(this int integer,string integerName)
+        public static bool IsEmpty(this int integer, string integerName)
         {
-            if(integer == 0)
+            if (integer == 0)
             {
                 Debug.WriteLine("Integer {0} is empty", integerName);
                 return true;
             }
             return false;
         }
-        #endregion
+
+        #endregion Int
     }
 }

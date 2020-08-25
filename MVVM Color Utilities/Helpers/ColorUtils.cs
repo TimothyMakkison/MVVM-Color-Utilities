@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Windows.Media;
 using System.Runtime.InteropServices;
+using System.Windows.Media;
 
 namespace MVVM_Color_Utilities.Helpers
 {
@@ -20,19 +20,25 @@ namespace MVVM_Color_Utilities.Helpers
 
         [DllImport("gdi32.dll")]
         internal static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
-        #endregion
+
+        #endregion Fields + Static Extern
     }
+
     /// <summary>
     /// Contains color converters and pixel color finder.
     /// </summary>
     public static class ColorUtils
     {
         #region Fields
+
         private static System.Drawing.Point _cursor = new System.Drawing.Point();
-        #endregion
+
+        #endregion Fields
 
         #region Methods
+
         #region Get cursor color
+
         /// <summary>
         /// Returns the color of the cursor position
         /// </summary>
@@ -42,9 +48,11 @@ namespace MVVM_Color_Utilities.Helpers
             NativeMethods.GetCursorPos(ref _cursor);
             return GetPixelColor(_cursor.X, _cursor.Y);
         }
-        #endregion
+
+        #endregion Get cursor color
 
         #region Get color on screen
+
         /// <summary>
         /// Gets the color of the inputted location
         /// </summary>
@@ -61,9 +69,11 @@ namespace MVVM_Color_Utilities.Helpers
                          (byte)((pixel & 0x00FF0000) >> 16));
             return color;
         }
-        #endregion
+
+        #endregion Get color on screen
 
         #region ColorToHex
+
         /// <summary>
         /// Converts System.Drawing.Color to hex code.
         /// </summary>
@@ -73,6 +83,7 @@ namespace MVVM_Color_Utilities.Helpers
         {
             return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         }
+
         /// <summary>
         /// System.Windows.Media.Color to hex code.
         /// </summary>
@@ -82,9 +93,11 @@ namespace MVVM_Color_Utilities.Helpers
         {
             return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
         }
-        #endregion
+
+        #endregion ColorToHex
 
         #region Media Color to Drawing Color
+
         /// <summary>
         /// Converts System.Windows.Media.Color to System.Drawing.Color.
         /// </summary>
@@ -94,9 +107,11 @@ namespace MVVM_Color_Utilities.Helpers
         {
             return Color.FromArgb(color.A, color.R, color.G, color.B);
         }
-        #endregion
+
+        #endregion Media Color to Drawing Color
 
         #region Color to SolidColorBrush
+
         /// <summary>
         /// Converts System.Windows.Media.Color to a SolidColorBrush.
         /// </summary>
@@ -106,6 +121,7 @@ namespace MVVM_Color_Utilities.Helpers
         {
             return new SolidColorBrush(color);
         }
+
         /// <summary>
         /// Converts System.Drawing.Color to a SolidColorBrush.
         /// </summary>
@@ -115,7 +131,9 @@ namespace MVVM_Color_Utilities.Helpers
         {
             return new SolidColorBrush(DrawingToMediaColor(color));
         }
-        #endregion
-        #endregion
+
+        #endregion Color to SolidColorBrush
+
+        #endregion Methods
     }
 }

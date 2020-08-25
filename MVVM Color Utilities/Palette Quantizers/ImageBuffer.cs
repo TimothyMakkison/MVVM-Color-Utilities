@@ -1,32 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Windows;
-using System.IO;
-using System.Collections.Concurrent;
-using System.Diagnostics;
-using MVVM_Color_Utilities.Helpers;
-using System.Runtime.InteropServices;
-using System.Drawing.Imaging;
+﻿using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
-    class ImageBuffer : ObservableObject
+    internal class ImageBuffer : ObservableObject
     {
         #region Fields
+
         private Bitmap originalBitmap;
         private Bitmap generatedBitmap;
 
         private ConcurrentDictionary<int, int> bitmapColors;
         private BaseColorQuantizer activeQuantizer;
         private int colorCount;
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         /// <summary>
         /// Bitmap that will be analayzed.
         /// </summary>
@@ -35,7 +34,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => originalBitmap;
             set
             {
-                if (Set(ref originalBitmap,value))
+                if (Set(ref originalBitmap, value))
                 {
                     BitmapColors = new ConcurrentDictionary<int, int>();
                     Palette = new List<Color>();
@@ -45,7 +44,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 }
             }
         }
-       
+
         /// <summary>
         /// Currently selected quantizer.
         /// </summary>
@@ -54,13 +53,14 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => activeQuantizer;
             set
             {
-                if (Set(ref activeQuantizer,value))
+                if (Set(ref activeQuantizer, value))
                 {
                     Palette = new List<Color>();
                     GeneratedBitmap = null;
                 }
             }
         }
+
         /// <summary>
         /// Number of colors in generated palette.
         /// </summary>
@@ -69,14 +69,16 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => colorCount;
             set
             {
-                if (Set(ref colorCount,value))
+                if (Set(ref colorCount, value))
                 {
                     GeneratedBitmap = null;
                     Palette = new List<Color>();
                 }
             }
         }
+
         #region Dependent Properties
+
         /// <summary>
         /// Generated bitmap
         /// </summary>
@@ -110,13 +112,15 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
             set => ActiveQuantizer.Palette = value;
         }
-        #endregion
 
-        #endregion
+        #endregion Dependent Properties
+
+        #endregion Properties
 
         #region Methods
 
         #region Scanning bitmap
+
         /// <summary>
         /// Iterates through OriginalBitmap, adding each color to the ColorList.
         /// </summary>
@@ -135,7 +139,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             //Gets the raw pixel data from bitmap and reads each 4 byte segment as a color.
             using (Bitmap lockableBitmap = new Bitmap(OriginalBitmap))
             {
-                //Get raw bitmap data 
+                //Get raw bitmap data
                 BitmapData bitmapData = lockableBitmap.LockBits(new Rectangle(0, 0, lockableBitmap.Width, lockableBitmap.Height),
                                         ImageLockMode.ReadOnly,
                                         lockableBitmap.PixelFormat);
@@ -156,9 +160,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             Debug.WriteLine($"ScanBitmap Success, Found {colorDict.Count} unique colors");
             return colorDict;
         }
-        #endregion
+
+        #endregion Scanning bitmap
 
         #region Generate palette
+
         /// <summary>
         /// Generates a new Palette.
         /// </summary>
@@ -176,9 +182,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             Debug.WriteLine("Success, Generated palette of " + palette.Count + " unique colors");
             return palette;
         }
-        #endregion
+
+        #endregion Generate palette
 
         #region Generate bitmap
+
         /// <summary>
         /// Uses the CurrentBitmap and Palette to generate an approximate image.
         /// </summary>
@@ -191,14 +199,14 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 return null;
             }
 
-            if(ActiveQuantizer.Palette.IsNullOrEmpty())
+            if (ActiveQuantizer.Palette.IsNullOrEmpty())
             {
                 Debug.WriteLine("\n getting pal \n");
                 Palette = GetPalette();
             }
 
             Bitmap lockableBitmap = new Bitmap(OriginalBitmap);
-            //Get raw bitmap data 
+            //Get raw bitmap data
             BitmapData bitmapData = lockableBitmap.LockBits(new Rectangle(0, 0, lockableBitmap.Width, lockableBitmap.Height),
                                     ImageLockMode.ReadWrite,
                                     lockableBitmap.PixelFormat);
@@ -226,9 +234,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 
             return lockableBitmap;
         }
-        #endregion
+
+        #endregion Generate bitmap
 
         #region Save bitmap
+
         /// <summary>
         /// Save generated image to location and with given type.
         /// </summary>
@@ -244,12 +254,13 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
             catch
             {
-                Debug.WriteLine("Failed saving image to "+path);
+                Debug.WriteLine("Failed saving image to " + path);
                 return false;
             }
         }
-        #endregion
 
-        #endregion
+        #endregion Save bitmap
+
+        #endregion Methods
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Collections.Concurrent;
 using System.Linq;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
@@ -12,14 +12,18 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     public abstract class BaseColorQuantizer
     {
         #region Fields
+
         private List<Color> _palette = new List<Color>();
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         /// <summary>
         /// Sets the display name of derived quantizer.
         /// </summary>
         public virtual string Name => "Base Color Quantizer";
+
         /// <summary>
         /// Generated Color Palette.
         /// </summary>
@@ -28,16 +32,18 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             get => _palette;
             set => _palette = value;
         }
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Generates a new palette
         /// </summary>
         /// <param name="colorCount"></param>
         /// <returns></returns>
         public abstract List<Color> GetPalette(Int32 colorCount, ConcurrentDictionary<int, int> colorDictionary);
-        
+
         /// <summary>
         /// Returns index of the most similar color in Palette.
         /// </summary>
@@ -47,7 +53,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         {
             if (!Palette.Any())
             {
-                throw new ArgumentException("Cannot access Palette as it is empty. Try GetPalette first.","Palette");
+                throw new ArgumentException("Cannot access Palette as it is empty. Try GetPalette first.", "Palette");
             }
             return 0;
         }
@@ -62,6 +68,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 throw new ArgumentNullException("Palette is empty, please use GetPalette first.", "Palette");
             }
         }
-        #endregion
+
+        #endregion Methods
     }
 }

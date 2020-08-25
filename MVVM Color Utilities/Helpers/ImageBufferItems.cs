@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Win32;
 using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
 using MVVM_Color_Utilities.Palette_Quantizers.Naieve;
 using MVVM_Color_Utilities.Palette_Quantizers.Octree;
 using MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer;
-using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MVVM_Color_Utilities.Helpers
@@ -16,6 +16,7 @@ namespace MVVM_Color_Utilities.Helpers
     public static class ImageBufferItems
     {
         #region Fields
+
         private readonly static List<BaseColorQuantizer> quantizerList = new List<BaseColorQuantizer>
         {
             new MedianCutQuantizer(),
@@ -23,21 +24,26 @@ namespace MVVM_Color_Utilities.Helpers
             new NaieveQuantizer(),
             new OctreeQuantizer(),
         };
+
         private readonly static List<Int32> colorCountList =
            new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         public static readonly OpenFileDialog OpenDialogBox = new OpenFileDialog()
         { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
 
         public static readonly SaveFileDialog SaveDialogBox = new SaveFileDialog()
         { Filter = "JPG (*.jpg;*.jpeg)|(*.jpg;*.jpeg)", Title = "Save Image" };
+
         //|PNG(*.png)| (*.png)|BMP(*.bmp)| (*.bmp)"
 
         public static List<Int32> ColorCountList => colorCountList.ToList();
 
         public static List<BaseColorQuantizer> QuantizerList => quantizerList.ToList();
-        #endregion
+
+        #endregion Properties
     }
 }

@@ -8,36 +8,42 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
     internal class MedianCutCube
     {
         #region Fields
+
         private int redLowBound = 255, redUpperBound = 0;
         private int greenLowBound = 255, greenUpperBound = 0;
         private int blueLowBound = 255, blueUpperBound = 0;
 
         private Color averageColor;
         private readonly ICollection<int> colorList;
-        #endregion
+
+        #endregion Fields
 
         #region Constructor
+
         public MedianCutCube(ICollection<int> colors)
         {
             colorList = colors;
             Shrink();
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Properties
+
         public int PaletteIndex { get; set; }
 
         public Color AverageColor
         {
             get
             {
-                if(averageColor == default)
+                if (averageColor == default)
                 {
                     averageColor = GetAverageColor();
                 }
                 return averageColor;
             }
         }
+
         /// <summary>
         /// Gets the index of the greatest length axis in the cube. 0 = Red, 1 = Green, 2 = Blue.
         /// </summary>
@@ -64,9 +70,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 }
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Calculcates the cubes average color by summing and averaging every color item.
         /// </summary>
@@ -87,6 +95,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             blue = colorList.Count == 0 ? 0 : blue / colorList.Count;
             return Color.FromArgb(255, red, green, blue);
         }
+
         /// <summary>
         /// Reduce bounds to range of rgb values.
         /// </summary>
@@ -131,6 +140,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 }
             }
         }
+
         /// <summary>
         /// Splits this cube's color list at median index, and returns two newly created cubes.
         /// </summary>
@@ -184,6 +194,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                    green >= greenLowBound && green <= greenUpperBound &&
                    blue >= blueLowBound && blue <= blueUpperBound;
         }
-        #endregion
+
+        #endregion Methods
     }
 }

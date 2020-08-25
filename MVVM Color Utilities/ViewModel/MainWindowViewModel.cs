@@ -1,21 +1,22 @@
-﻿using System.Windows;
+﻿using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 
 namespace MVVM_Color_Utilities.ViewModel
 {
     public class MainWindowViewModel : ObservableObject
     {
         #region Fields
+
         private ICommand _changePageCommand;
         private IPageViewModel _currentPageViewModel;
         private List<IPageViewModel> _pageViewModels;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors
+
         public MainWindowViewModel()
         {
             PageViewModels.Add(new ColorsList_Tab.ColorListViewModel());
@@ -24,9 +25,11 @@ namespace MVVM_Color_Utilities.ViewModel
 
             CurrentPageViewModel = PageViewModels[0];
         }
-        #endregion
+
+        #endregion Constructors
 
         #region Properties
+
         /// <summary>
         /// Changes page to the relative source
         /// </summary>
@@ -42,11 +45,13 @@ namespace MVVM_Color_Utilities.ViewModel
                 return _changePageCommand;
             }
         }
+
         /// <summary>
         /// List of all available viewmodels
         /// </summary>
         public List<IPageViewModel> PageViewModels =>
             _pageViewModels ?? (_pageViewModels = new List<IPageViewModel>());
+
         /// <summary>
         /// Updates or returns current page
         /// </summary>
@@ -62,9 +67,11 @@ namespace MVVM_Color_Utilities.ViewModel
                 }
             }
         }
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Sets current viewmodel to given one
         /// </summary>
@@ -77,6 +84,7 @@ namespace MVVM_Color_Utilities.ViewModel
             }
             CurrentPageViewModel = PageViewModels.FirstOrDefault(vm => vm == viewModel);
         }
-        #endregion
+
+        #endregion Methods
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
@@ -15,16 +10,21 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         //https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C
 
         #region Fields
+
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         public override string Name => "MedianCut Quantizer";
 
         public override List<Color> Palette { get; set; } = new List<Color>();
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         private void SplitCubes(int colorCount)
         {
             // creates a holder for newly added cubes
@@ -60,6 +60,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 cubeList.Add(medianCutCube);
             }
         }
+
         /// <summary>
         /// Generates Palette of same length or less than colorCount.
         /// </summary>
@@ -97,6 +98,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             // returns the palette (should contain <= ColorCount colors)
             return Palette;
         }
+
         /// <summary>
         /// Returns index of the most similar color in Palette.
         /// </summary>
@@ -120,6 +122,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             //If palette doesnt include color then 0 is returned
             return 0;
         }
-        #endregion
+
+        #endregion Methods
     }
 }

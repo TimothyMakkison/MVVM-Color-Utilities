@@ -15,7 +15,6 @@ namespace MVVM_Color_Utilities.Helpers.DistanceCalculator
             int blueDifference = Math.Abs(a.B - b.B);
 
             return redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
-
         }
     }
 }

@@ -1,19 +1,21 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Windows;
 
 namespace MVVM_Color_Utilities.Helpers
 {
-    static class SharedUtils
+    internal static class SharedUtils
     {
         #region Fields
+
         private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
         private readonly static string colorsFilePath = projectPath + "/Resources/ColorItemsList.txt";
         private static ObservableCollection<ListColorClass> _colorClassList;
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         /// <summary>
         /// Returns an ObservableCollection containing ColorClass objects.
         /// </summary>
@@ -29,13 +31,16 @@ namespace MVVM_Color_Utilities.Helpers
                 return _colorClassList;
             }
         }
+
         /// <summary>
         /// Returns the next viable ID.
         /// </summary>
         public static int NextID => ColorClassList.Count > 0 ? ColorClassList[0].ID + 1 : 0;
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Saves current <see cref="ColorClassList"/> to <see cref="colorsFilePath"/>.
         /// </summary>
@@ -49,6 +54,7 @@ namespace MVVM_Color_Utilities.Helpers
             }
             catch { return false; }
         }
+
         /// <summary>
         /// Adds new item to ColorClassList.
         /// </summary>
@@ -62,6 +68,7 @@ namespace MVVM_Color_Utilities.Helpers
             ColorClassList.Insert(index, new ListColorClass(NextID, hexString, nameString));
             return SaveColorsList();
         }
+
         /// <summary>
         /// Edits item from ColorClassList at given position.
         /// </summary>
@@ -81,6 +88,7 @@ namespace MVVM_Color_Utilities.Helpers
                 return false;
             }
         }
+
         /// <summary>
         /// Deletes item from ColorClassList at given position.
         /// </summary>
@@ -98,6 +106,7 @@ namespace MVVM_Color_Utilities.Helpers
                 return false;
             }
         }
-        #endregion
+
+        #endregion Methods
     }
 }

@@ -2,7 +2,6 @@
 using MVVM_Color_Utilities.Helpers.DistanceCalculator;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 
@@ -11,16 +10,21 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
     public class OctreeQuantizer : BaseColorQuantizer
     {
         #region Fields
+
         private List<OctreeNode> octreeNodes = new List<OctreeNode>();
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         public override string Name => "Octree Quantizer";
         public override List<Color> Palette { get; set; } = new List<Color>();
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Generates a color palette of a specified size from colors in an image.
         /// </summary>
@@ -64,10 +68,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             {
                 octreeNodes[i].PaletteIndex = i;
             }
-            
+
             return Palette = octreeNodes.Select(x => x.AverageColor)
                                         .ToList(); ;
         }
+
         /// <summary>
         /// Finds the palette index of a similar color.
         /// </summary>
@@ -88,6 +93,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             return octreeNodes.MinBy(x => distanceCalculator.Distance(x.AverageColor, color))
                 .FirstOrDefault().PaletteIndex;
         }
-        #endregion
+
+        #endregion Methods
     }
 }

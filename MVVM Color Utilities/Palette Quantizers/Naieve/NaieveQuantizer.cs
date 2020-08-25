@@ -1,5 +1,4 @@
 ﻿using MVVM_Color_Utilities.Helpers.DistanceCalculator;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,13 +6,16 @@ using System.Linq;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
 {
-    class NaieveQuantizer : BaseColorQuantizer
+    internal class NaieveQuantizer : BaseColorQuantizer
     {
         #region Fields
+
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         public override string Name => "Naieve Quantizer";
 
         public override List<Color> Palette { get; set; } = new List<Color>();
@@ -55,6 +57,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
             }
             return bestIndex;
         }
-        #endregion
+
+        #endregion Properties
     }
 }

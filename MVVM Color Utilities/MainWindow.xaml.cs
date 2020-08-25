@@ -23,12 +23,14 @@ namespace MVVM_Color_Utilities
             => this.WindowState = WindowState.Minimized;
 
         private bool maximized = false;
+
         private void ChangeWindowState_Click(object sender, RoutedEventArgs e)
         {
             this.WindowState = maximized ? WindowState.Normal : WindowState.Maximized;
             maximized = !maximized;
         }
-        private void CloseWindow_Click(object sender, RoutedEventArgs e) 
+
+        private void CloseWindow_Click(object sender, RoutedEventArgs e)
             => this.Close();
     }
 }

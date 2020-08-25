@@ -2,16 +2,16 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- primary -->
-    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FFBA5656"/>
-    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="#FFBA5656" />
+    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="White" />
 
-    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF7F2626"/>
-    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FF7F2626" />
+    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="White" />
 
-    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#FF5D1A1A"/>
-    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#FF5D1A1A" />
+    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="White" />
 
     <!--accent-->
-    <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#FF252C32"/>
-    <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush" Color="White"/>
+    <SolidColorBrush x:Key="SecondaryHueDarkBrush" Color="#FF252C32" />
+    <SolidColorBrush x:Key="SecondaryHueDarkForegroundBrush" Color="White" />
 </ResourceDictionary>

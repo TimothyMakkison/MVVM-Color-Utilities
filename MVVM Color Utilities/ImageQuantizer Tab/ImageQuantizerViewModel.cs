@@ -1,32 +1,28 @@
 ﻿using MaterialDesignThemes.Wpf;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using Microsoft.Win32;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Palette_Quantizers;
-using System;
-using System.Collections.Concurrent;
+using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Drawing;
-using System.Windows;
-using System.Windows.Input;
-using System.Threading.Tasks;
 using System.Diagnostics;
-using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
+using System.Drawing;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
     /// <summary>
     /// ViewModel for ImageQuantizer, converts images into lower quality forms.
     /// </summary>
-    class ImageQuantizerViewModel : ObservableObject, IPageViewModel
+    internal class ImageQuantizerViewModel : ObservableObject, IPageViewModel
     {
         #region Fields
+
         private string selectedPath;
         private BaseColorQuantizer selectedQuantizer = QuantizerList[0];
         private int selectedColorCount = 16;
 
-        System.Windows.Media.Imaging.BitmapImage generatedBitmap;
+        private System.Windows.Media.Imaging.BitmapImage generatedBitmap;
 
         private ICommand openCommand;
         private ICommand saveCommand;
@@ -36,18 +32,23 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         //private readonly ImageQuantizerModel model = new ImageQuantizerModel();
 
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
-        #endregion
+
+        #endregion Fields
 
         #region Constructor
+
         public ImageQuantizerViewModel()
         {
             imageBuffer.ActiveQuantizer = SelectedQuantizer;
             imageBuffer.ColorCount = SelectedColorCount;
         }
-        #endregion
+
+        #endregion Constructor
 
         #region Properties
+
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
+
         /// <summary>
         /// Button displays image from this location.
         /// </summary>
@@ -56,6 +57,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             get => selectedPath;
             set => Set(ref selectedPath, value);
         }
+
         /// <summary>
         /// Displayed by save bitmap button
         /// </summary>
@@ -66,7 +68,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         }
 
         #region QuantizerList
+
         public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
+
         public BaseColorQuantizer SelectedQuantizer
         {
             get => selectedQuantizer;
@@ -78,38 +82,45 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 GenerateNewImage();
             }
         }
-        #endregion
+
+        #endregion QuantizerList
 
         #region ColorCountList
+
         public List<int> ColorCountList => ImageBufferItems.ColorCountList;
+
         public int SelectedColorCount
         {
             get => selectedColorCount;
             set
             {
                 selectedColorCount = value;
-                imageBuffer.ColorCount  = selectedColorCount;
+                imageBuffer.ColorCount = selectedColorCount;
                 Debug.WriteLine("IQ Color count set to " + selectedColorCount.ToString());
                 GenerateNewImage();
             }
         }
-        #endregion
 
-        #endregion
+        #endregion ColorCountList
+
+        #endregion Properties
 
         #region Commands
+
         public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, DialogGetImage);
         public ICommand SaveCommand => PatternHandler.Singleton(ref saveCommand, DialogSaveImage);
-        #endregion
+
+        #endregion Commands
 
         #region Methods
+
         /// <summary>
         /// Opens file and exectues GenerateNewImage if selected item is valid.
         /// </summary>
         private void DialogGetImage()
         {
             //Checks that the path exists and is not repeating itself.
-            if (dialogBox.ShowDialog()==true && SelectedPath != dialogBox.FileName)
+            if (dialogBox.ShowDialog() == true && SelectedPath != dialogBox.FileName)
             {
                 SelectedPath = dialogBox.FileName;
                 imageBuffer.OriginalBitmap = new Bitmap(Image.FromFile(SelectedPath));
@@ -129,6 +140,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 imageBuffer.SaveGeneratedImage(path, System.Drawing.Imaging.ImageFormat.Png);
             }
         }
+
         /// <summary>
         /// Generates new image and then displays it.
         /// </summary>
@@ -142,6 +154,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 }
             });
         }
-        #endregion
+
+        #endregion Methods
     }
 }

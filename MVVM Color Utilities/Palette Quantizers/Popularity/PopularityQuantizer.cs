@@ -1,5 +1,4 @@
 ﻿using MVVM_Color_Utilities.Helpers.DistanceCalculator;
-using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,21 +8,24 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
 {
     /// <summary>
     /// Divides each colors values by 4, compressing them and then creates a palette from the most common values
-    /// and converting them back into color. This is similar to the normal popularity quantizer where each color 
-    /// is added to a 64x64x64 grid made up of 4x4x4 cubes. The palette is then found by finding the most 
+    /// and converting them back into color. This is similar to the normal popularity quantizer where each color
+    /// is added to a 64x64x64 grid made up of 4x4x4 cubes. The palette is then found by finding the most
     /// populated cubes and returning the cubes average color. Memory savings are made in this implementation
-    /// by not saving the individual colors when placed in the grid, instead if a color is within a cube, the 
+    /// by not saving the individual colors when placed in the grid, instead if a color is within a cube, the
     /// cubes count increases, this does however mean an average of each cube cannot be found.
     /// </summary>
-    class PopularityQuantizer : BaseColorQuantizer
+    internal class PopularityQuantizer : BaseColorQuantizer
     {
         #region Fields
+
         private List<Color> _palette = new List<Color>();
 
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
-        #endregion
+
+        #endregion Fields
 
         #region Properties
+
         public override string Name => "PopularityQuantizer";
 
         public override List<Color> Palette
@@ -31,9 +33,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
             get => _palette;
             set => _palette = value;
         }
-        #endregion
+
+        #endregion Properties
 
         #region Methods
+
         /// <summary>
         /// Retunrs a palette by grouping similar colors and returning the most frequent colors as a palette.
         /// </summary>
@@ -105,6 +109,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
             }
             return bestIndex;
         }
-        #endregion
+
+        #endregion Methods
     }
 }
