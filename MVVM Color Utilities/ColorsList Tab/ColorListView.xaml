@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MVVM_Color_Utilities.ColorsList_Tab"
              xmlns:cc="clr-namespace:MVVM_Color_Utilities"
-
+             xmlns:converter="clr-namespace:MVVM_Color_Utilities.Converters"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d">
     <UserControl.InputBindings>
@@ -17,6 +17,12 @@
         <KeyBinding Modifiers="Ctrl" Key="Q" Command="{Binding SampleColorCommand}" />
     </UserControl.InputBindings>
 
+    <UserControl.Resources>
+        <converter:BooleanToBrushConverter x:Key="DarkTrueLightFalseConverter" 
+                                           TrueBrush="{StaticResource PrimaryHueDarkBrush}"
+                                           FalseBrush="{StaticResource PrimaryHueMidBrush}"/>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
@@ -31,7 +37,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.Resources>
-                <Style x:Key="SquareButton" TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatDarkBgButton}">
+                <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatDarkBgButton}">
                     <Setter Property="BorderThickness" Value="0" />
                     <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="0" />
                     <Setter Property="Height" Value="70" />
@@ -39,29 +45,13 @@
             </Grid.Resources>
 
             <Button Grid.Column="0" Command="{Binding Path=AddSwitchCommand}"
-                    Content="{materialDesign:PackIcon Kind=Add}">
-                <Button.Style>
-                    <Style TargetType="Button" BasedOn="{StaticResource SquareButton}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding AddingModeBool}" Value="True">
-                                <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+                    Content="{materialDesign:PackIcon Kind=Add}"
+                    Background="{Binding AddingModeBool, Converter={StaticResource DarkTrueLightFalseConverter}, ConverterParameter=!   }"/>
+
             <Button Grid.Column="1" Command="{Binding Path=EditSwitchCommand}"
-                    Content="{materialDesign:PackIcon Kind=Edit}">
-                <Button.Style>
-                    <Style TargetType="Button" BasedOn="{StaticResource SquareButton}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding AddingModeBool}" Value="False">
-                                <Setter Property="Background" Value="{StaticResource PrimaryHueMidBrush}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+                    Content="{materialDesign:PackIcon Kind=Edit}"
+                    Background="{Binding AddingModeBool, Converter={StaticResource DarkTrueLightFalseConverter}}"/>
+            
             <Button Grid.Column="2" Command="{Binding Path=DeleteItem}"
                     Content="{materialDesign:PackIcon Kind=Delete}" />
         </Grid>
