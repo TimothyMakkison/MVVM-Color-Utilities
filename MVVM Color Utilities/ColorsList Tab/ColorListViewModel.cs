@@ -11,8 +11,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 {
     internal class ColorListViewModel : ObservableObject, IPageViewModel
     {
-        #region Fields
-
         private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
         private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
 
@@ -26,8 +24,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         private SolidColorBrush _inputBrush = Brushes.White;
 
-        #region ICommands
-
         private ICommand _addSwitchCommand;
         private ICommand _editSwitchCommand;
 
@@ -35,9 +31,12 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private ICommand _sampleColorCommand;
         private ICommand _deleteItemCommand;
 
-        #endregion ICommands
+        private readonly ColorDataContext colorDataContext;
 
-        #endregion Fields
+        public ColorListViewModel(ColorDataContext dataContext)
+        {
+            this.colorDataContext = dataContext;
+        }
 
         #region Properties
 
@@ -87,7 +86,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set => Set(ref _addingModeBool, value);
         }
 
-        public ObservableCollection<ListColorClass> ColorListSource => SharedUtils.ColorClassList;
+        public ObservableCollection<ListColorClass> ColorListSource => colorDataContext.ColorClassList;
 
         public ListColorClass SelectedValue
         {
@@ -118,27 +117,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         #endregion Properties
 
-        #region Commands
-
-        #region WindowCommands
-
         public ICommand AddSwitchCommand => PatternHandler.Singleton(ref _addSwitchCommand, AddSwitchMethod);
 
         public ICommand EditSwitchCommand => PatternHandler.Singleton(ref _editSwitchCommand, EditSwitchMethod);
-
-        #endregion WindowCommands
-
-        #region FunctionalCommands
 
         public ICommand ExecuteCommand => PatternHandler.Singleton(ref _executeCommand, ExecuteMethod);
 
         public ICommand SampleColorCommandExecuteMethod => PatternHandler.Singleton(ref _sampleColorCommand, SampleColorMethod);
 
         public ICommand DeleteItem => PatternHandler.Singleton(ref _deleteItemCommand, DeleteItemMethod);
-
-        #endregion FunctionalCommands
-
-        #endregion Commands
 
         #region Methods
 
@@ -167,7 +154,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void AddNewItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            SharedUtils.AddColorItem(SelectedItemIndex, InputHex, InputName);
+            colorDataContext.AddColorItem(SelectedItemIndex, InputHex, InputName);
             SelectedItemIndex = currentIndex;
         }
 
@@ -177,7 +164,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void EditItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            SharedUtils.EditColorItem(SelectedItemIndex, InputHex, InputName);
+            colorDataContext.EditColorItem(SelectedItemIndex, InputHex, InputName);
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {
@@ -191,7 +178,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void DeleteItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            SharedUtils.DeleteColorItem(SelectedItemIndex);
+            colorDataContext.DeleteColorItem(SelectedItemIndex);
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {

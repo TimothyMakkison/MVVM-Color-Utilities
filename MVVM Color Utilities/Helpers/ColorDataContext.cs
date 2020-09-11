@@ -5,44 +5,28 @@ using System.IO;
 namespace MVVM_Color_Utilities.Helpers
 {
     //TODO create a dedicated database handler and add database
-    internal static class SharedUtils
+    internal class ColorDataContext
     {
-        #region Fields
-
-        private readonly static string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
-        private readonly static string colorsFilePath = projectPath + "/Resources/ColorItemsList.txt";
-        private static ObservableCollection<ListColorClass> _colorClassList;
-
-        #endregion Fields
-
-        #region Properties
+        private static readonly string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
+        private static readonly string colorsFilePath = projectPath + "/Resources/ColorItemsList.txt";
+        private ObservableCollection<ListColorClass> colorClassList;
 
         /// <summary>
         /// Returns an ObservableCollection containing ColorClass objects.
         /// </summary>
-        public static ObservableCollection<ListColorClass> ColorClassList
-        {
-            get
-            {
-                return _colorClassList ??= 
+        public ObservableCollection<ListColorClass> ColorClassList => colorClassList ??=
                     JsonConvert.DeserializeObject<ObservableCollection<ListColorClass>>(File.ReadAllText(colorsFilePath));
-            }
-        }
 
         /// <summary>
         /// Returns the next viable ID.
         /// </summary>
-        public static int NextID => ColorClassList.Count > 0 ? ColorClassList[0].ID + 1 : 0;
-
-        #endregion Properties
-
-        #region Methods
+        public int NextID => ColorClassList.Count + 1;
 
         /// <summary>
         /// Saves current <see cref="ColorClassList"/> to <see cref="colorsFilePath"/>.
         /// </summary>
         /// <returns></returns>
-        public static bool SaveColorsList()
+        public bool SaveColorsList()
         {
             try
             {
@@ -59,7 +43,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// <param name="hexString">Hex of object</param>
         /// <param name="nameString">Name of object</param>
         /// <returns>Returns success of operation</returns>
-        public static bool AddColorItem(int index, string hexString, string nameString)
+        public bool AddColorItem(int index, string hexString, string nameString)
         {
             index = MathUtils.Clamp(0, ColorClassList.Count, index);
             ColorClassList.Insert(index, new ListColorClass(NextID, hexString, nameString));
@@ -73,7 +57,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// <param name="hexString">New hex</param>
         /// <param name="nameString">New name</param>
         /// <returns>Returns success of operation</returns>
-        public static bool EditColorItem(int index, string hexString, string nameString)
+        public bool EditColorItem(int index, string hexString, string nameString)
         {
             if (ColorClassList.Count > index && ColorClassList.Count > 0)
             {
@@ -91,7 +75,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// </summary>
         /// <param name="index">Position of item</param>
         /// <returns>Returns success of operation</returns>
-        public static bool DeleteColorItem(int index)
+        public bool DeleteColorItem(int index)
         {
             if (ColorClassList.Count > index && ColorClassList.Count > 0)
             {
@@ -100,7 +84,5 @@ namespace MVVM_Color_Utilities.Helpers
             }
             return false;
         }
-
-        #endregion Methods
     }
 }

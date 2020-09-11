@@ -45,11 +45,12 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <returns></returns>
         private bool SaveColorMethod()
         {
+            // TODO Fix saving
             try
             {
-                int ID = SharedUtils.NextID;
-                SharedUtils.ColorClassList.Insert(0, new Helpers.ListColorClass(ID, ColorHex, "Color " + ID.ToString()));
-                SharedUtils.SaveColorsList();
+                //int ID = colorDataContext.NextID;
+                //colorDataContext.ColorClassList.Insert(0, new Helpers.ListColorClass(ID, ColorHex, "Color " + ID.ToString()));
+                //colorDataContext.SaveColorsList();
                 return true;
             }
             catch { return false; }
