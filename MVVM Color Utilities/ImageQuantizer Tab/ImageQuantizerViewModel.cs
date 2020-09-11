@@ -19,16 +19,15 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         #region Fields
 
         private string selectedPath;
-        private BaseColorQuantizer selectedQuantizer = QuantizerList[0];
+        private BaseColorQuantizer selectedQuantizer;
         private int selectedColorCount = 16;
+        private readonly GeneralSettings generalSettings;
 
         private System.Windows.Media.Imaging.BitmapImage generatedBitmap;
 
         private ICommand openCommand;
         private ICommand saveCommand;
 
-        private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
-        private readonly SaveFileDialog saveDialogBox = ImageBufferItems.SaveDialogBox;
         //private readonly ImageQuantizerModel model = new ImageQuantizerModel();
 
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
@@ -37,8 +36,10 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         #region Constructor
 
-        public ImageQuantizerViewModel()
+        public ImageQuantizerViewModel(GeneralSettings generalSettings)
         {
+            this.generalSettings = generalSettings;
+            selectedQuantizer = QuantizerList[0];
             imageBuffer.ActiveQuantizer = SelectedQuantizer;
             imageBuffer.ColorCount = SelectedColorCount;
         }
@@ -69,7 +70,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         #region QuantizerList
 
-        public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
+        public List<BaseColorQuantizer> QuantizerList => generalSettings.QuantizerList;
 
         public BaseColorQuantizer SelectedQuantizer
         {
@@ -87,7 +88,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         #region ColorCountList
 
-        public List<int> ColorCountList => ImageBufferItems.ColorCountList;
+        public List<int> ColorCountList => generalSettings.ColorCountList;
 
         public int SelectedColorCount
         {
@@ -120,9 +121,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         private void DialogGetImage()
         {
             //Checks that the path exists and is not repeating itself.
-            if (dialogBox.ShowDialog() == true && SelectedPath != dialogBox.FileName)
+            if (generalSettings.OpenDialogBox.ShowDialog() == true && SelectedPath != generalSettings.OpenDialogBox.FileName)
             {
-                SelectedPath = dialogBox.FileName;
+                SelectedPath = generalSettings.OpenDialogBox.FileName;
                 imageBuffer.OriginalBitmap = new Bitmap(Image.FromFile(SelectedPath));
 
                 GenerateNewImage();
@@ -134,9 +135,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         private void DialogSaveImage()
         {
-            if (saveDialogBox.ShowDialog() == true)
+            if (generalSettings.SaveDialogBox.ShowDialog() == true)
             {
-                string path = saveDialogBox.FileName;
+                string path = generalSettings.SaveDialogBox.FileName;
                 imageBuffer.SaveGeneratedImage(path, System.Drawing.Imaging.ImageFormat.Png);
             }
         }

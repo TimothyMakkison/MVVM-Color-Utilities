@@ -1,5 +1,4 @@
 ﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Win32;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
@@ -9,8 +8,6 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
-//using PatternHelper;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
@@ -22,22 +19,26 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         #region Fields
 
         private string selectedPath;
-        private BaseColorQuantizer selectedQuantizer = QuantizerList[0];
-        private int selectedColorCount = ColorCountList[4];
+        private BaseColorQuantizer selectedQuantizer;
+        private int selectedColorCount;
 
         private List<IAColorClass> sampleColorSource = new List<IAColorClass>();
 
         private ICommand openCommand;
 
-        private readonly OpenFileDialog dialogBox = ImageBufferItems.OpenDialogBox;
+        private readonly GeneralSettings generalSettings;
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
 
         #endregion Fields
 
         #region Constructor
 
-        public ImageAnalyzerViewModel()
+        public ImageAnalyzerViewModel(GeneralSettings generalSettings)
         {
+            this.generalSettings = generalSettings;
+            selectedColorCount = ColorCountList[4];
+            selectedQuantizer = QuantizerList[0];
+
             imageBuffer.ActiveQuantizer = SelectedQuantizer;
             imageBuffer.ColorCount = SelectedColorCount;
         }
@@ -68,7 +69,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         #region QuantizerList
 
-        public static List<BaseColorQuantizer> QuantizerList => ImageBufferItems.QuantizerList;
+        public List<BaseColorQuantizer> QuantizerList => generalSettings.QuantizerList;
 
         public BaseColorQuantizer SelectedQuantizer
         {
@@ -86,7 +87,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         #region ColorCountList
 
-        public static List<int> ColorCountList => ImageBufferItems.ColorCountList;
+        public List<int> ColorCountList => generalSettings.ColorCountList;
 
         public int SelectedColorCount
         {
@@ -117,9 +118,9 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private void OpenFile()
         {
-            if (dialogBox.ShowDialog() == true && SelectedPath != dialogBox.FileName) //Checks that the path exists and is not the previous path.
+            if (generalSettings.OpenDialogBox.ShowDialog() == true && SelectedPath != generalSettings.OpenDialogBox.FileName) //Checks that the path exists and is not the previous path.
             {
-                SelectedPath = dialogBox.FileName;
+                SelectedPath = generalSettings.OpenDialogBox.FileName;
                 imageBuffer.OriginalBitmap = new Bitmap(Image.FromFile(SelectedPath));
                 GetNewPalette();
             }

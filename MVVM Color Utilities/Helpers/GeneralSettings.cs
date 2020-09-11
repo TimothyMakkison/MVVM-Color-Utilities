@@ -13,11 +13,9 @@ namespace MVVM_Color_Utilities.Helpers
     /// <summary>
     /// Contains shared dialog boxes and avaliable image buffer options.
     /// </summary>
-    public static class ImageBufferItems
+    public class GeneralSettings
     {
-        #region Fields
-
-        private readonly static List<BaseColorQuantizer> quantizerList = new List<BaseColorQuantizer>
+        private readonly List<BaseColorQuantizer> quantizerList = new List<BaseColorQuantizer>
         {
             new MedianCutQuantizer(),
             new PopularityQuantizer(),
@@ -25,25 +23,17 @@ namespace MVVM_Color_Utilities.Helpers
             new OctreeQuantizer(),
         };
 
-        private readonly static List<Int32> colorCountList =
+        private readonly List<Int32> colorCountList =
            new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
 
-        #endregion Fields
-
-        #region Properties
-
-        public static readonly OpenFileDialog OpenDialogBox = new OpenFileDialog()
+        public readonly OpenFileDialog OpenDialogBox = new OpenFileDialog()
         { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
 
-        public static readonly SaveFileDialog SaveDialogBox = new SaveFileDialog()
+        public readonly SaveFileDialog SaveDialogBox = new SaveFileDialog()
         { Filter = "JPG (*.jpg;*.jpeg)|(*.jpg;*.jpeg)", Title = "Save Image" };
 
-        //|PNG(*.png)| (*.png)|BMP(*.bmp)| (*.bmp)"
+        public List<Int32> ColorCountList => colorCountList.ToList();
 
-        public static List<Int32> ColorCountList => colorCountList.ToList();
-
-        public static List<BaseColorQuantizer> QuantizerList => quantizerList.ToList();
-
-        #endregion Properties
+        public List<BaseColorQuantizer> QuantizerList => quantizerList.ToList();
     }
 }
