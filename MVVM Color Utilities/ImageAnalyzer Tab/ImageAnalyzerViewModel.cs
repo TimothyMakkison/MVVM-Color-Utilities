@@ -21,7 +21,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private BaseColorQuantizer selectedQuantizer;
         private int selectedColorCount;
 
-        private List<IAColorClass> sampleColorSource = new List<IAColorClass>();
+        private List<ColorModel> sampleColorSource = new List<ColorModel>();
 
         private ICommand openCommand;
 
@@ -29,8 +29,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
 
         private readonly ColorDataContext dataContext;
-
-        #region Constructor
 
         public ImageAnalyzerViewModel(GeneralSettings generalSettings, ColorDataContext colorDataContext)
         {
@@ -44,10 +42,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             imageBuffer.ActiveQuantizer = SelectedQuantizer;
             imageBuffer.ColorCount = SelectedColorCount;
         }
-
-        #endregion Constructor
-
-        #region Properties
 
         public PackIconKind Icon => PackIconKind.Paint;
 
@@ -63,7 +57,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <summary>
         /// Contains image palette
         /// </summary>
-        public List<IAColorClass> SampleColorSource
+        public List<ColorModel> SampleColorSource
         {
             get => sampleColorSource;
             set => Set(ref sampleColorSource, value);
@@ -73,12 +67,10 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         private void Save(object item)
         {
-            var a = item as IAColorClass;
+            var a = item as ColorModel;
             //TODO fix id.
             dataContext.Add(new ColorModel(a.Color)).Save();
         }
-
-        #region QuantizerList
 
         public List<BaseColorQuantizer> QuantizerList => generalSettings.QuantizerList;
 
@@ -94,10 +86,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             }
         }
 
-        #endregion QuantizerList
-
-        #region ColorCountList
-
         public List<int> ColorCountList => generalSettings.ColorCountList;
 
         public int SelectedColorCount
@@ -112,17 +100,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             }
         }
 
-        #endregion ColorCountList
-
-        #endregion Properties
-
-        #region Commands
-
         public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, OpenFile);
-
-        #endregion Commands
-
-        #region Methods
 
         /// <summary>
         /// Opens a dilog box and if a selection is made, a new palette is created.
@@ -145,10 +123,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             Task.Run(() =>
             {
                 SampleColorSource.Clear();
-                SampleColorSource = imageBuffer.Palette.Select(x => new IAColorClass(x)).ToList();
+                SampleColorSource = imageBuffer.Palette.Select(color => new ColorModel(color)).ToList();
             });
         }
-
-        #endregion Methods
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using MVVM_Color_Utilities.Converters;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Helpers.Extensions;
 using MVVM_Color_Utilities.Models;
@@ -81,10 +82,14 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 if (_selectedItem != null)
                 {
                     InputName = _selectedItem.Name;
+                    InputHex = _selectedItem.Color.ToHex();
+                    Color = _selectedItem.Color;
                 }
                 else
                 {
                     InputName = "";
+                    InputHex = "";
+                    Color = Color.White;
                 }
             }
         }
