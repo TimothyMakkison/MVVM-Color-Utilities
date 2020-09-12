@@ -8,7 +8,6 @@ namespace MVVM_Color_Utilities.Helpers
         IEnumerable<T> Source { get; }
         ObservableCollection<T> Observable { get; }
 
-
         IDataContext<T> Add(T item);
 
         IDataContext<T> RemoveAt(int index);

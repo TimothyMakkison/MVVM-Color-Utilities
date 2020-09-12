@@ -79,14 +79,16 @@ namespace MVVM_Color_Utilities.Helpers
         /// </summary>
         /// <param name="color">Drawing Color</param>
         /// <returns>Hex Code</returns>
-        static public string ColorToHex(System.Drawing.Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        static public string ColorToHex(System.Drawing.Color color)
+            => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
 
         /// <summary>
         /// System.Windows.Media.Color to hex code.
         /// </summary>
         /// <param name="color">Media color</param>
         /// <returns>Hex code</returns>
-        static public string ColorToHex(Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+        static public string ColorToHex(Color color)
+            => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
 
         #endregion ColorToHex
 
@@ -111,7 +113,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// </summary>
         /// <param name="color">System.Windows.Media Color</param>
         /// <returns>SolidColorBrush</returns>
-        static public SolidColorBrush ColorToBrush(Color color) 
+        static public SolidColorBrush ColorToBrush(Color color)
             => new SolidColorBrush(color);
 
         /// <summary>

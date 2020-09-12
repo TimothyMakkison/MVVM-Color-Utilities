@@ -18,14 +18,13 @@
     </UserControl.InputBindings>
 
     <UserControl.Resources>
-        <converter:BooleanToBrushConverter x:Key="DarkTrueLightFalseConverter" 
+        <converter:BooleanToBrushConverter x:Key="DarkTrueLightFalseConverter"
                                            TrueBrush="{StaticResource PrimaryHueDarkBrush}"
-                                           FalseBrush="{StaticResource PrimaryHueMidBrush}"/>
-        <converter:ColorToHexConverter x:Key="ColorToHex"/>
-        <converter:ColorToBrushConverter x:Key="ColorToBrush"/>
-
+                                           FalseBrush="{StaticResource PrimaryHueMidBrush}" />
+        <converter:ColorToHexConverter x:Key="ColorToHex" />
+        <converter:ColorToBrushConverter x:Key="ColorToBrush" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
@@ -49,12 +48,12 @@
 
             <Button Grid.Column="0" Command="{Binding Path=AddSwitchCommand}"
                     Content="{materialDesign:PackIcon Kind=Add}"
-                    Background="{Binding AddingModeBool, Converter={StaticResource DarkTrueLightFalseConverter}, ConverterParameter=!   }"/>
+                    Background="{Binding AddingModeBool, Converter={StaticResource DarkTrueLightFalseConverter}, ConverterParameter=!   }" />
 
             <Button Grid.Column="1" Command="{Binding Path=EditSwitchCommand}"
                     Content="{materialDesign:PackIcon Kind=Edit}"
-                    Background="{Binding AddingModeBool, Converter={StaticResource DarkTrueLightFalseConverter}}"/>
-            
+                    Background="{Binding AddingModeBool, Converter={StaticResource DarkTrueLightFalseConverter}}" />
+
             <Button Grid.Column="2" Command="{Binding Path=DeleteItem}"
                     Content="{materialDesign:PackIcon Kind=Delete}" />
         </Grid>
@@ -77,10 +76,10 @@
             </Grid.Resources>
 
             <Rectangle Height="18" Width="60" Fill="White" />
-            <Rectangle Height="18" Width="60" Fill="{Binding IndicatorBrush}" Stroke="Gray" StrokeThickness="0.4" />
+            <Rectangle Height="18" Width="60" Fill="{Binding Color, Converter={StaticResource ColorToBrush}}" Stroke="Gray" StrokeThickness="0.4" />
 
-            <TextBox Grid.Column="1" Width="160" Text="{Binding InputName}" />
-            <TextBox Grid.Column="2" Width="80" Text="{Binding HexString}" />
+            <TextBox Grid.Column="1" Width="160" Text="{Binding InputName, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Grid.Column="2" Width="80" Text="{Binding InputHex, UpdateSourceTrigger=PropertyChanged}" />
 
             <Button Grid.Column="4" Command="{Binding Path=SampleColorCommand}"
                     Style="{StaticResource MaterialDesignFlatMidBgButton}">
@@ -117,9 +116,11 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="3*" />
                         </Grid.ColumnDefinitions>
-                        <Rectangle  Height="18" Width="60" Fill="{Binding SampleBrush}" Stroke="Gray" StrokeThickness="0.4" />
+                        <Rectangle  Height="18" Width="60" Fill="{Binding Color, Converter={StaticResource ColorToBrush}}"
+                                    Stroke="Gray"
+                                    StrokeThickness="0.4" />
                         <TextBlock Text="{Binding Name}" Width="160" Grid.Column="1" />
-                        <TextBlock Text="{Binding Hex}" Width="70" Grid.Column="2" />
+                        <TextBlock Text="{Binding Color, Converter={StaticResource ColorToHex}}" Width="70" Grid.Column="2" />
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

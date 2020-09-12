@@ -70,6 +70,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="StructureMap, Version=4.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\StructureMap.4.7.1\lib\net45\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -95,15 +98,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanToBrushConverter.cs" />
+    <Compile Include="Converters\ColorToBrushConverter.cs" />
+    <Compile Include="Converters\ColorToHexConverter.cs" />
+    <Compile Include="Helpers\ColorDataContext.cs" />
     <Compile Include="Helpers\Derived Classes\AsyncObservableCollection.cs" />
     <Compile Include="Helpers\DistanceCalculator\ChebyshevDistance.cs" />
     <Compile Include="Helpers\DistanceCalculator\EuclideanDistance.cs" />
     <Compile Include="Helpers\DistanceCalculator\IDistanceCalculator.cs" />
     <Compile Include="Helpers\DistanceCalculator\ManhattenDistance.cs" />
+    <Compile Include="Helpers\Extensions\ColorConverter.cs" />
     <Compile Include="Helpers\Guard.cs" />
-    <Compile Include="Helpers\ImageBufferItems.cs" />
-    <Compile Include="Helpers\ListColorClass.cs" />
-    <Compile Include="Helpers\SharedUtils.cs" />
+    <Compile Include="Helpers\GeneralSettings.cs" />
+    <Compile Include="Helpers\IDataContext.cs" />
+    <Compile Include="Models\ColorModel.cs" />
     <Compile Include="ImageAnalyzer Tab\IAColorClass.cs" />
     <Compile Include="ImageQuantizer Tab\ImageQuantizerView.xaml.cs">
       <DependentUpon>ImageQuantizerView.xaml</DependentUpon>

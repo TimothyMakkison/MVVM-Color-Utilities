@@ -1,5 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
+using MVVM_Color_Utilities.Models;
 using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
 
         private readonly ColorDataContext dataContext;
+
         #region Constructor
 
         public ImageAnalyzerViewModel(GeneralSettings generalSettings, ColorDataContext colorDataContext)
@@ -73,7 +75,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         {
             var a = item as IAColorClass;
             //TODO fix id.
-            dataContext.Add(new ColorModel(4,a.ColorHex,""));
+            dataContext.Add(new ColorModel(a.Color)).Save();
         }
 
         #region QuantizerList

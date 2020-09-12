@@ -1,80 +1,18 @@
-﻿using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-using System.Windows.Media;
+﻿using System;
+using System.Drawing;
 
-namespace MVVM_Color_Utilities.Helpers
+namespace MVVM_Color_Utilities.Models
 {
-    // TODO Convert this to pure model - no regex logic.
     public class ColorModel
     {
-        private string hex = "";
-        private readonly Regex hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
-
-        #region Constructor
-
-        /// <summary>
-        /// Constructs an instance of <see cref="ColorModel"/> using its ID, color in hex format and given name.
-        /// </summary>
-        /// <param name="id">Id of color.</param>
-        /// <param name="hex">Hexadecimal form of color.</param>
-        /// <param name="name">Name of color.</param>
-        public ColorModel(int id, string hex, string name)
+        public ColorModel(Color color)
         {
-            ID = id;
-            Name = name;
-            Hex = hex;
+            Id = new Guid();
+            Color = color;
         }
 
-        #endregion Constructor
-
-        #region Properties
-
-        /// <summary>
-        /// ID value of ColorItem.
-        /// </summary>
-        public int ID { get; set; }
-
-        /// <summary>
-        /// Color in hex format.
-        /// </summary>
-        public string Hex
-        {
-            get => hex;
-            set
-            {
-                hex = hexColorReg.IsMatch(value) ? value : "#FFFF";
-                SampleBrush = HexToBrush(hex);
-            }
-        }
-
-        /// <summary>
-        /// Name of color.
-        /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Brush form of color.
-        /// </summary>
-        public SolidColorBrush SampleBrush { get; set; }
-
-        #endregion Properties
-
-        #region Methods
-
-        /// <summary>
-        /// Converts valid hex color into <see cref="SolidColorBrush"/> format.
-        /// </summary>
-        /// <param name="hexString">Input hexstring.</param>
-        /// <returns>Color in <see cref="SolidColorBrush"/> format.</returns>
-        private SolidColorBrush HexToBrush(string hexString)
-        {
-            Color color = hexColorReg.IsMatch(hexString)
-                ? (Color)ColorConverter.ConvertFromString(Hex)
-                : Color.FromRgb(255, 255, 255);
-
-            return new SolidColorBrush(color);
-        }
-
-        #endregion Methods
+        public Color Color { get; }
+        public Guid Id { get; }
     }
 }

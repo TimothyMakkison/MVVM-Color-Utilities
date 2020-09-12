@@ -1,11 +1,13 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
+using MVVM_Color_Utilities.Helpers.Extensions;
+using MVVM_Color_Utilities.Models;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace MVVM_Color_Utilities.ColorsList_Tab
 {
@@ -14,15 +16,14 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
         private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
 
+        private Color color;
         private ColorModel _selectedItem;
 
         private bool _addingModeBool = true;
         private int _selectedItemIndex = 0;
 
-        private string _inputNameString = "";
-        private string _inputHexString = "";
-
-        private SolidColorBrush _inputBrush = Brushes.White;
+        private string inputName = "";
+        private string inputHex = "";
 
         private ICommand _addSwitchCommand;
         private ICommand _editSwitchCommand;
@@ -40,34 +41,23 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         #region Properties
 
-        #region Brushes
-
-        public SolidColorBrush IndicatorBrush
-        {
-            get => _inputBrush;
-            set => Set(ref _inputBrush, value);
-        }
-
-        #endregion Brushes
-
         public string InputName
         {
-            get => _inputNameString;
-            set => Set(ref _inputNameString, value);
+            get => inputName;
+            set => Set(ref inputName, value);
         }
 
         public string InputHex
         {
-            get => _inputHexString;
+            get => inputHex;
             set
             {
                 if (_hexCharactersReg.IsMatch(value) || value == "")//Only allows valid hex charcters ie start with # and the 1-9a-f
                 {
-                    _inputHexString = value;
-                    OnPropertyChanged();
-                    IndicatorBrush = _hexColorReg.IsMatch(_inputHexString)
-                        ? new SolidColorBrush((Color)ColorConverter.ConvertFromString(_inputHexString)) :
-                        IndicatorBrush = Brushes.White;
+                    Set(ref inputHex, value);
+
+                    if (_hexColorReg.IsMatch(inputHex))
+                        Color = ((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(inputHex)).ToDrawingColor();
                 }
             }
         }
@@ -80,7 +70,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set => Set(ref _addingModeBool, value);
         }
 
-        public ObservableCollection<ColorModel> ColorListSource => new ObservableCollection<ColorModel>(colorDataContext.Source);
+        public ObservableCollection<ColorModel> ColorListSource => colorDataContext.Observable;
 
         public ColorModel SelectedValue
         {
@@ -91,12 +81,22 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 if (_selectedItem != null)
                 {
                     InputName = _selectedItem.Name;
-                    InputHex = _selectedItem.Hex;
                 }
                 else
                 {
-                    InputHex = "";
                     InputName = "";
+                }
+            }
+        }
+
+        public Color Color
+        {
+            get => color;
+            set
+            {
+                if (value != null)
+                {
+                    Set(ref color, value);
                 }
             }
         }
@@ -115,7 +115,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         public ICommand ExecuteCommand => PatternHandler.Singleton(ref _executeCommand, ExecuteMethod);
 
-        public ICommand SampleColorCommandExecuteMethod => PatternHandler.Singleton(ref _sampleColorCommand, SampleColorMethod);
+        public ICommand SampleColorCommand => PatternHandler.Singleton(ref _sampleColorCommand, SampleColorMethod);
 
         public ICommand DeleteItem => PatternHandler.Singleton(ref _deleteItemCommand, DeleteItemMethod);
 
@@ -125,6 +125,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         private void EditSwitchMethod() => AddingModeBool = false;
 
+        //TODO Use polymorphism
         /// <summary>
         /// Adds or edits item depending on selected setting.
         /// </summary>
@@ -146,9 +147,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void AddNewItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            colorDataContext.Add(new ColorModel(SelectedItemIndex, InputHex, InputName));
-            colorDataContext.Save();
-
+            colorDataContext.InsertAt(0, new ColorModel(Color) { Name = InputName }).Save();
             SelectedItemIndex = currentIndex;
         }
 
@@ -158,11 +157,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void EditItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            //TODO Fix id assignment
-            var id = 4;
-            colorDataContext.ReplaceAt(SelectedItemIndex, new ColorModel(id, InputHex, InputName));
-            colorDataContext.Save();
-
+            colorDataContext.ReplaceAt(SelectedItemIndex, new ColorModel(Color) { Name = InputName }).Save();
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {
@@ -175,10 +170,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// </summary>
         private void DeleteItemMethod()
         {
-            int currentIndex = SelectedItemIndex;
-            colorDataContext.RemoveAt(SelectedItemIndex);
-            colorDataContext.Save();
+            if (colorDataContext.Observable.Count <= 0)
+                return;
 
+            int currentIndex = SelectedItemIndex;
+            colorDataContext.RemoveAt(SelectedItemIndex).Save();
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {
@@ -189,7 +185,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// <summary>
         /// Gets the color of the pixel location.
         /// </summary>
-        private void SampleColorMethod() => InputHex = ColorUtils.ColorToHex(ColorUtils.GetCursorColor());
+        private void SampleColorMethod() => Color = ColorUtils.GetCursorColor().ToDrawingColor();
 
         #endregion Methods
     }

@@ -11,8 +11,8 @@
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converter:ColorToHexConverter x:Key="ColorToHexConverter"/>
-        <converter:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
+        <converter:ColorToHexConverter x:Key="ColorToHexConverter" />
+        <converter:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 
         <DataTemplate x:Key="DefaultItemTemplate">
             <Rectangle Height="30" Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" Stroke="Gray" StrokeThickness="0.4" />
@@ -23,14 +23,14 @@
                     <Rectangle Height="30"  Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"
                                Stroke="Gray" StrokeThickness="0.4" />
                     <StackPanel Height="30" Orientation="Horizontal">
-                        <Button Foreground="Black" Command="{Binding 
+                        <Button Foreground="Black" Command="{Binding
                             RelativeSource={RelativeSource AncestorType={x:Type ListBox}},
                             Path=DataContext.SaveCommand}"
                             CommandParameter="{Binding }">
-                            
+
                             <materialDesign:PackIcon Kind="Plus" />
                         </Button>
-                        <TextBlock TextAlignment="Center" Text="{Binding Color, 
+                        <TextBlock TextAlignment="Center" Text="{Binding Color,
                             Converter={StaticResource ColorToHexConverter}}" />
                     </StackPanel>
                 </StackPanel>

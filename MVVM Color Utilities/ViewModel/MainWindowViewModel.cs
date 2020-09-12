@@ -1,4 +1,6 @@
-﻿using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+﻿using MVVM_Color_Utilities.Helpers;
+using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+using StructureMap;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -7,70 +9,43 @@ namespace MVVM_Color_Utilities.ViewModel
 {
     public class MainWindowViewModel : ObservableObject
     {
-        #region Fields
-
-        private ICommand _changePageCommand;
-        private IPageViewModel _currentPageViewModel;
-        private List<IPageViewModel> _pageViewModels;
-
-        #endregion Fields
-
-        #region Constructors
+        private ICommand changePageCommand;
+        private IPageViewModel currentPageViewModel;
+        private List<IPageViewModel> pageViewModels;
 
         public MainWindowViewModel()
         {
-            PageViewModels.Add(new ColorsList_Tab.ColorListViewModel());
-            PageViewModels.Add(new ImageQuantizer_Tab.ImageQuantizerViewModel());
-            PageViewModels.Add(new ImageAnalyzer_Tab.ImageAnalyzerViewModel());
+            var container = new Container(_ =>
+            {
+                _.ForSingletonOf<ColorDataContext>().Use(new ColorDataContext());
+            });
+            PageViewModels.Add(container.GetInstance<ColorsList_Tab.ColorListViewModel>());
+            PageViewModels.Add(container.GetInstance<ImageQuantizer_Tab.ImageQuantizerViewModel>());
+            PageViewModels.Add(container.GetInstance<ImageAnalyzer_Tab.ImageAnalyzerViewModel>());
 
             CurrentPageViewModel = PageViewModels[0];
         }
-
-        #endregion Constructors
-
-        #region Properties
 
         /// <summary>
         /// Changes page to the relative source
         /// </summary>
         public ICommand ChangePageCommand
-        {
-            get
-            {
-                if (_changePageCommand == null)
-                {
-                    _changePageCommand = new RelayCommand(p => ChangeViewModel((IPageViewModel)p),
+            => changePageCommand ??= new RelayCommand(p => ChangeViewModel((IPageViewModel)p),
                                                           p => p is IPageViewModel);
-                }
-                return _changePageCommand;
-            }
-        }
 
         /// <summary>
         /// List of all available viewmodels
         /// </summary>
-        public List<IPageViewModel> PageViewModels =>
-            _pageViewModels ?? (_pageViewModels = new List<IPageViewModel>());
+        public List<IPageViewModel> PageViewModels => pageViewModels ??= new List<IPageViewModel>();
 
         /// <summary>
         /// Updates or returns current page
         /// </summary>
         public IPageViewModel CurrentPageViewModel
         {
-            get => _currentPageViewModel;
-            set
-            {
-                if (_currentPageViewModel != value)
-                {
-                    _currentPageViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
+            get => currentPageViewModel;
+            set => Set(ref currentPageViewModel, value);
         }
-
-        #endregion Properties
-
-        #region Methods
 
         /// <summary>
         /// Sets current viewmodel to given one
@@ -84,7 +59,5 @@ namespace MVVM_Color_Utilities.ViewModel
             }
             CurrentPageViewModel = PageViewModels.FirstOrDefault(vm => vm == viewModel);
         }
-
-        #endregion Methods
     }
 }

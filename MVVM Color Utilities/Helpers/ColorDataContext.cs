@@ -22,12 +22,13 @@ namespace MVVM_Color_Utilities.Helpers
         /// Returns an ObservableCollection containing ColorClass objects.
         /// </summary>
         IEnumerable<ColorModel> IDataContext<ColorModel>.Source => source;
-        ObservableCollection<ColorModel> IDataContext<ColorModel>.Observable=> source;
+
+        ObservableCollection<ColorModel> IDataContext<ColorModel>.Observable => source;
 
         public IDataContext<ColorModel> Add(ColorModel item)
         {
             source.Add(item);
-            return this;    
+            return this;
         }
 
         public IDataContext<ColorModel> InsertAt(int index, ColorModel item)
@@ -47,7 +48,6 @@ namespace MVVM_Color_Utilities.Helpers
             source[index] = item;
             return this;
         }
-
 
         /// <summary>
         /// Saves current <see cref="ColorClassList"/> to <see cref="colorsFilePath"/>.
