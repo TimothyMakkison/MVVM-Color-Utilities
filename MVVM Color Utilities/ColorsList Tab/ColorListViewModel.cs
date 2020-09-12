@@ -14,7 +14,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
         private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
 
-        private ListColorClass _selectedItem;
+        private ColorModel _selectedItem;
 
         private bool _addingModeBool = true;
         private int _selectedItemIndex = 0;
@@ -31,9 +31,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private ICommand _sampleColorCommand;
         private ICommand _deleteItemCommand;
 
-        private readonly ColorDataContext colorDataContext;
+        private readonly IDataContext<ColorModel> colorDataContext;
 
-        public ColorListViewModel(ColorDataContext dataContext)
+        public ColorListViewModel(IDataContext<ColorModel> dataContext)
         {
             this.colorDataContext = dataContext;
         }
@@ -49,8 +49,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         }
 
         #endregion Brushes
-
-        #region Strings
 
         public string InputName
         {
@@ -74,10 +72,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             }
         }
 
-        #endregion Strings
-
-        #region Misc
-
         public PackIconKind Icon => PackIconKind.Palette;
 
         public bool AddingModeBool
@@ -86,9 +80,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set => Set(ref _addingModeBool, value);
         }
 
-        public ObservableCollection<ListColorClass> ColorListSource => colorDataContext.ColorClassList;
+        public ObservableCollection<ColorModel> ColorListSource => new ObservableCollection<ColorModel>(colorDataContext.Source);
 
-        public ListColorClass SelectedValue
+        public ColorModel SelectedValue
         {
             get => _selectedItem;
             set
@@ -112,8 +106,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             get => _selectedItemIndex = MathUtils.Clamp(0, ColorListSource.Count - 1, _selectedItemIndex);
             set => Set(ref _selectedItemIndex, MathUtils.Clamp(0, ColorListSource.Count - 1, value));
         }
-
-        #endregion Misc
 
         #endregion Properties
 
@@ -154,7 +146,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void AddNewItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            colorDataContext.AddColorItem(SelectedItemIndex, InputHex, InputName);
+            colorDataContext.Add(new ColorModel(SelectedItemIndex, InputHex, InputName));
+            colorDataContext.Save();
+
             SelectedItemIndex = currentIndex;
         }
 
@@ -164,7 +158,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void EditItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            colorDataContext.EditColorItem(SelectedItemIndex, InputHex, InputName);
+            //TODO Fix id assignment
+            var id = 4;
+            colorDataContext.ReplaceAt(SelectedItemIndex, new ColorModel(id, InputHex, InputName));
+            colorDataContext.Save();
+
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {
@@ -178,7 +176,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void DeleteItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            colorDataContext.DeleteColorItem(SelectedItemIndex);
+            colorDataContext.RemoveAt(SelectedItemIndex);
+            colorDataContext.Save();
+
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {

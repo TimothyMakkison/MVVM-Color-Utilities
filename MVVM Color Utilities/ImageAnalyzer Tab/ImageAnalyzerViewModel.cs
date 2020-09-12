@@ -16,8 +16,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     /// </summary>
     internal class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
     {
-        #region Fields
-
         private string selectedPath;
         private BaseColorQuantizer selectedQuantizer;
         private int selectedColorCount;
@@ -29,13 +27,15 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private readonly GeneralSettings generalSettings;
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
 
-        #endregion Fields
-
+        private readonly ColorDataContext dataContext;
         #region Constructor
 
-        public ImageAnalyzerViewModel(GeneralSettings generalSettings)
+        public ImageAnalyzerViewModel(GeneralSettings generalSettings, ColorDataContext colorDataContext)
         {
             this.generalSettings = generalSettings;
+            this.dataContext = colorDataContext;
+            SaveCommand = new RelayCommand(x => Save(x));
+
             selectedColorCount = ColorCountList[4];
             selectedQuantizer = QuantizerList[0];
 
@@ -65,6 +65,15 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         {
             get => sampleColorSource;
             set => Set(ref sampleColorSource, value);
+        }
+
+        public ICommand SaveCommand { get; }
+
+        private void Save(object item)
+        {
+            var a = item as IAColorClass;
+            //TODO fix id.
+            dataContext.Add(new ColorModel(4,a.ColorHex,""));
         }
 
         #region QuantizerList

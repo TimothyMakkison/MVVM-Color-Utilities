@@ -1,26 +1,24 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using System.Windows.Media;
 
 namespace MVVM_Color_Utilities.Helpers
 {
-    public class ListColorClass
+    // TODO Convert this to pure model - no regex logic.
+    public class ColorModel
     {
-        #region Fields
-
         private string hex = "";
         private readonly Regex hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
-
-        #endregion Fields
 
         #region Constructor
 
         /// <summary>
-        /// Constructs an instance of <see cref="ListColorClass"/> using its ID, color in hex format and given name.
+        /// Constructs an instance of <see cref="ColorModel"/> using its ID, color in hex format and given name.
         /// </summary>
         /// <param name="id">Id of color.</param>
         /// <param name="hex">Hexadecimal form of color.</param>
         /// <param name="name">Name of color.</param>
-        public ListColorClass(int id, string hex, string name)
+        public ColorModel(int id, string hex, string name)
         {
             ID = id;
             Name = name;
@@ -73,6 +71,7 @@ namespace MVVM_Color_Utilities.Helpers
             Color color = hexColorReg.IsMatch(hexString)
                 ? (Color)ColorConverter.ConvertFromString(Hex)
                 : Color.FromRgb(255, 255, 255);
+
             return new SolidColorBrush(color);
         }
 
