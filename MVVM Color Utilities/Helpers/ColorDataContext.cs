@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MVVM_Color_Utilities.Models;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -14,12 +15,14 @@ namespace MVVM_Color_Utilities.Helpers
         public ColorDataContext()
         {
             this.source = JsonConvert.DeserializeObject<ObservableCollection<ColorModel>>(File.ReadAllText(colorsFilePath));
+            this.source ??= new ObservableCollection<ColorModel>();
         }
 
         /// <summary>
         /// Returns an ObservableCollection containing ColorClass objects.
         /// </summary>
         IEnumerable<ColorModel> IDataContext<ColorModel>.Source => source;
+        ObservableCollection<ColorModel> IDataContext<ColorModel>.Observable=> source;
 
         public IDataContext<ColorModel> Add(ColorModel item)
         {

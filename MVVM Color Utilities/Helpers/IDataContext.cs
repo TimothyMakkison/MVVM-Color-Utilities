@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MVVM_Color_Utilities.Helpers
 {
     internal interface IDataContext<T>
     {
         IEnumerable<T> Source { get; }
+        ObservableCollection<T> Observable { get; }
+
 
         IDataContext<T> Add(T item);
 
