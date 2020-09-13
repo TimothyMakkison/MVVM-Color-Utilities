@@ -1,5 +1,4 @@
 ﻿using MaterialDesignThemes.Wpf;
-using MVVM_Color_Utilities.Converters;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Helpers.Extensions;
 using MVVM_Color_Utilities.Models;
@@ -18,7 +17,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
 
         private Color color;
-        private ColorModel _selectedItem;
+        private ColorModel selectedItem;
 
         private bool _addingModeBool = true;
         private int _selectedItemIndex = 0;
@@ -75,15 +74,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         public ColorModel SelectedValue
         {
-            get => _selectedItem;
+            get => selectedItem;
             set
             {
-                Set(ref _selectedItem, value);
-                if (_selectedItem != null)
+                Set(ref selectedItem, value);
+                if (selectedItem != null)
                 {
-                    InputName = _selectedItem.Name;
-                    InputHex = _selectedItem.Color.ToHex();
-                    Color = _selectedItem.Color;
+                    InputName = selectedItem.Name;
+                    InputHex = selectedItem.Color.ToHex();
+                    Color = selectedItem.Color;
                 }
                 else
                 {
@@ -100,9 +99,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set
             {
                 if (value != null)
-                {
                     Set(ref color, value);
-                }
             }
         }
 
@@ -137,13 +134,9 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void ExecuteMethod()
         {
             if (AddingModeBool)
-            {
                 AddNewItemMethod();
-            }
             else
-            {
                 EditItemMethod();
-            }
         }
 
         /// <summary>

@@ -23,12 +23,28 @@
                                            FalseBrush="{StaticResource PrimaryHueMidBrush}" />
         <converter:ColorToHexConverter x:Key="ColorToHex" />
         <converter:ColorToBrushConverter x:Key="ColorToBrush" />
+
+        <DataTemplate x:Key="ListItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.8*" />
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3*" />
+                </Grid.ColumnDefinitions>
+                <Rectangle  Height="18" Width="60" Fill="{Binding Color, Converter={StaticResource ColorToBrush}}"
+                                    Stroke="Gray"
+                                    StrokeThickness="0.4" />
+                <TextBlock Text="{Binding Name}" Width="160" Grid.Column="1" />
+                <TextBlock Text="{Binding Color, Converter={StaticResource ColorToHex}}" Width="70" Grid.Column="2" />
+            </Grid>
+        </DataTemplate>
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
-            <RowDefinition Height="50" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
@@ -58,8 +74,8 @@
                     Content="{materialDesign:PackIcon Kind=Delete}" />
         </Grid>
 
-        <!--#region ListBox Header-->
-        <Grid Grid.Row="1" Background="{StaticResource PrimaryHueMidBrush}">
+        <Grid Grid.Row="1" Background="{StaticResource PrimaryHueMidBrush}"
+              Height="50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.8*" />
                 <ColumnDefinition Width="1.5*" />
@@ -89,11 +105,10 @@
                 <materialDesign:PackIcon Kind="done" Width="100" />
             </Button>
         </Grid>
-        <!--#endregion-->
-
-        <!--#region ListBox-->
         <ListBox Grid.Row="2" ItemsSource="{Binding ColorListSource}"
-                 SelectedItem="{Binding SelectedValue}" SelectedIndex="{Binding SelectedItemIndex}">
+                 SelectedItem="{Binding SelectedValue}"
+                 SelectedIndex="{Binding SelectedItemIndex}"
+                 ItemTemplate="{StaticResource ListItem}">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -102,29 +117,11 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="true" />
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" Value="Gray" />
+                            <Setter Property="Background" Value="LightGray" />
                         </MultiTrigger>
                     </Style.Triggers>
                 </Style>
             </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.8*" />
-                            <ColumnDefinition Width="1.5*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="3*" />
-                        </Grid.ColumnDefinitions>
-                        <Rectangle  Height="18" Width="60" Fill="{Binding Color, Converter={StaticResource ColorToBrush}}"
-                                    Stroke="Gray"
-                                    StrokeThickness="0.4" />
-                        <TextBlock Text="{Binding Name}" Width="160" Grid.Column="1" />
-                        <TextBlock Text="{Binding Color, Converter={StaticResource ColorToHex}}" Width="70" Grid.Column="2" />
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
         </ListBox>
-        <!--#endregion-->
     </Grid>
 </UserControl>
