@@ -56,7 +56,7 @@
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="0.2*" MaxWidth="150" />
             </Grid.ColumnDefinitions>
             <Label HorizontalAlignment="Center" VerticalAlignment="Center" Width="70" Height="70"
@@ -66,9 +66,12 @@
                     Command="{Binding Path= OpenCommand}">
                 <Image Source="{Binding SelectedPath, TargetNullValue={x:Null}}" />
             </Button>
-
-            <Rectangle Grid.Column="1" Fill="Gray" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-
+            
+            <Rectangle Grid.Column="1"
+                       Width="5"
+                       HorizontalAlignment="Stretch" 
+                       Fill="Gray" />
+            
             <ListBox Grid.Column="2" ItemsSource="{Binding SampleColorSource}">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">

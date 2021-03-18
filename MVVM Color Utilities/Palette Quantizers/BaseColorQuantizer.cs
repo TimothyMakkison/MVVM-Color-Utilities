@@ -11,14 +11,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     /// </summary>
     public abstract class BaseColorQuantizer
     {
-        #region Fields
 
         private List<Color> _palette = new List<Color>();
 
-        #endregion Fields
-
-        #region Properties
-
+        
         /// <summary>
         /// Sets the display name of derived quantizer.
         /// </summary>
@@ -33,10 +29,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             set => _palette = value;
         }
 
-        #endregion Properties
-
-        #region Methods
-
+        
+        
         /// <summary>
         /// Generates a new palette
         /// </summary>
@@ -69,6 +63,5 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
         }
 
-        #endregion Methods
-    }
+            }
 }

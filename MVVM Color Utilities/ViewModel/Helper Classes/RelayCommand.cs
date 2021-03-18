@@ -13,15 +13,12 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
     /// </summary>
     public class RelayCommand : ICommand
     {
-        #region Fields
-
+        
         private readonly Action<object> _execute;
         private readonly Predicate<object> _canExecute;
 
-        #endregion Fields
-
-        #region Constructors
-
+        
+        
         /// <summary>
         /// Creates a new command that can always execute.
         /// </summary>
@@ -42,10 +39,8 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
             _canExecute = canExecute;
         }
 
-        #endregion Constructors
-
-        #region ICommand Members
-
+        
+        
         [DebuggerStepThrough]
         public bool CanExecute(object parameters)
         {
@@ -63,6 +58,5 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
             _execute(parameters);
         }
 
-        #endregion ICommand Members
-    }
+            }
 }

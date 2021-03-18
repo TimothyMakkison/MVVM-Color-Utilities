@@ -13,8 +13,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 {
     internal class ImageBuffer : ObservableObject
     {
-        #region Fields
-
+        
         private Bitmap originalBitmap;
         private Bitmap generatedBitmap;
 
@@ -22,10 +21,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         private BaseColorQuantizer activeQuantizer;
         private int colorCount;
 
-        #endregion Fields
-
-        #region Properties
-
+        
+        
         /// <summary>
         /// Bitmap that will be analayzed.
         /// </summary>
@@ -77,8 +74,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
         }
 
-        #region Dependent Properties
-
+        
         /// <summary>
         /// Generated bitmap
         /// </summary>
@@ -113,14 +109,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             set => ActiveQuantizer.Palette = value;
         }
 
-        #endregion Dependent Properties
-
-        #endregion Properties
-
-        #region Methods
-
-        #region Scanning bitmap
-
+        
+        
+        
+        
         /// <summary>
         /// Iterates through OriginalBitmap, adding each color to the ColorList.
         /// </summary>
@@ -161,10 +153,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             return colorDict;
         }
 
-        #endregion Scanning bitmap
-
-        #region Generate palette
-
+        
+        
         /// <summary>
         /// Generates a new Palette.
         /// </summary>
@@ -183,10 +173,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             return palette;
         }
 
-        #endregion Generate palette
-
-        #region Generate bitmap
-
+        
+        
         /// <summary>
         /// Uses the CurrentBitmap and Palette to generate an approximate image.
         /// </summary>
@@ -235,10 +223,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             return lockableBitmap;
         }
 
-        #endregion Generate bitmap
-
-        #region Save bitmap
-
+        
+        
         /// <summary>
         /// Save generated image to location and with given type.
         /// </summary>
@@ -259,8 +245,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
         }
 
-        #endregion Save bitmap
-
-        #endregion Methods
-    }
+        
+            }
 }

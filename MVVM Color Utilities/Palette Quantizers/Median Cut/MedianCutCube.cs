@@ -7,8 +7,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
     internal class MedianCutCube
     {
-        #region Fields
-
+        
         private int redLowBound = 255, redUpperBound = 0;
         private int greenLowBound = 255, greenUpperBound = 0;
         private int blueLowBound = 255, blueUpperBound = 0;
@@ -16,20 +15,16 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         private Color averageColor;
         private readonly ICollection<int> colorList;
 
-        #endregion Fields
-
-        #region Constructor
-
+        
+        
         public MedianCutCube(ICollection<int> colors)
         {
             colorList = colors;
             Shrink();
         }
 
-        #endregion Constructor
-
-        #region Properties
-
+        
+        
         public int PaletteIndex { get; set; }
 
         public Color AverageColor
@@ -72,10 +67,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             }
         }
 
-        #endregion Properties
-
-        #region Methods
-
+        
+        
         /// <summary>
         /// Calculcates the cubes average color by summing and averaging every color item.
         /// </summary>
@@ -184,6 +177,5 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                    blue >= blueLowBound && blue <= blueUpperBound;
         }
 
-        #endregion Methods
-    }
+            }
 }

@@ -15,8 +15,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     /// </summary>
     internal class ImageQuantizerViewModel : ObservableObject, IPageViewModel
     {
-        #region Fields
-
+        
         private string selectedPath;
         private BaseColorQuantizer selectedQuantizer;
         private int selectedColorCount = 16;
@@ -31,10 +30,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
 
-        #endregion Fields
-
-        #region Constructor
-
+        
+        
         public ImageQuantizerViewModel(GeneralSettings generalSettings)
         {
             this.generalSettings = generalSettings;
@@ -43,10 +40,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             imageBuffer.ColorCount = SelectedColorCount;
         }
 
-        #endregion Constructor
-
-        #region Properties
-
+        
+        
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
 
         /// <summary>
@@ -67,8 +62,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set => Set(ref generatedBitmap, value);
         }
 
-        #region QuantizerList
-
+        
         public List<BaseColorQuantizer> QuantizerList => generalSettings.QuantizerList;
 
         public BaseColorQuantizer SelectedQuantizer
@@ -83,10 +77,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
 
-        #endregion QuantizerList
-
-        #region ColorCountList
-
+        
+        
         public List<int> ColorCountList => generalSettings.ColorCountList;
 
         public int SelectedColorCount
@@ -101,19 +93,14 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
 
-        #endregion ColorCountList
-
-        #endregion Properties
-
-        #region Commands
-
+        
+        
+        
         public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, DialogGetImage);
         public ICommand SaveCommand => PatternHandler.Singleton(ref saveCommand, DialogSaveImage);
 
-        #endregion Commands
-
-        #region Methods
-
+        
+        
         /// <summary>
         /// Opens file and exectues GenerateNewImage if selected item is valid.
         /// </summary>
@@ -155,6 +142,5 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             });
         }
 
-        #endregion Methods
-    }
+            }
 }

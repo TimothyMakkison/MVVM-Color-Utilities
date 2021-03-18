@@ -16,16 +16,13 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
     /// </summary>
     internal class PopularityQuantizer : BaseColorQuantizer
     {
-        #region Fields
-
+        
         private List<Color> _palette = new List<Color>();
 
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
 
-        #endregion Fields
-
-        #region Properties
-
+        
+        
         public override string Name => "PopularityQuantizer";
 
         public override List<Color> Palette
@@ -34,10 +31,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
             set => _palette = value;
         }
 
-        #endregion Properties
-
-        #region Methods
-
+        
+        
         /// <summary>
         /// Retunrs a palette by grouping similar colors and returning the most frequent colors as a palette.
         /// </summary>
@@ -110,6 +105,5 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
             return bestIndex;
         }
 
-        #endregion Methods
-    }
+            }
 }

@@ -7,8 +7,7 @@ namespace MVVM_Color_Utilities.Helpers
 {
     public static class Guard
     {
-        #region Objects
-
+        
         /// <summary>
         /// Checks if an object is null.
         /// </summary>
@@ -33,10 +32,8 @@ namespace MVVM_Color_Utilities.Helpers
             return false;
         }
 
-        #endregion Objects
-
-        #region Enumerable
-
+        
+        
         /// <summary>
         /// Checks if type is null or empty.
         /// </summary>
@@ -71,10 +68,8 @@ namespace MVVM_Color_Utilities.Helpers
             return false;
         }
 
-        #endregion Enumerable
-
-        #region Int
-
+        
+        
         /// <summary>
         /// Checks if integer is equal to 0.
         /// </summary>
@@ -98,6 +93,5 @@ namespace MVVM_Color_Utilities.Helpers
             return false;
         }
 
-        #endregion Int
-    }
+            }
 }

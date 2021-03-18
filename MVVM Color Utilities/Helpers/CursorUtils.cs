@@ -6,8 +6,7 @@ namespace MVVM_Color_Utilities.Helpers
 {
     internal static class NativeMethods
     {
-        #region Fields + Static Extern
-
+        
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool GetCursorPos(ref System.Drawing.Point pt);
@@ -21,8 +20,7 @@ namespace MVVM_Color_Utilities.Helpers
         [DllImport("gdi32.dll")]
         internal static extern uint GetPixel(IntPtr hdc, int nXPos, int nYPos);
 
-        #endregion Fields + Static Extern
-    }
+            }
 
     /// <summary>
     /// Contains color converters and pixel color finder.

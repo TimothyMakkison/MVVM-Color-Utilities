@@ -8,14 +8,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
 {
     internal class NaieveQuantizer : BaseColorQuantizer
     {
-        #region Fields
-
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
 
-        #endregion Fields
-
-        #region Properties
-
+        
         public override string Name => "Naieve Quantizer";
 
         public override List<Color> Palette { get; set; } = new List<Color>();
@@ -26,10 +21,11 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
         /// <param name="colorCount">Number of colors in Palette.</param>
         /// <param name="colorDictionary">Input colors and frequencies.</param>
         /// <returns>Palette as a list of colors.</returns>
-        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary) => Palette = colorDictionary.OrderByDescending(x => x.Value)
-                                                    .Take(colorCount)
-                                                    .Select(x => Color.FromArgb(255, Color.FromArgb(x.Key)))
-                                                    .ToList();
+        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
+            => Palette = colorDictionary.OrderByDescending(x => x.Value)
+                                        .Take(colorCount)
+                                        .Select(x => Color.FromArgb(255, Color.FromArgb(x.Key)))
+                                        .ToList();
 
         /// <summary>
         /// Returns index of most similar color in Palette.
@@ -58,6 +54,5 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
             return bestIndex;
         }
 
-        #endregion Properties
-    }
+            }
 }

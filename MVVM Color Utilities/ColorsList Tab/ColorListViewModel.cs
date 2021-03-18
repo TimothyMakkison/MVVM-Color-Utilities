@@ -39,8 +39,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             this.colorDataContext = dataContext;
         }
 
-        #region Properties
-
+        
         public string InputName
         {
             get => inputName;
@@ -109,8 +108,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set => Set(ref _selectedItemIndex, MathUtils.Clamp(0, ColorListSource.Count - 1, value));
         }
 
-        #endregion Properties
-
+        
         public ICommand AddSwitchCommand => PatternHandler.Singleton(ref _addSwitchCommand, AddSwitchMethod);
 
         public ICommand EditSwitchCommand => PatternHandler.Singleton(ref _editSwitchCommand, EditSwitchMethod);
@@ -121,8 +119,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         public ICommand DeleteItem => PatternHandler.Singleton(ref _deleteItemCommand, DeleteItemMethod);
 
-        #region Methods
-
+        
         private void AddSwitchMethod() => AddingModeBool = true;
 
         private void EditSwitchMethod() => AddingModeBool = false;
@@ -185,6 +182,5 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// </summary>
         private void SampleColorMethod() => Color = CursorUtils.GetCursorColor().ToDrawingColor();
 
-        #endregion Methods
-    }
+            }
 }
