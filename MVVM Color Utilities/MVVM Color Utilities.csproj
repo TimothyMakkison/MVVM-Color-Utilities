@@ -112,7 +112,6 @@
     <Compile Include="Helpers\GeneralSettings.cs" />
     <Compile Include="Helpers\IDataContext.cs" />
     <Compile Include="Models\ColorModel.cs" />
-    <Compile Include="ImageAnalyzer Tab\IAColorClass.cs" />
     <Compile Include="ImageQuantizer Tab\ImageQuantizerView.xaml.cs">
       <DependentUpon>ImageQuantizerView.xaml</DependentUpon>
     </Compile>
@@ -124,7 +123,7 @@
     <Compile Include="Palette Quantizers\ImageBuffer.cs" />
     <Compile Include="Palette Quantizers\Median Cut\MedianCutCube.cs" />
     <Compile Include="Palette Quantizers\Median Cut\MedianCutQuantizer.cs" />
-    <Compile Include="Helpers\ColorUtils.cs" />
+    <Compile Include="Helpers\CursorUtils.cs" />
     <Compile Include="Palette Quantizers\Naieve\NaieveQuantizer.cs" />
     <Compile Include="Palette Quantizers\Octree\OctreeNode.cs" />
     <Compile Include="Palette Quantizers\Octree\OctreeQuantizer.cs" />
