@@ -111,7 +111,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             if (generalSettings.SaveDialogBox.ShowDialog() == true)
             {
                 string path = generalSettings.SaveDialogBox.FileName;
-                imageBuffer.SaveGeneratedImage(path, System.Drawing.Imaging.ImageFormat.Png);
+                GeneratedBitmap.ToBitmap().SaveImage(path, System.Drawing.Imaging.ImageFormat.Png);
             }
         }
 

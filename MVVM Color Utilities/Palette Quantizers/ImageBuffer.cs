@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
-    internal class ImageBuffer : ObservableObject
+    internal class ImageBuffer : ObservableObject, IImageBuffer
     {
         private Bitmap originalBitmap;
         private Bitmap generatedBitmap;
@@ -209,26 +209,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             lockableBitmap.UnlockBits(bitmapData);
 
             return lockableBitmap;
-        }
-
-        /// <summary>
-        /// Save generated image to location and with given type.
-        /// </summary>
-        /// <param name="path">Path</param>
-        /// <param name="format">Image Format</param>
-        /// <returns>Bool of success of operation</returns>
-        public bool SaveGeneratedImage(string path, ImageFormat format)
-        {
-            try
-            {
-                GeneratedBitmap.Save(path, format);
-                return true;
-            }
-            catch
-            {
-                Debug.WriteLine("Failed saving image to " + path);
-                return false;
-            }
         }
     }
 }
