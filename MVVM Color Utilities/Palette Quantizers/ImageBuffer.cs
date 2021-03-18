@@ -13,7 +13,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 {
     internal class ImageBuffer : ObservableObject
     {
-        
         private Bitmap originalBitmap;
         private Bitmap generatedBitmap;
 
@@ -21,8 +20,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         private BaseColorQuantizer activeQuantizer;
         private int colorCount;
 
-        
-        
         /// <summary>
         /// Bitmap that will be analayzed.
         /// </summary>
@@ -74,7 +71,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             }
         }
 
-        
         /// <summary>
         /// Generated bitmap
         /// </summary>
@@ -109,10 +105,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             set => ActiveQuantizer.Palette = value;
         }
 
-        
-        
-        
-        
         /// <summary>
         /// Iterates through OriginalBitmap, adding each color to the ColorList.
         /// </summary>
@@ -153,8 +145,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             return colorDict;
         }
 
-        
-        
         /// <summary>
         /// Generates a new Palette.
         /// </summary>
@@ -173,8 +163,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             return palette;
         }
 
-        
-        
         /// <summary>
         /// Uses the CurrentBitmap and Palette to generate an approximate image.
         /// </summary>
@@ -223,8 +211,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             return lockableBitmap;
         }
 
-        
-        
         /// <summary>
         /// Save generated image to location and with given type.
         /// </summary>
@@ -244,7 +230,5 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 return false;
             }
         }
-
-        
-            }
+    }
 }

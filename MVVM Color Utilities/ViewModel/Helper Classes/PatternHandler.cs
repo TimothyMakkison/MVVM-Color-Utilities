@@ -5,7 +5,6 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
 {
     public static class PatternHandler
     {
-        
         /// <summary>
         /// Singleton function that constructs an instance of an object when first called and then
         /// returns the object in subsequent calls.
@@ -44,6 +43,5 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         /// <returns>Returns command.</returns>
         public static ICommand Singleton(ref ICommand storage, Action command)
             => storage ??= new RelayCommand(param => command());
-
-            }
+    }
 }

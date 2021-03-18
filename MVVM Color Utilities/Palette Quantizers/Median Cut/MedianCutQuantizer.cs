@@ -9,17 +9,12 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         //Created by Smart K8 at:
         //https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C
 
-        
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();
 
-        
-        
         public override string Name => "MedianCut Quantizer";
 
         public override List<Color> Palette { get; set; } = new List<Color>();
 
-        
-        
         private void SplitCubes(int colorCount)
         {
             // creates a holder for newly added cubes
@@ -117,6 +112,5 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             //If palette doesnt include color then 0 is returned
             return 0;
         }
-
-            }
+    }
 }

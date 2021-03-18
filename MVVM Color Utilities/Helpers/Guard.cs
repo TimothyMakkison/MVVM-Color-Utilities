@@ -7,7 +7,6 @@ namespace MVVM_Color_Utilities.Helpers
 {
     public static class Guard
     {
-        
         /// <summary>
         /// Checks if an object is null.
         /// </summary>
@@ -32,8 +31,6 @@ namespace MVVM_Color_Utilities.Helpers
             return false;
         }
 
-        
-        
         /// <summary>
         /// Checks if type is null or empty.
         /// </summary>
@@ -68,8 +65,6 @@ namespace MVVM_Color_Utilities.Helpers
             return false;
         }
 
-        
-        
         /// <summary>
         /// Checks if integer is equal to 0.
         /// </summary>
@@ -92,6 +87,5 @@ namespace MVVM_Color_Utilities.Helpers
             }
             return false;
         }
-
-            }
+    }
 }

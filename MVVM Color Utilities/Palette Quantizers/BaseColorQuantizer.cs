@@ -11,10 +11,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     /// </summary>
     public abstract class BaseColorQuantizer
     {
-
         private List<Color> _palette = new List<Color>();
 
-        
         /// <summary>
         /// Sets the display name of derived quantizer.
         /// </summary>
@@ -29,8 +27,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             set => _palette = value;
         }
 
-        
-        
         /// <summary>
         /// Generates a new palette
         /// </summary>
@@ -62,6 +58,5 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
                 throw new ArgumentNullException("Palette is empty, please use GetPalette first.", "Palette");
             }
         }
-
-            }
+    }
 }

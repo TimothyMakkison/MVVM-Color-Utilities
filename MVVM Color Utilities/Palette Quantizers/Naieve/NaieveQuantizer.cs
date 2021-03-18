@@ -10,7 +10,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
     {
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
 
-        
         public override string Name => "Naieve Quantizer";
 
         public override List<Color> Palette { get; set; } = new List<Color>();
@@ -53,6 +52,5 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
             }
             return bestIndex;
         }
-
-            }
+    }
 }

@@ -6,15 +6,12 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
 {
     public class OctreeNode : List<Color>
     {
-        
         private Color averageColor;
 
         private readonly int redLowerBound, redUpperBound;
         private readonly int greenLowerBound, greenUpperBound;
         private readonly int blueLowerBound, blueUpperBound;
 
-        
-        
         public OctreeNode(int redLowerBound, int greenLowerBound, int blueLowerBound, int size)
         {
             this.redLowerBound = redLowerBound;
@@ -28,8 +25,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             blueUpperBound = blueLowerBound + distance;
         }
 
-        
-        
         /// <summary>
         /// Size of node.
         /// </summary>
@@ -55,9 +50,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             }
         }
 
-        
-        
-        
         /// <summary>
         /// Returns boolean value of whether node contains color.
         /// </summary>
@@ -67,8 +59,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
                 && color.G >= greenLowerBound && color.G <= greenUpperBound
                 && color.B >= blueLowerBound && color.B <= blueUpperBound;
 
-        
-        
         /// <summary>
         /// Creates 8 sub nodes from this node.
         /// </summary>
@@ -107,8 +97,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             return nodes.Where(x => x.Count() > 0);
         }
 
-        
-        
         /// <summary>
         /// Calculates the average color of this node.
         /// </summary>
@@ -140,14 +128,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
             }
         }
 
-        
-        
         public override string ToString() => $"Octree node of size: {Size}, index: {PaletteIndex} and count {Count}" +
                 $"\n Color: {AverageColor}" +
                 $"\n Red: {redLowerBound} - {redUpperBound}," +
                 $" Green: {greenLowerBound} - {greenUpperBound}," +
                 $" Blue: {blueLowerBound} - {blueUpperBound}";
-
-        
-            }
+    }
 }

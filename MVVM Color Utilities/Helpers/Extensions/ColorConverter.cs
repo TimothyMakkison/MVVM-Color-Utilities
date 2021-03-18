@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
 namespace MVVM_Color_Utilities.Helpers.Extensions
 {
@@ -31,7 +30,7 @@ namespace MVVM_Color_Utilities.Helpers.Extensions
         {
             return new System.Windows.Media.SolidColorBrush(color.ToMediaColor());
         }
-           
+
         public static string ToHex(this System.Drawing.Color color) => $"#{color.R:X2}{color.G:X2}{color.B:X2}";
     }
 }

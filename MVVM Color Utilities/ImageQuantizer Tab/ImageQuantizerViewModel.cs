@@ -15,7 +15,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     /// </summary>
     internal class ImageQuantizerViewModel : ObservableObject, IPageViewModel
     {
-        
         private string selectedPath;
         private BaseColorQuantizer selectedQuantizer;
         private int selectedColorCount = 16;
@@ -30,8 +29,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         private readonly ImageBuffer imageBuffer = new ImageBuffer();
 
-        
-        
         public ImageQuantizerViewModel(GeneralSettings generalSettings)
         {
             this.generalSettings = generalSettings;
@@ -40,8 +37,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             imageBuffer.ColorCount = SelectedColorCount;
         }
 
-        
-        
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
 
         /// <summary>
@@ -62,7 +57,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set => Set(ref generatedBitmap, value);
         }
 
-        
         public List<BaseColorQuantizer> QuantizerList => generalSettings.QuantizerList;
 
         public BaseColorQuantizer SelectedQuantizer
@@ -77,8 +71,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
 
-        
-        
         public List<int> ColorCountList => generalSettings.ColorCountList;
 
         public int SelectedColorCount
@@ -93,14 +85,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
 
-        
-        
-        
         public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, DialogGetImage);
         public ICommand SaveCommand => PatternHandler.Singleton(ref saveCommand, DialogSaveImage);
 
-        
-        
         /// <summary>
         /// Opens file and exectues GenerateNewImage if selected item is valid.
         /// </summary>
@@ -141,6 +128,5 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
                 }
             });
         }
-
-            }
+    }
 }
