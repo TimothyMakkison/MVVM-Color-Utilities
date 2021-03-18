@@ -14,7 +14,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns></returns>
-        public static BitmapImage ConvertToBitmapImage(Bitmap bitmap)
+        public static BitmapImage ConvertToBitmapImage(this Bitmap bitmap)
         {
             using var memory = new MemoryStream();
             bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Png);

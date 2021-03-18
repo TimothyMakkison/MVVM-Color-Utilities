@@ -1,5 +1,4 @@
 ﻿using MaterialDesignThemes.Wpf;
-using Microsoft.Win32;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
@@ -151,7 +150,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             {
                 if (!imageBuffer.GeneratedBitmap.IsNull())
                 {
-                    GeneratedBitmap = Imageutils.ConvertToBitmapImage(imageBuffer.GeneratedBitmap);
+                    GeneratedBitmap = imageBuffer.GeneratedBitmap.ConvertToBitmapImage();
                 }
             });
         }

@@ -54,8 +54,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             // clears the old cubes
             cubeList = new List<MedianCutCube>();
 
-            //TODO use linq
-
             // adds the new cubes to the official cube list
             foreach (MedianCutCube medianCutCube in newCubes)
             {

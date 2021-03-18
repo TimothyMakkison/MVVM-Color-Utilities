@@ -183,7 +183,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// <summary>
         /// Gets the color of the pixel location.
         /// </summary>
-        private void SampleColorMethod() => Color = ColorUtils.GetCursorColor().ToDrawingColor();
+        private void SampleColorMethod() => Color = CursorUtils.GetCursorColor().ToDrawingColor();
 
         #endregion Methods
     }

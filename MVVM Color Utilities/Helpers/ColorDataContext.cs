@@ -10,7 +10,7 @@ namespace MVVM_Color_Utilities.Helpers
     {
         private static readonly string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
         private static readonly string colorsFilePath = projectPath + "/Resources/ColorItemsList.txt";
-        private ObservableCollection<ColorModel> source;
+        private readonly ObservableCollection<ColorModel> source;
 
         public ColorDataContext()
         {
