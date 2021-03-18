@@ -17,8 +17,10 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         public ConcurrentDictionary<int, int> Scan(Bitmap bitmap)
         {
             var hash = bitmap.GetHashCode();
+            var cond = hash == _hash;
 
-            return hash == _hash
+            _hash = hash;
+            return cond
                 ? _dict
                 : (_dict = GetColors(bitmap));
         }

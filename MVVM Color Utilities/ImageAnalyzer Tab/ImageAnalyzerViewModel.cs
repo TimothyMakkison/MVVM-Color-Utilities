@@ -39,8 +39,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             selectedColorCount = ColorCountList[4];
             selectedQuantizer = QuantizerList[0];
 
-            imageBuffer.ActiveQuantizer = SelectedQuantizer;
-            imageBuffer.ColorCount = SelectedColorCount;
+            imageBuffer.SetQuantizer( SelectedQuantizer);
+            imageBuffer.SetColorCount(SelectedColorCount);
         }
 
         public PackIconKind Icon => PackIconKind.Paint;
@@ -80,7 +80,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 selectedQuantizer = value;
-                imageBuffer.ActiveQuantizer = selectedQuantizer;
+                imageBuffer.SetQuantizer( selectedQuantizer);
                 Debug.WriteLine("IA Quantizer set to " + selectedQuantizer.Name.ToString());
                 GetNewPalette();
             }
@@ -94,7 +94,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 selectedColorCount = value;
-                imageBuffer.ColorCount = selectedColorCount;
+                imageBuffer.SetColorCount(selectedColorCount);
                 Debug.WriteLine("IA Color count set to " + selectedColorCount.ToString());
                 GetNewPalette();
             }

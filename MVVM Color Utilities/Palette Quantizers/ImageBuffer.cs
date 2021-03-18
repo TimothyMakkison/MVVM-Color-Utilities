@@ -18,8 +18,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 
         private Bitmap originalBitmap;
         private readonly IBitmapScanner _bitmapScanner;
-        private IColorQuantizer activeQuantizer;
-        private int colorCount;
+        private IColorQuantizer _quantizer;
+        private int _colorCount;
         private ConcurrentDictionary<int, int> bitmapColors;
 
 
@@ -33,36 +33,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         }
 
 
-        /// <summary>
-        /// Currently selected quantizer.
-        /// </summary>
-        public IColorQuantizer ActiveQuantizer
-        {
-            get => activeQuantizer;
-            set
-            {
-                if (Set(ref activeQuantizer, value))
-                {
-                    GeneratedBitmap = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Number of colors in generated palette.
-        /// </summary>
-        public int ColorCount
-        {
-            get => colorCount;
-            set
-            {
-                if (Set(ref colorCount, value))
-                {
-                    GeneratedBitmap = null;
-                }
-            }
-        }
-
+       
         /// <summary>
         /// Generated bitmap
         /// </summary>
@@ -75,14 +46,9 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// <summary>
         /// Stores all bitmap colors.
         /// </summary>
-        public ConcurrentDictionary<int, int> BitmapColors
+        private ConcurrentDictionary<int, int> GetBitmapColors()
         {
-            get
-            {
-                return PatternHandler.Singleton(ref bitmapColors, bitmapColors.IsNullOrEmpty(), () => _bitmapScanner.Scan(originalBitmap));
-            }
-
-            set => bitmapColors = value;
+            return PatternHandler.Singleton(ref bitmapColors, bitmapColors.IsNullOrEmpty(), () => _bitmapScanner.Scan(originalBitmap));
         }
 
         /// <summary>
@@ -92,8 +58,13 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         {
             get
             {
-                return ActiveQuantizer.GetPalette(ColorCount, BitmapColors);
+                return _quantizer.GetPalette(_colorCount, GetBitmapColors());
             }
+        }
+        public void SetQuantizer(IColorQuantizer quantizer)
+        {
+            GeneratedBitmap = null;
+            this._quantizer = quantizer;
         }
 
         public void SetBitmap(Bitmap bitmap)
@@ -101,10 +72,15 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             originalBitmap = bitmap;
 
             //TODO Remove
-            BitmapColors = new ConcurrentDictionary<int, int>();
+            bitmapColors = new ConcurrentDictionary<int, int>();
             GeneratedBitmap = null;
             Debug.WriteLine($"Bitmap set, size is {originalBitmap.Size} " +
                 $"with {originalBitmap.Width * originalBitmap.Height} pixels");
+        }
+        public void SetColorCount(int colorCount)
+        {
+            this._colorCount = colorCount;
+            GeneratedBitmap = null;
         }
 
         /// <summary>
@@ -114,13 +90,13 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         public List<Color> GetPalette()
         {
             Debug.WriteLine("Getting palette");
-            if (BitmapColors.IsNullOrEmpty())
+            if (bitmapColors.IsNullOrEmpty())
             {
                 Debug.WriteLine("Get palette returning null values");
 
                 return new List<Color>();
             }
-            var palette = activeQuantizer.GetPalette(ColorCount, BitmapColors);
+            var palette = _quantizer.GetPalette(_colorCount, bitmapColors);
             Debug.WriteLine("Success, Generated palette of " + palette.Count + " unique colors");
             return palette;
         }
@@ -148,17 +124,17 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             Marshal.Copy(ptr, rgbBytes, 0, rgbBytes.Length);
 
             var palette = Palette;
-            
-            Parallel.For(0, rgbBytes.Length / 4, i =>
+
+            Parallel.For(0, rgbBytes.Length / 4, (Action<int>)(i =>
             {
                 i *= 4;
                 var color = Color.FromArgb(rgbBytes[i + 2], rgbBytes[i + 1], rgbBytes[i]);
-                int index = ActiveQuantizer.GetPaletteIndex(color);
+                int index = this._quantizer.GetPaletteIndex(color);
                 var newColor = palette[index];
                 rgbBytes[i + 2] = newColor.R;
                 rgbBytes[i + 1] = newColor.G;
                 rgbBytes[i] = newColor.B;
-            });
+            }));
 
             Marshal.Copy(rgbBytes, 0, ptr, rgbBytes.Length);
 

@@ -33,8 +33,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         {
             this.generalSettings = generalSettings;
             selectedQuantizer = QuantizerList[0];
-            imageBuffer.ActiveQuantizer = SelectedQuantizer;
-            imageBuffer.ColorCount = SelectedColorCount;
+            imageBuffer.SetQuantizer(SelectedQuantizer);
+            imageBuffer.SetColorCount(SelectedColorCount);
         }
 
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
@@ -65,7 +65,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set
             {
                 selectedQuantizer = value;
-                imageBuffer.ActiveQuantizer = selectedQuantizer;
+                imageBuffer.SetQuantizer(selectedQuantizer);
                 Debug.WriteLine("IQ Quantizer set to " + selectedQuantizer.Name.ToString());
                 GenerateNewImage();
             }
@@ -79,7 +79,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set
             {
                 selectedColorCount = value;
-                imageBuffer.ColorCount = selectedColorCount;
+                imageBuffer.SetColorCount (selectedColorCount);
                 Debug.WriteLine("IQ Color count set to " + selectedColorCount.ToString());
                 GenerateNewImage();
             }
@@ -97,7 +97,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             if (generalSettings.OpenDialogBox.ShowDialog() == true && SelectedPath != generalSettings.OpenDialogBox.FileName)
             {
                 SelectedPath = generalSettings.OpenDialogBox.FileName;
-                
+
                 var bitmap = new Bitmap(Image.FromFile(SelectedPath));
                 imageBuffer.SetBitmap(bitmap);
                 GenerateNewImage();
