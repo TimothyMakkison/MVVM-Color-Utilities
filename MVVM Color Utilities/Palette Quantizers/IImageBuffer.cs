@@ -15,7 +15,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         List<Color> Palette { get; set; }
 
         Bitmap GenerateNewBitmap();
-        ConcurrentDictionary<int, int> GetBitmapColors();
         List<Color> GetPalette();
     }
 }
