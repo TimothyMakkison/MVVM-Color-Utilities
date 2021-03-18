@@ -1,4 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Media.Imaging;
 
@@ -7,7 +10,7 @@ namespace MVVM_Color_Utilities.Helpers
     /// <summary>
     /// Contains useful converters for images.
     /// </summary>
-    public static class Imageutils
+    public static class ImageUtils
     {
         /// <summary>
         /// Converts a Bitamp into a BitmapImage.
@@ -28,6 +31,38 @@ namespace MVVM_Color_Utilities.Helpers
             bitmapImage.Freeze();
 
             return bitmapImage;
+        }
+
+        public static Bitmap ToBitmap(this BitmapImage image)
+        {
+            using MemoryStream outStream = new MemoryStream();
+
+            BitmapEncoder enc = new BmpBitmapEncoder();
+            enc.Frames.Add(BitmapFrame.Create(image));
+            enc.Save(outStream);
+            Bitmap bitmap = new Bitmap(outStream);
+
+            return new Bitmap(bitmap);
+        }
+
+        /// <summary>
+        /// Save generated image to location and with given format.
+        /// </summary>
+        /// <param name="path">Path</param>
+        /// <param name="format">Image Format</param>
+        /// <returns>Bool of success of operation</returns>
+        public static bool SaveImage(this Bitmap bitmap, string path, ImageFormat format)
+        {
+            try
+            {
+                bitmap.Save(path, format);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Failed saving image to {0}, Exception: {1}", path, e);
+                return false;
+            }
         }
     }
 }
