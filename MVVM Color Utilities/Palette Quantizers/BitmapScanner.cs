@@ -1,10 +1,6 @@
-﻿using System.Collections.Concurrent;
-using System.Drawing;
-using MVVM_Color_Utilities.Helpers;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+﻿using MVVM_Color_Utilities.Helpers;
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -15,7 +11,19 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 {
     public class BitmapScanner : IBitmapScanner
     {
+        private int _hash;
+        private ConcurrentDictionary<int, int> _dict;
+
         public ConcurrentDictionary<int, int> Scan(Bitmap bitmap)
+        {
+            var hash = bitmap.GetHashCode();
+
+            return hash == _hash
+                ? _dict
+                : (_dict = GetColors(bitmap));
+        }
+
+        private ConcurrentDictionary<int, int> GetColors(Bitmap bitmap)
         {
             Debug.WriteLine($"Scanning bitmap for colors");
 
