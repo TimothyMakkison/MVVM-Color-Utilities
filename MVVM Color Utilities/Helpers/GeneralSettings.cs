@@ -15,7 +15,7 @@ namespace MVVM_Color_Utilities.Helpers
     /// </summary>
     public class GeneralSettings
     {
-        private readonly List<BaseColorQuantizer> quantizerList = new List<BaseColorQuantizer>
+        private readonly List<IColorQuantizer> quantizerList = new List<IColorQuantizer>
         {
             new MedianCutQuantizer(),
             new PopularityQuantizer(),
@@ -34,6 +34,6 @@ namespace MVVM_Color_Utilities.Helpers
 
         public List<Int32> ColorCountList => colorCountList.ToList();
 
-        public List<BaseColorQuantizer> QuantizerList => quantizerList.ToList();
+        public List<IColorQuantizer> QuantizerList => quantizerList.ToList();
     }
 }

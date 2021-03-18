@@ -16,7 +16,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     internal class ImageQuantizerViewModel : ObservableObject, IPageViewModel
     {
         private string selectedPath;
-        private BaseColorQuantizer selectedQuantizer;
+        private IColorQuantizer selectedQuantizer;
         private int selectedColorCount = 16;
         private readonly GeneralSettings generalSettings;
 
@@ -57,9 +57,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set => Set(ref generatedBitmap, value);
         }
 
-        public List<BaseColorQuantizer> QuantizerList => generalSettings.QuantizerList;
+        public List<IColorQuantizer> QuantizerList => generalSettings.QuantizerList;
 
-        public BaseColorQuantizer SelectedQuantizer
+        public IColorQuantizer SelectedQuantizer
         {
             get => selectedQuantizer;
             set

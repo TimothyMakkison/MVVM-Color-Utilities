@@ -18,7 +18,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     internal class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
     {
         private string selectedPath;
-        private BaseColorQuantizer selectedQuantizer;
+        private IColorQuantizer selectedQuantizer;
         private int selectedColorCount;
 
         private List<ColorModel> sampleColorSource = new List<ColorModel>();
@@ -72,9 +72,9 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             dataContext.Add(new ColorModel(a.Color)).Save();
         }
 
-        public List<BaseColorQuantizer> QuantizerList => generalSettings.QuantizerList;
+        public List<IColorQuantizer> QuantizerList => generalSettings.QuantizerList;
 
-        public BaseColorQuantizer SelectedQuantizer
+        public IColorQuantizer SelectedQuantizer
         {
             get => selectedQuantizer;
             set

@@ -9,7 +9,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     /// <summary>
     /// Uses an array of Colors to generate a palette of given size.
     /// </summary>
-    public abstract class BaseColorQuantizer
+    public abstract class BaseColorQuantizer : IColorQuantizer
     {
         private List<Color> _palette = new List<Color>();
 
@@ -32,7 +32,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         /// </summary>
         /// <param name="colorCount"></param>
         /// <returns></returns>
-        public abstract List<Color> GetPalette(Int32 colorCount, ConcurrentDictionary<int, int> colorDictionary);
+        public abstract List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary);
 
         /// <summary>
         /// Returns index of the most similar color in Palette.
