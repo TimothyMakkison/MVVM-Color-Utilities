@@ -9,11 +9,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            var handler = PropertyChanged;
-            if (PropertyChanged != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected bool Set<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

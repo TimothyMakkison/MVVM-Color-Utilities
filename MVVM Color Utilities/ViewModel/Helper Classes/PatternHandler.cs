@@ -15,13 +15,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         /// <param name="storage">Referable object storage.</param>
         /// <param name="func">Object constructor.</param>
         /// <returns>Object.</returns>
-        public static T Singleton<T>(ref T storage, Func<T> func)
-        {
-            if (storage == null)
-                storage = func.Invoke();
-
-            return storage;
-        }
+        public static T Singleton<T>(ref T storage, Func<T> func) => storage ??= func.Invoke();
 
         /// <summary>
         /// Singleton function that constructs an instance of an object when if empty is true.
@@ -49,7 +43,8 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         /// <param name="storage">Referable object storage.</param>
         /// <param name="command">Delegate command to be assigned to storage.</param>
         /// <returns>Returns command.</returns>
-        public static ICommand Singleton(ref ICommand storage, Action command) => storage ??= new RelayCommand(param => command());
+        public static ICommand Singleton(ref ICommand storage, Action command)
+            => storage ??= new RelayCommand(param => command());
 
         #endregion Singleton
     }

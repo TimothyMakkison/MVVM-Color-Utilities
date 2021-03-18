@@ -44,6 +44,8 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
             }
         }
 
+        //TODO add switch statement
+
         /// <summary>
         /// Gets the index of the greatest length axis in the cube. 0 = Red, 1 = Green, 2 = Blue.
         /// </summary>
@@ -59,7 +61,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
                 {
                     return 0;
                 }
-
                 if (greenSize >= redSize && greenSize >= blueSize)
                 {
                     return 1;
@@ -149,28 +150,16 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// <param name="secondMedianCutCube">The second created cube.</param>
         public void SplitAtMedian(sbyte componentIndex, out MedianCutCube firstMedianCutCube, out MedianCutCube secondMedianCutCube)
         {
-            List<int> colors;
-
-            switch (componentIndex)
+            List<int> colors = componentIndex switch
             {
                 // red colors
-                case 0:
-                    colors = colorList.OrderBy(argb => Color.FromArgb(argb).R).ToList();
-                    break;
-
+                0 => colorList.OrderBy(argb => Color.FromArgb(argb).R).ToList(),
                 // green colors
-                case 1:
-                    colors = colorList.OrderBy(argb => Color.FromArgb(argb).G).ToList();
-                    break;
-
+                1 => colorList.OrderBy(argb => Color.FromArgb(argb).G).ToList(),
                 // blue colors
-                case 2:
-                    colors = colorList.OrderBy(argb => Color.FromArgb(argb).B).ToList();
-                    break;
-
-                default:
-                    throw new NotSupportedException("Only three color components are supported (R, G and B).");
-            }
+                2 => colorList.OrderBy(argb => Color.FromArgb(argb).B).ToList(),
+                _ => throw new NotSupportedException("Only three color components are supported (R, G and B)."),
+            };
 
             // retrieves the median index (a half point)
             int medianIndex = colorList.Count >> 1;

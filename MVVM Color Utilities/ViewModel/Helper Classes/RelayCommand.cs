@@ -49,7 +49,7 @@ namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
         [DebuggerStepThrough]
         public bool CanExecute(object parameters)
         {
-            return _canExecute == null ? true : _canExecute(parameters);
+            return _canExecute is null || _canExecute(parameters);
         }
 
         public event EventHandler CanExecuteChanged
