@@ -97,8 +97,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             if (generalSettings.OpenDialogBox.ShowDialog() == true && SelectedPath != generalSettings.OpenDialogBox.FileName)
             {
                 SelectedPath = generalSettings.OpenDialogBox.FileName;
-                imageBuffer.OriginalBitmap = new Bitmap(Image.FromFile(SelectedPath));
-
+                
+                var bitmap = new Bitmap(Image.FromFile(SelectedPath));
+                imageBuffer.SetBitmap(bitmap);
                 GenerateNewImage();
             }
         }

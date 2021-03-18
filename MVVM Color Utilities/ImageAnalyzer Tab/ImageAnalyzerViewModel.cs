@@ -110,7 +110,9 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             if (generalSettings.OpenDialogBox.ShowDialog() == true && SelectedPath != generalSettings.OpenDialogBox.FileName) //Checks that the path exists and is not the previous path.
             {
                 SelectedPath = generalSettings.OpenDialogBox.FileName;
-                imageBuffer.OriginalBitmap = new Bitmap(Image.FromFile(SelectedPath));
+                var bitmap = new Bitmap(Image.FromFile(SelectedPath));
+
+                imageBuffer.SetBitmap(bitmap); 
                 GetNewPalette();
             }
         }

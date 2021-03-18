@@ -14,13 +14,14 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     //TODO Replace all properties with Get methods
     internal class ImageBuffer : ObservableObject, IImageBuffer
     {
-        private Bitmap originalBitmap;
         private Bitmap generatedBitmap;
 
-        private ConcurrentDictionary<int, int> bitmapColors;
+        private Bitmap originalBitmap;
+        private readonly IBitmapScanner _bitmapScanner;
         private IColorQuantizer activeQuantizer;
         private int colorCount;
-        private readonly IBitmapScanner _bitmapScanner;
+        private ConcurrentDictionary<int, int> bitmapColors;
+
 
         public ImageBuffer(IBitmapScanner bitmapScanner)
         {
@@ -31,23 +32,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         {
         }
 
-        /// <summary>
-        /// Bitmap that will be analayzed.
-        /// </summary>
-        public Bitmap OriginalBitmap
-        {
-            get => originalBitmap;
-            set
-            {
-                if (Set(ref originalBitmap, value))
-                {
-                    BitmapColors = new ConcurrentDictionary<int, int>();
-                    GeneratedBitmap = null;
-                    Debug.WriteLine($"Bitmap set, size is {value.Width}x{value.Height} " +
-                        $"with {value.Width * value.Height} pixels");
-                }
-            }
-        }
 
         /// <summary>
         /// Currently selected quantizer.
@@ -95,7 +79,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         {
             get
             {
-                return PatternHandler.Singleton(ref bitmapColors, bitmapColors.IsNullOrEmpty(), () => _bitmapScanner.Scan(OriginalBitmap));
+                return PatternHandler.Singleton(ref bitmapColors, bitmapColors.IsNullOrEmpty(), () => _bitmapScanner.Scan(originalBitmap));
             }
 
             set => bitmapColors = value;
@@ -110,6 +94,17 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             {
                 return ActiveQuantizer.GetPalette(ColorCount, BitmapColors);
             }
+        }
+
+        public void SetBitmap(Bitmap bitmap)
+        {
+            originalBitmap = bitmap;
+
+            //TODO Remove
+            BitmapColors = new ConcurrentDictionary<int, int>();
+            GeneratedBitmap = null;
+            Debug.WriteLine($"Bitmap set, size is {originalBitmap.Size} " +
+                $"with {originalBitmap.Width * originalBitmap.Height} pixels");
         }
 
         /// <summary>
@@ -137,19 +132,19 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         public Bitmap GenerateNewBitmap()
         {
             Debug.WriteLine("Generating new image");
-            if (OriginalBitmap.IsNull())
+            if (originalBitmap.IsNull())
             {
                 return null;
             }
 
-            Bitmap lockableBitmap = new Bitmap(OriginalBitmap);
+            Bitmap lockableBitmap = new Bitmap(originalBitmap);
             //Get raw bitmap data
             BitmapData bitmapData = lockableBitmap.LockBits(new Rectangle(0, 0, lockableBitmap.Width, lockableBitmap.Height),
                                     ImageLockMode.ReadWrite,
                                     lockableBitmap.PixelFormat);
 
             IntPtr ptr = bitmapData.Scan0; //Get address of first line
-            byte[] rgbBytes = new byte[OriginalBitmap.Width * OriginalBitmap.Height * 4];
+            byte[] rgbBytes = new byte[originalBitmap.Width * originalBitmap.Height * 4];
             Marshal.Copy(ptr, rgbBytes, 0, rgbBytes.Length);
 
             var palette = Palette;
