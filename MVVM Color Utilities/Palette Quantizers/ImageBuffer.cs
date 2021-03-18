@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers
 {
+    //TODO Replace all properties with Get methods
     internal class ImageBuffer : ObservableObject, IImageBuffer
     {
         private Bitmap originalBitmap;

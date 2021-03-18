@@ -123,7 +123,9 @@
     <Compile Include="Palette Quantizers\BitmapScanner.cs" />
     <Compile Include="Palette Quantizers\IBitmapScanner.cs" />
     <Compile Include="Palette Quantizers\IImageBuffer.cs" />
+    <Compile Include="Palette Quantizers\IImageBuilder.cs" />
     <Compile Include="Palette Quantizers\ImageBuffer.cs" />
+    <Compile Include="Palette Quantizers\ImageBuilder.cs" />
     <Compile Include="Palette Quantizers\Median Cut\MedianCutCube.cs" />
     <Compile Include="Palette Quantizers\Median Cut\MedianCutQuantizer.cs" />
     <Compile Include="Helpers\CursorUtils.cs" />
