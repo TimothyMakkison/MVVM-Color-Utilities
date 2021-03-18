@@ -120,6 +120,8 @@
     <Compile Include="ImageAnalyzer Tab\ImageAnalyzerViewModel.cs" />
     <Compile Include="Helpers\ImageUItils.cs" />
     <Compile Include="Palette Quantizers\BaseColorQuantizer.cs" />
+    <Compile Include="Palette Quantizers\BitmapScanner.cs" />
+    <Compile Include="Palette Quantizers\IBitmapScanner.cs" />
     <Compile Include="Palette Quantizers\IImageBuffer.cs" />
     <Compile Include="Palette Quantizers\ImageBuffer.cs" />
     <Compile Include="Palette Quantizers\Median Cut\MedianCutCube.cs" />
