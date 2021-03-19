@@ -11,21 +11,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
 {
     public class BitmapScanner : IBitmapScanner
     {
-        private int _hash;
-        private ConcurrentDictionary<int, int> _dict;
-
         public ConcurrentDictionary<int, int> Scan(Bitmap bitmap)
-        {
-            var hash = bitmap.GetHashCode();
-            var cond = hash == _hash;
-
-            _hash = hash;
-            return cond
-                ? _dict
-                : (_dict = GetColors(bitmap));
-        }
-
-        private ConcurrentDictionary<int, int> GetColors(Bitmap bitmap)
         {
             Debug.WriteLine($"Scanning bitmap for colors");
 
