@@ -17,18 +17,24 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         private Bitmap generatedBitmap;
 
         private Bitmap originalBitmap;
+
         private readonly IBitmapScanner _bitmapScanner;
+        private Memoizer<Bitmap, ConcurrentDictionary<int, int>> _scanner;
+        private Memoizer<int, ConcurrentDictionary<int, int>, List<Color>> _paletteBuilder;
+        private ConcurrentDictionary<int, int> bitmapColors;
         private IColorQuantizer _quantizer;
         private int _colorCount;
-        private ConcurrentDictionary<int, int> bitmapColors;
 
 
-        public ImageBuffer(IBitmapScanner bitmapScanner)
+        public ImageBuffer(IBitmapScanner bitmapScanner, IColorQuantizer quantizer)
         {
             this._bitmapScanner = bitmapScanner;
+            _scanner = new Memoizer<Bitmap,ConcurrentDictionary<int,int>>(_bitmapScanner.Scan);
+            this._quantizer = quantizer;
+            _paletteBuilder = new Memoizer<int,ConcurrentDictionary<int, int>, List<Color>>(_quantizer.GetPalette);
         }
 
-        public ImageBuffer() : this(new BitmapScanner())
+        public ImageBuffer() : this(new BitmapScanner(), new Median_Cut.MedianCutQuantizer())
         {
         }
 
@@ -83,23 +89,35 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             GeneratedBitmap = null;
         }
 
-        /// <summary>
-        /// Generates a new Palette.
-        /// </summary>
-        /// <returns>Color palette.</returns>
-        public List<Color> GetPalette()
-        {
-            Debug.WriteLine("Getting palette");
-            if (bitmapColors.IsNullOrEmpty())
-            {
-                Debug.WriteLine("Get palette returning null values");
 
-                return new List<Color>();
-            }
-            var palette = _quantizer.GetPalette(_colorCount, bitmapColors);
-            Debug.WriteLine("Success, Generated palette of " + palette.Count + " unique colors");
-            return palette;
+        public ConcurrentDictionary<int, int> ScanBitmap()
+        {
+            return _scanner.GetValue(originalBitmap);
         }
+
+        public IEnumerable<Color> GetPalette()
+        {
+            var colorFrequency = ScanBitmap();
+            return _paletteBuilder.GetValue(_colorCount, colorFrequency);
+        }
+
+        ///// <summary>
+        ///// Generates a new Palette.
+        ///// </summary>
+        ///// <returns>Color palette.</returns>
+        //public List<Color> GetPalette()
+        //{
+        //    Debug.WriteLine("Getting palette");
+        //    if (bitmapColors.IsNullOrEmpty())
+        //    {
+        //        Debug.WriteLine("Get palette returning null values");
+
+        //        return new List<Color>();
+        //    }
+        //    var palette = _quantizer.GetPalette(_colorCount, bitmapColors);
+        //    Debug.WriteLine("Success, Generated palette of " + palette.Count + " unique colors");
+        //    return palette;
+        //}
 
         /// <summary>
         /// Uses the CurrentBitmap and Palette to generate an approximate image.

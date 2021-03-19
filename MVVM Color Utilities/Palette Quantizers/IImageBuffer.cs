@@ -9,6 +9,6 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
     {
         Bitmap GeneratedBitmap { get; set; }
         Bitmap GenerateNewBitmap();
-        List<Color> GetPalette();
+        IEnumerable<Color> GetPalette();
     }
 }

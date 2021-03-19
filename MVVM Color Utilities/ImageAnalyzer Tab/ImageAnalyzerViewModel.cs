@@ -125,7 +125,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             Task.Run(() =>
             {
                 SampleColorSource.Clear();
-                SampleColorSource = imageBuffer.Palette.Select(color => new ColorModel(color)).ToList();
+                SampleColorSource = imageBuffer.GetPalette().Select(color => new ColorModel(color)).ToList();
+
             });
         }
     }
