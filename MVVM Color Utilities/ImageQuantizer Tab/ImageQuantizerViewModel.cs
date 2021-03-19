@@ -27,7 +27,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         //private readonly ImageQuantizerModel model = new ImageQuantizerModel();
 
-        private readonly ImageBuffer imageBuffer = new ImageBuffer();
+        private readonly IImageBuffer imageBuffer = new ImageBuffer();
 
         public ImageQuantizerViewModel(GeneralSettings generalSettings)
         {
@@ -79,7 +79,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set
             {
                 selectedColorCount = value;
-                imageBuffer.SetColorCount (selectedColorCount);
+                imageBuffer.SetColorCount(selectedColorCount);
                 Debug.WriteLine("IQ Color count set to " + selectedColorCount.ToString());
                 GenerateNewImage();
             }
@@ -123,10 +123,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         {
             Task.Run(() =>
             {
-                if (!imageBuffer.GeneratedBitmap.IsNull())
-                {
-                    GeneratedBitmap = imageBuffer.GeneratedBitmap.ConvertToBitmapImage();
-                }
+                GeneratedBitmap = imageBuffer.GenerateNewBitmap()
+                                             .ConvertToBitmapImage();
             });
         }
     }
