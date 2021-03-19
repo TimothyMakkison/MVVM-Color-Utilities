@@ -111,6 +111,7 @@
     <Compile Include="Helpers\Guard.cs" />
     <Compile Include="Helpers\GeneralSettings.cs" />
     <Compile Include="Helpers\IDataContext.cs" />
+    <Compile Include="Helpers\Memoizer.cs" />
     <Compile Include="Models\ColorModel.cs" />
     <Compile Include="ImageQuantizer Tab\ImageQuantizerView.xaml.cs">
       <DependentUpon>ImageQuantizerView.xaml</DependentUpon>
