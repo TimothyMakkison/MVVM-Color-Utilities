@@ -12,7 +12,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// </summary>
         /// <param name="argument">Object</param>
         /// <returns>Returns true if null.</returns>
-        public static bool IsNull(this object argument) => argument == null;
+        public static bool IsNull(this object argument) => argument is null;
 
         /// <summary>
         /// Checks if an object is null, if true then writes to debug.
