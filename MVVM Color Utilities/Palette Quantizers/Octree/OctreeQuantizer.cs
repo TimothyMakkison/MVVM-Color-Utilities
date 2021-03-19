@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
 {
-    public class OctreeQuantizer : BaseColorQuantizer
+    public class OctreeQuantizer : IColorQuantizer
     {
         private List<OctreeNode> octreeNodes = new List<OctreeNode>();
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
 
-        public override string Name => "Octree Quantizer";
-        public override List<Color> Palette { get; set; } = new List<Color>();
+        public string Name => "Octree Quantizer";
+        public List<Color> Palette { get; set; } = new List<Color>();
 
         /// <summary>
         /// Generates a color palette of a specified size from colors in an image.
@@ -21,7 +21,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
         /// <param name="colorCount">Specifies size of palette</param>
         /// <param name="colorDictionary">Colors from image</param>
         /// <returns>Color palette</returns>
-        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
+        public List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
         {
             octreeNodes.Clear();
 
@@ -68,7 +68,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
         /// </summary>
         /// <param name="color">Target color</param>
         /// <returns>Index of similar color</returns>
-        public override int GetPaletteIndex(Color color)
+        public int GetPaletteIndex(Color color)
         {
             //Gets index of containing node
             foreach (var node in octreeNodes)

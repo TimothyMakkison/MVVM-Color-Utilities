@@ -4,16 +4,16 @@ using System.Drawing;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
 {
-    public class MedianCutQuantizer : BaseColorQuantizer
+    public class MedianCutQuantizer : IColorQuantizer
     {
         //Created by Smart K8 at:
         //https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C
 
         private List<MedianCutCube> cubeList = new List<MedianCutCube>();
 
-        public override string Name => "MedianCut Quantizer";
+        public string Name => "MedianCut Quantizer";
 
-        public override List<Color> Palette { get; set; } = new List<Color>();
+        public List<Color> Palette { get; set; } = new List<Color>();
 
         private void SplitCubes(int colorCount)
         {
@@ -56,7 +56,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// </summary>
         /// <param name="colorCount"></param>
         /// <returns></returns>
-        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
+        public List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
         {
             cubeList.Clear();
             cubeList.Add(new MedianCutCube(colorDictionary.Keys));
@@ -94,7 +94,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
         /// </summary>
         /// <param name="color">Target Color</param>
         /// <returns></returns>
-        public override int GetPaletteIndex(Color color)
+        public int GetPaletteIndex(Color color)
         {
             //If palette isnt formed
             if (Palette.Count == 0)

@@ -1,4 +1,5 @@
 ﻿using MVVM_Color_Utilities.Helpers.DistanceCalculator;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
@@ -6,13 +7,13 @@ using System.Linq;
 
 namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
 {
-    internal class NaieveQuantizer : BaseColorQuantizer
+    internal class NaieveQuantizer : IColorQuantizer
     {
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
 
-        public override string Name => "Naieve Quantizer";
+        public string Name => "Naieve Quantizer";
 
-        public override List<Color> Palette { get; set; } = new List<Color>();
+        public List<Color> Palette { get; set; } = new List<Color>();
 
         /// <summary>
         /// Generates palette from the most common colors and returns Palette.
@@ -20,7 +21,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
         /// <param name="colorCount">Number of colors in Palette.</param>
         /// <param name="colorDictionary">Input colors and frequencies.</param>
         /// <returns>Palette as a list of colors.</returns>
-        public override List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
+        public List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
             => Palette = colorDictionary.OrderByDescending(x => x.Value)
                                         .Take(colorCount)
                                         .Select(x => Color.FromArgb(255, Color.FromArgb(x.Key)))
@@ -31,9 +32,12 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
         /// </summary>
         /// <param name="color">Target color.</param>
         /// <returns>Index of most </returns>
-        public override int GetPaletteIndex(Color color)
+        public int GetPaletteIndex(Color color)
         {
-            PaletteArgumentChecker();
+            if (!Palette.Any())
+            {
+                throw new ArgumentNullException("Palette is empty, please use GetPalette first.", "Palette");
+            }
 
             int bestIndex = 0;
             int bestDistance = int.MaxValue;
