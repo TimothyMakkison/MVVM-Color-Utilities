@@ -3,9 +3,6 @@
 	Rework add edit mode backgrounds
 	On list change, save
 
-ImageBuffer 
-	Use multithreading (Get -> Get-> (Generate))
-
 Image Quantizer
 	Ditherer
 	
@@ -13,6 +10,3 @@ ImageAnalyzer
 	Add threading
 
 Shared hex to brush
-
-Icons
-Add base Property

@@ -32,11 +32,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private ICommand _sampleColorCommand;
         private ICommand _deleteItemCommand;
 
-        private readonly IDataContext<ColorModel> colorDataContext;
+        private readonly IDataContext<ColorModel> _colorDataContext;
 
         public ColorListViewModel(IDataContext<ColorModel> dataContext)
         {
-            this.colorDataContext = dataContext;
+            this._colorDataContext = dataContext;
         }
 
         public string InputName
@@ -68,7 +68,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set => Set(ref _addingModeBool, value);
         }
 
-        public ObservableCollection<ColorModel> ColorListSource => colorDataContext.Observable;
+        public ObservableCollection<ColorModel> ColorListSource => _colorDataContext.Observable;
 
         public ColorModel SelectedValue
         {
@@ -139,7 +139,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void AddNewItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            colorDataContext.InsertAt(0, new ColorModel(Color) { Name = InputName }).Save();
+            _colorDataContext.InsertAt(0, new ColorModel(Color) { Name = InputName }).Save();
             SelectedItemIndex = currentIndex;
         }
 
@@ -149,7 +149,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         private void EditItemMethod()
         {
             int currentIndex = SelectedItemIndex;
-            colorDataContext.ReplaceAt(SelectedItemIndex, new ColorModel(Color) { Name = InputName }).Save();
+            _colorDataContext.ReplaceAt(SelectedItemIndex, new ColorModel(Color) { Name = InputName }).Save();
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {
@@ -162,11 +162,11 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// </summary>
         private void DeleteItemMethod()
         {
-            if (colorDataContext.Observable.Count <= 0)
+            if (_colorDataContext.Observable.Count <= 0)
                 return;
 
             int currentIndex = SelectedItemIndex;
-            colorDataContext.RemoveAt(SelectedItemIndex).Save();
+            _colorDataContext.RemoveAt(SelectedItemIndex).Save();
             SelectedItemIndex = currentIndex;
             if (ColorListSource.Count > 0 && currentIndex == 0)
             {
