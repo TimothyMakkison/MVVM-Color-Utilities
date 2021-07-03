@@ -26,6 +26,8 @@ namespace MVVM_Color_Utilities.ViewModel
             CurrentPageViewModel = PageViewModels[0];
         }
 
+
+        //TODO replace with PRISM page management.
         /// <summary>
         /// Changes page to the relative source
         /// </summary>

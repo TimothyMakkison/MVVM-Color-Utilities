@@ -43,7 +43,7 @@ namespace MVVM_Color_Utilities.Helpers
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns></returns>
-        static public Color GetPixelColor(int x, int y)
+        public static Color GetPixelColor(int x, int y)
         {
             IntPtr hdc = NativeMethods.GetDC(IntPtr.Zero);
             uint pixel = NativeMethods.GetPixel(hdc, x, y);

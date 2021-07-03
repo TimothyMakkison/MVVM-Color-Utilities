@@ -26,6 +26,7 @@ namespace MVVM_Color_Utilities.Helpers
         private readonly List<Int32> colorCountList =
            new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
 
+        //TODO Should be injected with a transient lifetime.
         public readonly OpenFileDialog OpenDialogBox = new OpenFileDialog()
         { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
 
@@ -34,6 +35,7 @@ namespace MVVM_Color_Utilities.Helpers
 
         public List<Int32> ColorCountList => colorCountList.ToList();
 
+        //TODO This should be populated using reflection.
         public List<IColorQuantizer> QuantizerList => quantizerList.ToList();
     }
 }

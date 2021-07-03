@@ -16,12 +16,12 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         private IColorQuantizer _quantizer;
         private int _colorCount;
         private Memoizer<int, ConcurrentDictionary<int, int>, List<Color>> _paletteBuilder;
-        private IImageBuilder _imageBuilder;
+        private readonly IImageBuilder _imageBuilder;
 
         public ImageBuffer(IBitmapScanner bitmapScanner,
             IColorQuantizer quantizer,
             int colorCount,
-            IImageBuilder builder)
+            IImageBuilder imageBuilder)
         {
             _scanner = new Memoizer<Bitmap, ConcurrentDictionary<int, int>>(bitmapScanner.Scan);
 
@@ -29,7 +29,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
             _paletteBuilder = new Memoizer<int, ConcurrentDictionary<int, int>, List<Color>>(_quantizer.GetPalette);
             _colorCount = colorCount;
 
-            _imageBuilder = builder;
+            this._imageBuilder = imageBuilder;
         }
 
         public ImageBuffer() : this(new BitmapScanner(), new Median_Cut.MedianCutQuantizer(), 16, new ImageBuilder())

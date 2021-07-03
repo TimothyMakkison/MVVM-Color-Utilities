@@ -8,7 +8,9 @@ namespace MVVM_Color_Utilities.Helpers
 {
     internal class ColorDataContext : IDataContext<ColorModel>
     {
-        private static readonly string projectPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName; //Get Path of ColorItems file
+        private static readonly string projectPath = Directory.GetParent(Directory.GetCurrentDirectory())
+            .Parent
+            .FullName; //Get Path of ColorItems file
         private static readonly string colorsFilePath = projectPath + "/Resources/ColorItemsList.txt";
         private readonly ObservableCollection<ColorModel> source;
 
