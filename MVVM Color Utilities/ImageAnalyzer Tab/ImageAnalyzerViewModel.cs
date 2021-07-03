@@ -120,15 +120,11 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// <summary>
         /// Clears previous palette and gets new colors.
         /// </summary>
-        private void GetNewPalette()
+        private async void GetNewPalette()
         {
-            Task.Run(() =>
-            {
-                SampleColorSource.Clear();
-                SampleColorSource = imageBuffer.GetPalette()
-                                               .Select(color => new ColorModel(color))
+            var result = await Task.Run(imageBuffer.GetPalette);
+            SampleColorSource = result.Select(color => new ColorModel(color))
                                                .ToList();
-            });
         }
     }
 }
