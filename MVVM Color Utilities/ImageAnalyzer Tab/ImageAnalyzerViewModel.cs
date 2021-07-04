@@ -28,26 +28,28 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         private ICommand openCommand;
 
-        private readonly GeneralSettings generalSettings;
-        private readonly IImageBuffer imageBuffer = new ImageBuffer();
+        private readonly GeneralSettings _generalSettings;
+        private readonly IImageBuffer _imageBuffer;
 
         private readonly ColorDataContext dataContext;
 
         public ImageAnalyzerViewModel(GeneralSettings generalSettings,
             ColorDataContext colorDataContext,
-            IFileDialog fileDialog)
+            IFileDialog fileDialog,
+            IImageBuffer imageBuffer)
         {
-            this.generalSettings = generalSettings;
+            _generalSettings = generalSettings;
             _fileDialog = fileDialog;
+            _imageBuffer = imageBuffer;
+            dataContext = colorDataContext;
 
-            this.dataContext = colorDataContext;
             SaveCommand = new RelayCommand(x => Save(x));
 
             selectedColorCount = ColorCountList[4];
             selectedQuantizer = QuantizerList[0];
 
-            imageBuffer.SetQuantizer(SelectedQuantizer);
-            imageBuffer.SetColorCount(SelectedColorCount);
+            _imageBuffer.SetQuantizer(SelectedQuantizer);
+            _imageBuffer.SetColorCount(SelectedColorCount);
         }
 
         public PackIconKind Icon => PackIconKind.Paint;
@@ -79,7 +81,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             dataContext.Add(new ColorModel(a.Color)).Save();
         }
 
-        public List<IColorQuantizer> QuantizerList => generalSettings.QuantizerList;
+        public List<IColorQuantizer> QuantizerList => _generalSettings.QuantizerList;
 
         public IColorQuantizer SelectedQuantizer
         {
@@ -87,13 +89,13 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 selectedQuantizer = value;
-                imageBuffer.SetQuantizer(selectedQuantizer);
+                _imageBuffer.SetQuantizer(selectedQuantizer);
                 Debug.WriteLine("IA Quantizer set to " + selectedQuantizer.Name);
                 GetNewPalette();
             }
         }
 
-        public List<int> ColorCountList => generalSettings.ColorCountList;
+        public List<int> ColorCountList => _generalSettings.ColorCountList;
 
         public int SelectedColorCount
         {
@@ -101,7 +103,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 selectedColorCount = value;
-                imageBuffer.SetColorCount(selectedColorCount);
+                _imageBuffer.SetColorCount(selectedColorCount);
                 Debug.WriteLine("IA Color count set to " + selectedColorCount.ToString());
                 GetNewPalette();
             }
@@ -120,7 +122,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 SelectedPath = path;
                 var bitmap = new Bitmap(Image.FromFile(SelectedPath));
 
-                imageBuffer.SetBitmap(bitmap);
+                _imageBuffer.SetBitmap(bitmap);
                 GetNewPalette();
             }
         }
@@ -130,7 +132,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private async void GetNewPalette()
         {
-            var result = await Task.Run(imageBuffer.GetPalette);
+            var result = await Task.Run(_imageBuffer.GetPalette);
             SampleColorSource = result.Select(color => new ColorModel(color))
                                                .ToList();
         }

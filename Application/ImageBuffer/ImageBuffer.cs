@@ -33,10 +33,6 @@ namespace Application.ImageBuffer
             this._imageBuilder = imageBuilder;
         }
 
-        public ImageBuffer() : this(new BitmapScanner(), new Palette_Quantizers.Median_Cut.MedianCutQuantizer(), 16, new ImageBuilder())
-        {
-        }
-
         public void SetQuantizer(IColorQuantizer quantizer)
         {
             this._quantizer = quantizer;

@@ -1,4 +1,7 @@
-﻿using MVVM_Color_Utilities.Helpers;
+﻿using Application.ImageBuffer;
+using Application.Palette_Quantizers;
+using Application.Palette_Quantizers.Median_Cut;
+using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Infrastructure;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using StructureMap;
@@ -16,10 +19,12 @@ namespace MVVM_Color_Utilities.ViewModel
 
         public MainWindowViewModel()
         {
+            var defaultImageBuffer = new ImageBuffer(new BitmapScanner(), new MedianCutQuantizer(), 16, new ImageBuilder());
             var container = new Container(_ =>
             {
                 _.ForSingletonOf<ColorDataContext>().Use(new ColorDataContext());
                 _.For<IFileDialog>().Use<FileDialog>();
+                _.For<IImageBuffer>().Use(defaultImageBuffer);
             });
             PageViewModels.Add(container.GetInstance<ColorsList_Tab.ColorListViewModel>());
             PageViewModels.Add(container.GetInstance<ImageQuantizer_Tab.ImageQuantizerViewModel>());

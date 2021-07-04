@@ -25,7 +25,7 @@ namespace MVVM_Color_Utilities.Helpers
     /// </summary>
     public static class CursorUtils
     {
-        private static System.Drawing.Point _cursor = new System.Drawing.Point();
+        private static System.Drawing.Point _cursor = new();
 
         /// <summary>
         /// Returns the color of the cursor position

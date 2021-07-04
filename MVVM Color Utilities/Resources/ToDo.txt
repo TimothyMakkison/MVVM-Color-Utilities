@@ -19,3 +19,5 @@ View
 - Prism it up
 
 Fix saving
+
+Add logger instead of debugging.
