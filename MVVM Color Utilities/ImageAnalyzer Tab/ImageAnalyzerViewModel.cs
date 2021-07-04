@@ -4,20 +4,21 @@ using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Infrastructure;
 using MVVM_Color_Utilities.Models;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+using MVVM_Color_Utilities.ViewModel;
+using Prism.Commands;
+using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 {
     /// <summary>
     /// ViewModel for ImageAnalyzer, gets the constituent colors of an image.
     /// </summary>
-    internal class ImageAnalyzerViewModel : ObservableObject, IPageViewModel
+    internal class ImageAnalyzerViewModel : BindableBase, IPageViewModel
     {
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
@@ -25,8 +26,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private readonly IFileDialog _fileDialog;
 
         private List<ColorModel> sampleColorSource = new();
-
-        private ICommand openCommand;
 
         private readonly GeneralSettings _generalSettings;
         private readonly IImageBuffer _imageBuffer;
@@ -41,16 +40,21 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             _generalSettings = generalSettings;
             _fileDialog = fileDialog;
             _imageBuffer = imageBuffer;
-            dataContext = colorDataContext;
 
-            SaveCommand = new RelayCommand(x => Save(x));
+            dataContext = colorDataContext;
 
             selectedColorCount = ColorCountList[4];
             selectedQuantizer = QuantizerList[0];
 
             _imageBuffer.SetQuantizer(SelectedQuantizer);
             _imageBuffer.SetColorCount(SelectedColorCount);
+
+            SaveCommand = new DelegateCommand<ColorModel>(SaveColor);
+            OpenCommand = new DelegateCommand(OpenFile);
         }
+
+        public DelegateCommand<ColorModel> SaveCommand { get; }
+        public DelegateCommand OpenCommand { get; }
 
         public PackIconKind Icon => PackIconKind.Paint;
 
@@ -60,7 +64,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public string SelectedPath
         {
             get => selectedPath;
-            set => Set(ref selectedPath, value);
+            set => SetProperty(ref selectedPath, value);
         }
 
         /// <summary>
@@ -69,16 +73,13 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public List<ColorModel> SampleColorSource
         {
             get => sampleColorSource;
-            set => Set(ref sampleColorSource, value);
+            set => SetProperty(ref sampleColorSource, value);
         }
 
-        public ICommand SaveCommand { get; }
-
-        private void Save(object item)
+        private void SaveColor(ColorModel item)
         {
-            var a = item as ColorModel;
             //TODO fix id.
-            dataContext.Add(new ColorModel(a.Color)).Save();
+            dataContext.Add(new ColorModel(item.Color)).Save();
         }
 
         public List<IColorQuantizer> QuantizerList => _generalSettings.QuantizerList;
@@ -108,8 +109,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
                 GetNewPalette();
             }
         }
-
-        public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, OpenFile);
 
         /// <summary>
         /// Opens a dilog box and if a selection is made, a new palette is created.

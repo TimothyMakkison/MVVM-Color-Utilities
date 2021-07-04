@@ -1,6 +1,6 @@
 ﻿using MaterialDesignThemes.Wpf;
 
-namespace MVVM_Color_Utilities.ViewModel.Helper_Classes
+namespace MVVM_Color_Utilities.ViewModel
 {
     public interface IPageViewModel
     {

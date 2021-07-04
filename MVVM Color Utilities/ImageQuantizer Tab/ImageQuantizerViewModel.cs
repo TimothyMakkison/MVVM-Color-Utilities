@@ -3,19 +3,20 @@ using Application.Palette_Quantizers;
 using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Infrastructure;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+using MVVM_Color_Utilities.ViewModel;
+using Prism.Commands;
+using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
     /// <summary>
     /// ViewModel for ImageQuantizer, converts images into lower quality forms.
     /// </summary>
-    internal class ImageQuantizerViewModel : ObservableObject, IPageViewModel
+    internal class ImageQuantizerViewModel : BindableBase, IPageViewModel
     {
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
@@ -26,9 +27,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         private readonly IImageBuffer _imageBuffer;
 
         private System.Windows.Media.Imaging.BitmapImage generatedBitmap;
-
-        private ICommand openCommand;
-        private ICommand saveCommand;
 
         public ImageQuantizerViewModel(GeneralSettings generalSettings, IFileDialog fileDialog, IImageBuffer imageBuffer)
         {
@@ -41,9 +39,15 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
             _imageBuffer.SetQuantizer(SelectedQuantizer);
             _imageBuffer.SetColorCount(SelectedColorCount);
+
+            OpenCommand = new DelegateCommand(LoadImageAndQuatize);
+            SaveCommand = new DelegateCommand(DialogSaveImage);
         }
 
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
+
+        public DelegateCommand OpenCommand { get; }
+        public DelegateCommand SaveCommand { get; }
 
         /// <summary>
         /// Button displays image from this location.
@@ -51,7 +55,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         public string SelectedPath
         {
             get => selectedPath;
-            set => Set(ref selectedPath, value);
+            set => SetProperty(ref selectedPath, value);
         }
 
         /// <summary>
@@ -60,7 +64,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         public System.Windows.Media.Imaging.BitmapImage GeneratedBitmap
         {
             get => generatedBitmap;
-            set => Set(ref generatedBitmap, value);
+            set => SetProperty(ref generatedBitmap, value);
         }
 
         public List<IColorQuantizer> QuantizerList => _generalSettings.QuantizerList;
@@ -91,13 +95,10 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
 
-        public ICommand OpenCommand => PatternHandler.Singleton(ref openCommand, DialogGetImage);
-        public ICommand SaveCommand => PatternHandler.Singleton(ref saveCommand, DialogSaveImage);
-
         /// <summary>
         /// Opens file and exectues GenerateNewImage if selected item is valid.
         /// </summary>
-        private void DialogGetImage()
+        private void LoadImageAndQuatize()
         {
             if (_fileDialog.OpenImageDialogBox(out string path) && path != SelectedPath)
             {
@@ -109,6 +110,15 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
 
+        private void GenerateNewImage()
+        {
+            Task.Run(() =>
+            {
+                GeneratedBitmap = _imageBuffer.GenerateNewBitmap()
+                                             .ConvertToBitmapImage();
+            });
+        }
+
         /// <summary>
         /// Opens save dialog and saves generated image.
         /// </summary>
@@ -118,18 +128,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             {
                 GeneratedBitmap.ToBitmap().SaveImage(path, System.Drawing.Imaging.ImageFormat.Png);
             }
-        }
-
-        /// <summary>
-        /// Generates new image and then displays it.
-        /// </summary>
-        private void GenerateNewImage()
-        {
-            Task.Run(() =>
-            {
-                GeneratedBitmap = _imageBuffer.GenerateNewBitmap()
-                                             .ConvertToBitmapImage();
-            });
         }
     }
 }
