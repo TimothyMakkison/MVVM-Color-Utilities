@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
+namespace Application.Palette_Quantizers.Median_Cut
 {
     internal class MedianCutCube
     {

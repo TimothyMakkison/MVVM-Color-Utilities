@@ -50,12 +50,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             get => inputHex;
             set
             {
-                if (_hexCharactersReg.IsMatch(value) || value == "")//Only allows valid hex charcters ie start with # and the 1-9a-f
+                //Only allows valid hex charcters ie start with # and the 1-9a-f
+                if (_hexCharactersReg.IsMatch(value) || value == "")
                 {
                     Set(ref inputHex, value);
 
                     if (_hexColorReg.IsMatch(inputHex))
+                    {
                         Color = ((System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(inputHex)).ToDrawingColor();
+                    }
                 }
             }
         }
@@ -96,8 +99,10 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             get => color;
             set
             {
-                if (value != null)
+                if (value != default)
+                {
                     Set(ref color, value);
+                }
             }
         }
 
@@ -117,9 +122,15 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 
         public ICommand DeleteItem => PatternHandler.Singleton(ref _deleteItemCommand, DeleteItemMethod);
 
-        private void AddSwitchMethod() => AddingModeBool = true;
+        private void AddSwitchMethod()
+        {
+            AddingModeBool = true;
+        }
 
-        private void EditSwitchMethod() => AddingModeBool = false;
+        private void EditSwitchMethod()
+        {
+            AddingModeBool = false;
+        }
 
         //TODO Use polymorphism
         /// <summary>
@@ -177,6 +188,10 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// <summary>
         /// Gets the color of the pixel location.
         /// </summary>
-        private void SampleColorMethod() => Color = CursorUtils.GetCursorColor().ToDrawingColor();
+        private void SampleColorMethod()
+        {
+            Color = CursorUtils.GetCursorColor()
+                .ToDrawingColor();
+        }
     }
 }

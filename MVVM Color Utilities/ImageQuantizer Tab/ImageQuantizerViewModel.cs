@@ -1,12 +1,12 @@
 ﻿using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
-using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Application.Palette_Quantizers;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {

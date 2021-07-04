@@ -1,4 +1,4 @@
-﻿using MVVM_Color_Utilities.Helpers;
+﻿using Application.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers
+namespace Application.Palette_Quantizers
 {
     public class BitmapScanner : IBitmapScanner
     {
@@ -15,7 +15,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers
         {
             Debug.WriteLine($"Scanning bitmap for colors");
 
-            if (bitmap.IsNull())
+            if (bitmap is null)
             {
                 return new ConcurrentDictionary<int, int>();
             }

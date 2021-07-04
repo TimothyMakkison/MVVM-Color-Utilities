@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers.Median_Cut
+namespace Application.Palette_Quantizers.Median_Cut
 {
     public class MedianCutQuantizer : IColorQuantizer
     {

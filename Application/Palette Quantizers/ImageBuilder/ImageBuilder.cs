@@ -1,4 +1,4 @@
-﻿using MVVM_Color_Utilities.Helpers;
+﻿using Application.Helpers;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -6,14 +6,14 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers
+namespace Application.Palette_Quantizers
 {
     public class ImageBuilder : IImageBuilder
     {
         public Bitmap BuildBitmap(Bitmap original, Func<Color, Color> func)
         {
             Debug.WriteLine("Generating new image");
-            if (original.IsNull())
+            if (original is null)
             {
                 return null;
             }

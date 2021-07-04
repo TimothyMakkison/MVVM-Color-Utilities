@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Linq;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
+namespace Application.Palette_Quantizers.Octree
 {
     public class OctreeNode : List<Color>
     {

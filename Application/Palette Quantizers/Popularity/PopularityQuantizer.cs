@@ -1,10 +1,10 @@
-﻿using MVVM_Color_Utilities.Helpers.DistanceCalculator;
+﻿using Application.Helpers.DistanceCalculator;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
+namespace Application.Palette_Quantizers.PopularityQuantizer
 {
     /// <summary>
     /// Divides each colors values by 4, compressing them and then creates a palette from the most common values
@@ -14,7 +14,7 @@ namespace MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer
     /// by not saving the individual colors when placed in the grid, instead if a color is within a cube, the
     /// cubes count increases, this does however mean an average of each cube cannot be found.
     /// </summary>
-    internal class PopularityQuantizer : IColorQuantizer
+    public class PopularityQuantizer : IColorQuantizer
     {
         private List<Color> _palette = new List<Color>();
 

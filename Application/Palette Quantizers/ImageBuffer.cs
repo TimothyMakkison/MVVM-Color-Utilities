@@ -1,5 +1,4 @@
-﻿using MVVM_Color_Utilities.Helpers;
-using MVVM_Color_Utilities.ViewModel.Helper_Classes;
+﻿using Application.Helpers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -7,9 +6,9 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers
+namespace Application.Palette_Quantizers
 {
-    internal class ImageBuffer : ObservableObject, IImageBuffer
+    public class ImageBuffer : IImageBuffer
     {
         private Bitmap originalBitmap;
         private Memoizer<Bitmap, ConcurrentDictionary<int, int>> _scanner;

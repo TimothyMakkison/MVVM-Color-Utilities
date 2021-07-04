@@ -1,11 +1,11 @@
-﻿using MoreLinq;
-using MVVM_Color_Utilities.Helpers.DistanceCalculator;
+﻿using Application.Helpers.DistanceCalculator;
+using MoreLinq;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers.Octree
+namespace Application.Palette_Quantizers.Octree
 {
     public class OctreeQuantizer : IColorQuantizer
     {

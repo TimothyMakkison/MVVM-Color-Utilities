@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers
+namespace Application.Palette_Quantizers
 {
-    internal interface IImageBuffer
+    public interface IImageBuffer
     {
         Bitmap GenerateNewBitmap();
 

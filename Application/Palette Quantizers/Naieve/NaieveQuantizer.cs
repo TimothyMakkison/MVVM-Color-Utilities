@@ -1,13 +1,13 @@
-﻿using MVVM_Color_Utilities.Helpers.DistanceCalculator;
+﻿using Application.Helpers.DistanceCalculator;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace MVVM_Color_Utilities.Palette_Quantizers.Naieve
+namespace Application.Palette_Quantizers.Naieve
 {
-    internal class NaieveQuantizer : IColorQuantizer
+    public class NaieveQuantizer : IColorQuantizer
     {
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
 

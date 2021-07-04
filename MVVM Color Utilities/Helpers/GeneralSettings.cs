@@ -1,9 +1,9 @@
-﻿using Microsoft.Win32;
-using MVVM_Color_Utilities.Palette_Quantizers;
-using MVVM_Color_Utilities.Palette_Quantizers.Median_Cut;
-using MVVM_Color_Utilities.Palette_Quantizers.Naieve;
-using MVVM_Color_Utilities.Palette_Quantizers.Octree;
-using MVVM_Color_Utilities.Palette_Quantizers.PopularityQuantizer;
+﻿using Application.Palette_Quantizers;
+using Application.Palette_Quantizers.Median_Cut;
+using Application.Palette_Quantizers.Octree;
+using Application.Palette_Quantizers.PopularityQuantizer;
+using Application.Palette_Quantizers.Naieve;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +15,7 @@ namespace MVVM_Color_Utilities.Helpers
     /// </summary>
     public class GeneralSettings
     {
+        //TODO use reflections to intitialize
         private readonly List<IColorQuantizer> quantizerList = new List<IColorQuantizer>
         {
             new MedianCutQuantizer(),
@@ -33,7 +34,7 @@ namespace MVVM_Color_Utilities.Helpers
         public readonly SaveFileDialog SaveDialogBox = new SaveFileDialog()
         { Filter = "JPG (*.jpg;*.jpeg)|(*.jpg;*.jpeg)", Title = "Save Image" };
 
-        public List<Int32> ColorCountList => colorCountList.ToList();
+        public List<int> ColorCountList => colorCountList.ToList();
 
         //TODO This should be populated using reflection.
         public List<IColorQuantizer> QuantizerList => quantizerList.ToList();

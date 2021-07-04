@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MVVM_Color_Utilities.Properties {
+namespace Application.Properties {
     using System;
     
     

@@ -1,7 +1,7 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using Application.Palette_Quantizers;
+using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Models;
-using MVVM_Color_Utilities.Palette_Quantizers;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Collections.Generic;
 using System.Diagnostics;
