@@ -11,6 +11,7 @@ namespace Application.ImageBuffer
 {
     public class ImageBuffer : IImageBuffer
     {
+        //TODO Remove originalBitmap value. Might be needed to prevent error if user changes image?
         private Bitmap originalBitmap;
         private readonly Memoizer<Bitmap, ConcurrentDictionary<int, int>> _scanner;
         private IColorQuantizer _quantizer;
@@ -73,7 +74,7 @@ namespace Application.ImageBuffer
         public Bitmap GenerateNewBitmap()
         {
             var colors = GetPalette().ToArray();
-            Color func(Color c) => colors[_quantizer.GetPaletteIndex(c)];
+            Func<Color, Color> func = c => colors[_quantizer.GetPaletteIndex(c)];
 
             return _imageBuilder.BuildBitmap(originalBitmap, func);
         }

@@ -5,8 +5,6 @@
     /// </summary>
     public static class MathUtils
     {
-        //TODO refactor clamp
-
         /// <summary>
         /// Clamps value between upper and lower bounds.
         /// </summary>

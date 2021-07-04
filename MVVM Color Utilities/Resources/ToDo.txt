@@ -10,3 +10,12 @@ ImageAnalyzer
 	Add threading
 
 Shared hex to brush
+
+Infrastructure
+- Open and save dialog should be classes
+- Possibly create a container for all IcolorQuantizers ?? generic it?
+
+View
+- Prism it up
+
+Fix saving
