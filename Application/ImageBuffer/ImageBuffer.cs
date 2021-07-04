@@ -1,4 +1,5 @@
 ﻿using Application.Helpers;
+using Application.Palette_Quantizers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -6,12 +7,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 
-namespace Application.Palette_Quantizers
+namespace Application.ImageBuffer
 {
     public class ImageBuffer : IImageBuffer
     {
         private Bitmap originalBitmap;
-        private Memoizer<Bitmap, ConcurrentDictionary<int, int>> _scanner;
+        private readonly Memoizer<Bitmap, ConcurrentDictionary<int, int>> _scanner;
         private IColorQuantizer _quantizer;
         private int _colorCount;
         private Memoizer<int, ConcurrentDictionary<int, int>, List<Color>> _paletteBuilder;
@@ -31,7 +32,7 @@ namespace Application.Palette_Quantizers
             this._imageBuilder = imageBuilder;
         }
 
-        public ImageBuffer() : this(new BitmapScanner(), new Median_Cut.MedianCutQuantizer(), 16, new ImageBuilder())
+        public ImageBuffer() : this(new BitmapScanner(), new Palette_Quantizers.Median_Cut.MedianCutQuantizer(), 16, new ImageBuilder())
         {
         }
 
@@ -72,7 +73,7 @@ namespace Application.Palette_Quantizers
         public Bitmap GenerateNewBitmap()
         {
             var colors = GetPalette().ToArray();
-            Func<Color, Color> func = c => colors[_quantizer.GetPaletteIndex(c)];
+            Color func(Color c) => colors[_quantizer.GetPaletteIndex(c)];
 
             return _imageBuilder.BuildBitmap(originalBitmap, func);
         }

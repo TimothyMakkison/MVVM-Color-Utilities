@@ -28,7 +28,7 @@ namespace Application.Palette_Quantizers.Octree
         /// <summary>
         /// Size of node.
         /// </summary>
-        public int Size { get; private set; }
+        public int Size { get; }
 
         /// <summary>
         /// Palette color index of this node.
@@ -94,7 +94,7 @@ namespace Application.Palette_Quantizers.Octree
             }
 
             //Find all non empty nodes
-            return nodes.Where(x => x.Count() > 0);
+            return nodes.Where(x => x.Count > 0);
         }
 
         /// <summary>

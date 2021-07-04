@@ -6,7 +6,7 @@ namespace Application.Helpers
     public class Memoizer<T1, U>
     {
         private readonly Func<T1, U> func;
-        private readonly ConcurrentDictionary<T1, U> dict = new ConcurrentDictionary<T1, U>();
+        private readonly ConcurrentDictionary<T1, U> dict = new();
 
         public Memoizer(Func<T1, U> func)
         {
@@ -22,7 +22,7 @@ namespace Application.Helpers
     public class Memoizer<T1, T2, U>
     {
         private readonly Func<(T1, T2), U> func;
-        private readonly ConcurrentDictionary<(T1, T2), U> dict = new ConcurrentDictionary<(T1, T2), U>();
+        private readonly ConcurrentDictionary<(T1, T2), U> dict = new();
 
         public Memoizer(Func<T1, T2, U> func)
         {

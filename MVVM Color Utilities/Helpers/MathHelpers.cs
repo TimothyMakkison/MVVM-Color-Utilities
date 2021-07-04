@@ -19,9 +19,9 @@
             if (upperBound < lowerBound)
                 upperBound = lowerBound;
             if (value < lowerBound)
-                value = lowerBound;
+                return lowerBound;
             else if (value > upperBound)
-                value = upperBound;
+                return upperBound;
             return value;
         }
     }

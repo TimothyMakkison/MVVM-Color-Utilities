@@ -34,7 +34,7 @@ namespace Application.Palette_Quantizers.Naieve
         /// <returns>Index of most </returns>
         public int GetPaletteIndex(Color color)
         {
-            if (!Palette.Any())
+            if (Palette.Count == 0)
             {
                 throw new ArgumentNullException("Palette is empty, please use GetPalette first.", "Palette");
             }

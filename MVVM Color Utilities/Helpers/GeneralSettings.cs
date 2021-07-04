@@ -16,7 +16,7 @@ namespace MVVM_Color_Utilities.Helpers
     public class GeneralSettings
     {
         //TODO use reflections to intitialize
-        private readonly List<IColorQuantizer> quantizerList = new List<IColorQuantizer>
+        private readonly List<IColorQuantizer> quantizerList = new()
         {
             new MedianCutQuantizer(),
             new PopularityQuantizer(),
@@ -25,13 +25,14 @@ namespace MVVM_Color_Utilities.Helpers
         };
 
         private readonly List<Int32> colorCountList =
-           new List<int> { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
+           new()
+           { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
 
         //TODO Should be injected with a transient lifetime.
-        public readonly OpenFileDialog OpenDialogBox = new OpenFileDialog()
+        public readonly OpenFileDialog OpenDialogBox = new()
         { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
 
-        public readonly SaveFileDialog SaveDialogBox = new SaveFileDialog()
+        public readonly SaveFileDialog SaveDialogBox = new()
         { Filter = "JPG (*.jpg;*.jpeg)|(*.jpg;*.jpeg)", Title = "Save Image" };
 
         public List<int> ColorCountList => colorCountList.ToList();

@@ -13,8 +13,8 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
 {
     internal class ColorListViewModel : ObservableObject, IPageViewModel
     {
-        private readonly Regex _hexCharactersReg = new Regex("^#([0-9a-fA-F]{0,8})?$");
-        private readonly Regex _hexColorReg = new Regex("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
+        private readonly Regex _hexCharactersReg = new("^#([0-9a-fA-F]{0,8})?$");
+        private readonly Regex _hexColorReg = new("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
 
         private Color color;
         private ColorModel selectedItem;
@@ -51,7 +51,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             set
             {
                 //Only allows valid hex charcters ie start with # and the 1-9a-f
-                if (_hexCharactersReg.IsMatch(value) || value == "")
+                if (_hexCharactersReg.IsMatch(value) || value?.Length == 0)
                 {
                     Set(ref inputHex, value);
 
@@ -173,7 +173,7 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
         /// </summary>
         private void DeleteItemMethod()
         {
-            if (_colorDataContext.Observable.Count <= 0)
+            if (_colorDataContext.Observable.Count == 0)
                 return;
 
             int currentIndex = SelectedItemIndex;

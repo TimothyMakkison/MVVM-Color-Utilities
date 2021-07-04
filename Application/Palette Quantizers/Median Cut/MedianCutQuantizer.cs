@@ -9,7 +9,7 @@ namespace Application.Palette_Quantizers.Median_Cut
         //Created by Smart K8 at:
         //https://www.codeproject.com/Articles/66341/A-Simple-Yet-Quite-Powerful-Palette-Quantizer-in-C
 
-        private List<MedianCutCube> cubeList = new List<MedianCutCube>();
+        private List<MedianCutCube> cubeList = new();
 
         public string Name => "MedianCut Quantizer";
 
@@ -18,7 +18,7 @@ namespace Application.Palette_Quantizers.Median_Cut
         private void SplitCubes(int colorCount)
         {
             // creates a holder for newly added cubes
-            List<MedianCutCube> newCubes = new List<MedianCutCube>();
+            List<MedianCutCube> newCubes = new();
 
             foreach (MedianCutCube cube in cubeList)
             {
@@ -62,7 +62,7 @@ namespace Application.Palette_Quantizers.Median_Cut
             cubeList.Add(new MedianCutCube(colorDictionary.Keys));
             Palette.Clear();
 
-            if (colorDictionary.Count == 0)//Returns empty if it has nothing to sort through.
+            if (colorDictionary.IsEmpty)//Returns empty if it has nothing to sort through.
             {
                 return Palette;
             }

@@ -1,8 +1,9 @@
-﻿using System.Collections.Concurrent;
+﻿using Application.Palette_Quantizers;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Application.Palette_Quantizers
+namespace Application.ImageBuffer
 {
     public interface IImageBuffer
     {

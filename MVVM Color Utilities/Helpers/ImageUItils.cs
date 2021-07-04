@@ -35,12 +35,12 @@ namespace MVVM_Color_Utilities.Helpers
 
         public static Bitmap ToBitmap(this BitmapImage image)
         {
-            using MemoryStream outStream = new MemoryStream();
+            using MemoryStream outStream = new();
 
             BitmapEncoder enc = new BmpBitmapEncoder();
             enc.Frames.Add(BitmapFrame.Create(image));
             enc.Save(outStream);
-            Bitmap bitmap = new Bitmap(outStream);
+            Bitmap bitmap = new(outStream);
 
             return new Bitmap(bitmap);
         }

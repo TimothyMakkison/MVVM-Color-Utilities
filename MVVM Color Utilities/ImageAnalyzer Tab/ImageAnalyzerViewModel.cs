@@ -1,4 +1,5 @@
-﻿using Application.Palette_Quantizers;
+﻿using Application.ImageBuffer;
+using Application.Palette_Quantizers;
 using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Models;
@@ -21,7 +22,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private IColorQuantizer selectedQuantizer;
         private int selectedColorCount;
 
-        private List<ColorModel> sampleColorSource = new List<ColorModel>();
+        private List<ColorModel> sampleColorSource = new();
 
         private ICommand openCommand;
 
@@ -81,7 +82,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             {
                 selectedQuantizer = value;
                 imageBuffer.SetQuantizer(selectedQuantizer);
-                Debug.WriteLine("IA Quantizer set to " + selectedQuantizer.Name.ToString());
+                Debug.WriteLine("IA Quantizer set to " + selectedQuantizer.Name);
                 GetNewPalette();
             }
         }

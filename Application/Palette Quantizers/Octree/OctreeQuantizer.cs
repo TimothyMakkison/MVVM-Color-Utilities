@@ -9,7 +9,7 @@ namespace Application.Palette_Quantizers.Octree
 {
     public class OctreeQuantizer : IColorQuantizer
     {
-        private List<OctreeNode> octreeNodes = new List<OctreeNode>();
+        private List<OctreeNode> octreeNodes = new();
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
 
         public string Name => "Octree Quantizer";
@@ -26,7 +26,7 @@ namespace Application.Palette_Quantizers.Octree
             octreeNodes.Clear();
 
             //Create encompasing parent node.
-            OctreeNode node = new OctreeNode(0, 0, 0, 256);
+            OctreeNode node = new(0, 0, 0, 256);
 
             //Iterate through each input color adding each to encompassing node
             foreach (KeyValuePair<int, int> item in colorDictionary)
@@ -59,8 +59,7 @@ namespace Application.Palette_Quantizers.Octree
                 octreeNodes[i].PaletteIndex = i;
             }
 
-            return Palette = octreeNodes.Select(x => x.AverageColor)
-                                        .ToList(); ;
+            return Palette = octreeNodes.ConvertAll(x => x.AverageColor);
         }
 
         /// <summary>

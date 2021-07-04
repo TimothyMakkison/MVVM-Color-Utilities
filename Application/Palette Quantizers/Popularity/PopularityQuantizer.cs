@@ -16,7 +16,7 @@ namespace Application.Palette_Quantizers.PopularityQuantizer
     /// </summary>
     public class PopularityQuantizer : IColorQuantizer
     {
-        private List<Color> _palette = new List<Color>();
+        private List<Color> _palette = new();
 
         private readonly IDistanceCalculator distanceCalculator = new ManhattenDistance();
 
@@ -30,15 +30,15 @@ namespace Application.Palette_Quantizers.PopularityQuantizer
         /// <returns>Palette as a list of colors.</returns>
         public List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
         {
-            if (colorDictionary.Count > 0)
+            if (!colorDictionary.IsEmpty)
             {
                 //Compress each color either adding to dictionary or updating frequency.
-                ConcurrentDictionary<int, int> gridIndexColorDict = new ConcurrentDictionary<int, int>();
+                ConcurrentDictionary<int, int> gridIndexColorDict = new();
                 foreach (int key in colorDictionary.Keys)
                 {
                     int gridIndex = DenaryToGridIndex(key);
                     gridIndexColorDict.AddOrUpdate(gridIndex, colorDictionary[key],
-                        (keyValue, frequency) => frequency + colorDictionary[key]);
+                        (_, frequency) => frequency + colorDictionary[key]);
                 }
 
                 //Sort by frequency and return a number of colors equal to colorCount.
@@ -76,14 +76,15 @@ namespace Application.Palette_Quantizers.PopularityQuantizer
             return bestIndex;
         }
 
+        //TODO Refactor to make human readable
         /// <summary>
         /// Converts an integer form color into a 18 bit color.
         /// </summary>
         /// <param name="input">Color as an integer.</param>
         /// <returns>Compressed color integer.</returns>
-        private int DenaryToGridIndex(int input) => ((input & 0xFF0000) >> 18 << 12) | (input & 0xFF00) >> 10 << 6 | (input & 0xFF) >> 2;
+        private static int DenaryToGridIndex(int input) => ((input & 0xFF0000) >> 18 << 12) | (input & 0xFF00) >> 10 << 6 | (input & 0xFF) >> 2;
 
-        private Color GridIndexToColor(int input)
+        private static Color GridIndexToColor(int input)
         {
             int red = (input & 0x3F000) >> 10;
             int green = (input & 0xFC0) >> 4;

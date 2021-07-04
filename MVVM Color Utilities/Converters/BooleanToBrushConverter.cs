@@ -18,7 +18,7 @@ namespace MVVM_Color_Utilities.Converters
         {
             var boolValue = value as bool? ?? false;
             // Inverts color
-            if (parameter != null && parameter.ToString() == "!")
+            if (parameter?.ToString() == "!")
             {
                 boolValue = !boolValue;
             }

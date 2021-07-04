@@ -18,7 +18,7 @@ namespace Application.Palette_Quantizers
                 return null;
             }
 
-            Bitmap lockableBitmap = new Bitmap(original);
+            Bitmap lockableBitmap = new(original);
             //Get raw bitmap data
             BitmapData bitmapData = lockableBitmap.LockBits(new Rectangle(0, 0, lockableBitmap.Width, lockableBitmap.Height),
                                     ImageLockMode.ReadWrite,

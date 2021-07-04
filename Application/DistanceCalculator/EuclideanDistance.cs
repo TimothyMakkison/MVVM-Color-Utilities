@@ -14,7 +14,9 @@ namespace Application.Helpers.DistanceCalculator
             int greenDifference = Math.Abs(a.G - b.G);
             int blueDifference = Math.Abs(a.B - b.B);
 
-            return redDifference * redDifference + greenDifference * greenDifference + blueDifference * blueDifference;
+            return (redDifference * redDifference)
+                + (greenDifference * greenDifference)
+                + (blueDifference * blueDifference);
         }
     }
 }
