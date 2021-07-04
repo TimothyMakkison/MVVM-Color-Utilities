@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Application.Palette_Quantizers;
 using Application.ImageBuffer;
+using MVVM_Color_Utilities.Infrastructure;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 {
@@ -19,7 +20,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
         private int selectedColorCount = 16;
-        private readonly GeneralSettings generalSettings;
+        private readonly GeneralSettings _generalSettings;
+        private readonly IFileDialog _fileDialog;
 
         private System.Windows.Media.Imaging.BitmapImage generatedBitmap;
 
@@ -30,12 +32,13 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         private readonly IImageBuffer imageBuffer = new ImageBuffer();
 
-        public ImageQuantizerViewModel(GeneralSettings generalSettings)
+        public ImageQuantizerViewModel(GeneralSettings generalSettings, IFileDialog fileDialog)
         {
-            this.generalSettings = generalSettings;
+            this._generalSettings = generalSettings;
             selectedQuantizer = QuantizerList[0];
             imageBuffer.SetQuantizer(SelectedQuantizer);
             imageBuffer.SetColorCount(SelectedColorCount);
+            _fileDialog = fileDialog;
         }
 
         public PackIconKind Icon => PackIconKind.PaletteAdvanced;
@@ -58,7 +61,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set => Set(ref generatedBitmap, value);
         }
 
-        public List<IColorQuantizer> QuantizerList => generalSettings.QuantizerList;
+        public List<IColorQuantizer> QuantizerList => _generalSettings.QuantizerList;
 
         public IColorQuantizer SelectedQuantizer
         {
@@ -72,7 +75,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             }
         }
 
-        public List<int> ColorCountList => generalSettings.ColorCountList;
+        public List<int> ColorCountList => _generalSettings.ColorCountList;
 
         public int SelectedColorCount
         {
@@ -94,10 +97,9 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         private void DialogGetImage()
         {
-            //Checks that the path exists and is not repeating itself.
-            if (generalSettings.OpenDialogBox.ShowDialog() == true && SelectedPath != generalSettings.OpenDialogBox.FileName)
+            if (_fileDialog.OpenImageDialogBox(out string path) && path != SelectedPath)
             {
-                SelectedPath = generalSettings.OpenDialogBox.FileName;
+                SelectedPath = path;
 
                 var bitmap = new Bitmap(Image.FromFile(SelectedPath));
                 imageBuffer.SetBitmap(bitmap);
@@ -110,9 +112,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// </summary>
         private void DialogSaveImage()
         {
-            if (generalSettings.SaveDialogBox.ShowDialog() == true)
+            if (_fileDialog.SaveImageDialogBox(out string path))
             {
-                string path = generalSettings.SaveDialogBox.FileName;
                 GeneratedBitmap.ToBitmap().SaveImage(path, System.Drawing.Imaging.ImageFormat.Png);
             }
         }

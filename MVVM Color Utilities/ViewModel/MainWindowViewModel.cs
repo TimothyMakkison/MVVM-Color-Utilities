@@ -1,4 +1,5 @@
 ﻿using MVVM_Color_Utilities.Helpers;
+using MVVM_Color_Utilities.Infrastructure;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using StructureMap;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace MVVM_Color_Utilities.ViewModel
             var container = new Container(_ =>
             {
                 _.ForSingletonOf<ColorDataContext>().Use(new ColorDataContext());
+                _.For<IFileDialog>().Use<FileDialog>();
             });
             PageViewModels.Add(container.GetInstance<ColorsList_Tab.ColorListViewModel>());
             PageViewModels.Add(container.GetInstance<ImageQuantizer_Tab.ImageQuantizerViewModel>());

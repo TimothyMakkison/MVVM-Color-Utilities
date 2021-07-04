@@ -2,6 +2,7 @@
 using Application.Palette_Quantizers;
 using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
+using MVVM_Color_Utilities.Infrastructure;
 using MVVM_Color_Utilities.Models;
 using MVVM_Color_Utilities.ViewModel.Helper_Classes;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
         private int selectedColorCount;
+        private readonly IFileDialog _fileDialog;
 
         private List<ColorModel> sampleColorSource = new();
 
@@ -31,9 +33,13 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
         private readonly ColorDataContext dataContext;
 
-        public ImageAnalyzerViewModel(GeneralSettings generalSettings, ColorDataContext colorDataContext)
+        public ImageAnalyzerViewModel(GeneralSettings generalSettings,
+            ColorDataContext colorDataContext,
+            IFileDialog fileDialog)
         {
             this.generalSettings = generalSettings;
+            _fileDialog = fileDialog;
+
             this.dataContext = colorDataContext;
             SaveCommand = new RelayCommand(x => Save(x));
 
@@ -108,9 +114,10 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private void OpenFile()
         {
-            if (generalSettings.OpenDialogBox.ShowDialog() == true && SelectedPath != generalSettings.OpenDialogBox.FileName) //Checks that the path exists and is not the previous path.
+            //Checks that the path exists and is not the previous path.
+            if (_fileDialog.OpenImageDialogBox(out string path) && SelectedPath != path)
             {
-                SelectedPath = generalSettings.OpenDialogBox.FileName;
+                SelectedPath = path;
                 var bitmap = new Bitmap(Image.FromFile(SelectedPath));
 
                 imageBuffer.SetBitmap(bitmap);

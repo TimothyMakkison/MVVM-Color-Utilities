@@ -28,12 +28,12 @@ namespace MVVM_Color_Utilities.Helpers
            new()
            { 1, 2, 4, 8, 16, 32, 64, 128, 256 };//{ 256,128,64,32,16,8,4,2,1};
 
-        //TODO Should be injected with a transient lifetime.
-        public readonly OpenFileDialog OpenDialogBox = new()
-        { Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
+        ////TODO Should be injected with a transient lifetime.
+        //public readonly OpenFileDialog OpenDialogBox = new()
+        //{ Filter = "Images| *.jpg;*.png;*.jpeg;*.bmp", Title = "Browse Images" };
 
-        public readonly SaveFileDialog SaveDialogBox = new()
-        { Filter = "JPG (*.jpg;*.jpeg)|(*.jpg;*.jpeg)", Title = "Save Image" };
+        //public readonly SaveFileDialog SaveDialogBox = new()
+        //{ Filter = "JPG (*.jpg;*.jpeg)|(*.jpg;*.jpeg)", Title = "Save Image" };
 
         public List<int> ColorCountList => colorCountList.ToList();
 
