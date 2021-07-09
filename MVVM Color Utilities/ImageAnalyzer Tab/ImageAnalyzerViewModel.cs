@@ -35,7 +35,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public ImageAnalyzerViewModel(GeneralSettings generalSettings,
             ColorDataContext colorDataContext,
             IFileDialog fileDialog,
-            IImageBuffer imageBuffer)
+            IImageBuffer imageBuffer,
+            List<IColorQuantizer> quantizerList)
         {
             _generalSettings = generalSettings;
             _fileDialog = fileDialog;
@@ -43,6 +44,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
 
             dataContext = colorDataContext;
 
+            QuantizerList = quantizerList;
             selectedColorCount = ColorCountList[4];
             selectedQuantizer = QuantizerList[0];
 
@@ -57,6 +59,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public DelegateCommand OpenCommand { get; }
 
         public PackIconKind Icon => PackIconKind.Paint;
+        public List<IColorQuantizer> QuantizerList { get; }
 
         /// <summary>
         /// Button displays image from this location.
@@ -81,8 +84,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             //TODO fix id.
             dataContext.Add(new ColorModel(item.Color)).Save();
         }
-
-        public List<IColorQuantizer> QuantizerList => _generalSettings.QuantizerList;
 
         public IColorQuantizer SelectedQuantizer
         {

@@ -28,12 +28,13 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         private System.Windows.Media.Imaging.BitmapImage generatedBitmap;
 
-        public ImageQuantizerViewModel(GeneralSettings generalSettings, IFileDialog fileDialog, IImageBuffer imageBuffer)
+        public ImageQuantizerViewModel(GeneralSettings generalSettings, IFileDialog fileDialog, IImageBuffer imageBuffer, List<IColorQuantizer> quantizerList)
         {
             _generalSettings = generalSettings;
             _imageBuffer = imageBuffer;
             _fileDialog = fileDialog;
 
+            QuantizerList = quantizerList;
             selectedQuantizer = QuantizerList[0];
             selectedColorCount = ColorCountList[4];
 
@@ -67,7 +68,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set => SetProperty(ref generatedBitmap, value);
         }
 
-        public List<IColorQuantizer> QuantizerList => _generalSettings.QuantizerList;
+        //public List<IColorQuantizer> QuantizerList => _generalSettings.QuantizerList;
+        public List<IColorQuantizer> QuantizerList { get; }
 
         public IColorQuantizer SelectedQuantizer
         {

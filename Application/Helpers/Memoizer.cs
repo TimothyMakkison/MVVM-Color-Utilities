@@ -15,8 +15,7 @@ namespace Application.Helpers
 
         public U GetValue(T1 param)
         {
-            var val = dict.GetOrAdd(param, func);
-            return val;
+            return dict.GetOrAdd(param, func);
         }
     }
     public class Memoizer<T1, T2, U>
@@ -31,8 +30,7 @@ namespace Application.Helpers
 
         public U GetValue(T1 t1, T2 t2)
         {
-            var val = dict.GetOrAdd((t1, t2), func);
-            return val;
+            return dict.GetOrAdd((t1, t2), func);
         }
     }
 }

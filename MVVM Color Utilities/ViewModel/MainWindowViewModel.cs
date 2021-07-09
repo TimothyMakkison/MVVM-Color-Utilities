@@ -23,14 +23,21 @@ namespace MVVM_Color_Utilities.ViewModel
                 _.ForSingletonOf<ColorDataContext>().Use(new ColorDataContext());
                 _.For<IFileDialog>().Use<FileDialog>();
                 _.For<IImageBuffer>().Use(defaultImageBuffer);
+                _.Scan(_ =>
+                {
+                    _.AssemblyContainingType<IColorQuantizer>();
+                    _.AddAllTypesOf<IColorQuantizer>();
+                    _.WithDefaultConventions();
+                });
             });
+            var c = container.GetAllInstances<IColorQuantizer>();
 
             PageViewModels.Add(container.GetInstance<ColorsList_Tab.ColorListViewModel>());
             PageViewModels.Add(container.GetInstance<ImageQuantizer_Tab.ImageQuantizerViewModel>());
             PageViewModels.Add(container.GetInstance<ImageAnalyzer_Tab.ImageAnalyzerViewModel>());
 
             CurrentPageViewModel = PageViewModels[0];
-            ChangePageCommand = new DelegateCommand<IPageViewModel>(p => ChangeViewModel((IPageViewModel)p),
+            ChangePageCommand = new DelegateCommand<IPageViewModel>(p => ChangeViewModel(p),
                                                           p => p is IPageViewModel);
         }
 
