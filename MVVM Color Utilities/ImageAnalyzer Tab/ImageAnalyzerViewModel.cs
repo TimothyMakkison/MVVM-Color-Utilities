@@ -18,7 +18,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     /// <summary>
     /// ViewModel for ImageAnalyzer, gets the constituent colors of an image.
     /// </summary>
-    internal class ImageAnalyzerViewModel : BindableBase, IPageViewModel
+    public class ImageAnalyzerViewModel : BindableBase, IPageViewModel
     {
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;

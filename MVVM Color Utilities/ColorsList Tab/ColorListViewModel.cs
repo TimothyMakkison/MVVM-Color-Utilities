@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace MVVM_Color_Utilities.ColorsList_Tab
 {
-    internal class ColorListViewModel : BindableBase , IPageViewModel
+    public class ColorListViewModel : BindableBase , IPageViewModel
     {
         private readonly Regex _hexCharactersReg = new("^#([0-9a-fA-F]{0,8})?$");
         private readonly Regex _hexColorReg = new("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");

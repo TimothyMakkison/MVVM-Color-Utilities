@@ -6,7 +6,7 @@ using System.IO;
 
 namespace MVVM_Color_Utilities.Helpers
 {
-    internal class ColorDataContext : IDataContext<ColorModel>
+    public class ColorDataContext : IDataContext<ColorModel>
     {
         private const string colorsFilePath = "Resources/ColorItemsList.txt";
         private readonly ObservableCollection<ColorModel> _source;

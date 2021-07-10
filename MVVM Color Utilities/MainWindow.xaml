@@ -13,10 +13,6 @@
         WindowStartupLocation="CenterScreen" Background="LightGray"
         WindowStyle="None" AllowsTransparency="True">
 
-    <Window.DataContext>
-        <ViewModel:MainWindowViewModel/>
-    </Window.DataContext>
-
     <Window.Resources>
         <DataTemplate DataType="{x:Type ImageQuantizer:ImageQuantizerViewModel}">
             <ImageQuantizer:ImageQuantizerView />

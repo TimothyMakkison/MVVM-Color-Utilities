@@ -16,7 +16,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     /// <summary>
     /// ViewModel for ImageQuantizer, converts images into lower quality forms.
     /// </summary>
-    internal class ImageQuantizerViewModel : BindableBase, IPageViewModel
+    public class ImageQuantizerViewModel : BindableBase, IPageViewModel
     {
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
