@@ -1,38 +1,30 @@
-﻿using Prism.Commands;
+﻿using MVVM_Color_Utilities.ColorsList_Tab;
+using Prism.Commands;
 using Prism.Mvvm;
-using System.Collections.Generic;
+using Prism.Regions;
 
 namespace MVVM_Color_Utilities.ViewModel
 {
     public class MainWindowViewModel : BindableBase
     {
-        private IPageViewModel _currentPageViewModel;
+        private readonly IRegionManager _regionManager;
 
-        public MainWindowViewModel(List<IPageViewModel> pageViewModels)
+        public MainWindowViewModel(IRegionManager regionManager)
         {
-            PageViewModels = pageViewModels;
-            CurrentPageViewModel = PageViewModels[0];
-            ChangePageCommand = new DelegateCommand<IPageViewModel>(p => ChangeViewModel(p),
-                                                          p => p is IPageViewModel);
+            _regionManager = regionManager;
+
+            NavigateCommand = new DelegateCommand<string>(Navigate);
+            Navigate(nameof(ColorListView));
         }
 
-        public DelegateCommand<IPageViewModel> ChangePageCommand { get; }
+        public DelegateCommand<string> NavigateCommand { get; }
 
-        public List<IPageViewModel> PageViewModels { get; }
-
-        public IPageViewModel CurrentPageViewModel
+        private void Navigate(string navigatePath)
         {
-            get => _currentPageViewModel;
-            set => SetProperty(ref _currentPageViewModel, value);
-        }
-
-        private void ChangeViewModel(IPageViewModel viewModel)
-        {
-            if (!PageViewModels.Contains(viewModel))
+            if (navigatePath != null)
             {
-                PageViewModels.Add(viewModel);
+                _regionManager.RequestNavigate("ContentRegion", navigatePath);
             }
-            CurrentPageViewModel = PageViewModels.Find(vm => vm == viewModel);
         }
     }
 }

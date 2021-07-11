@@ -1,14 +1,15 @@
 ﻿<Window x:Class="MVVM_Color_Utilities.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:prism="http://prismlibrary.com/"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ColorList="clr-namespace:MVVM_Color_Utilities.ColorsList_Tab"
         xmlns:ImageAnalyzer="clr-namespace:MVVM_Color_Utilities.ImageAnalyzer_Tab"
         xmlns:ImageQuantizer="clr-namespace:MVVM_Color_Utilities.ImageQuantizer_Tab"
-        xmlns:ViewModel="clr-namespace:MVVM_Color_Utilities.ViewModel"
         mc:Ignorable="d"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         Title="MainWindow" Height="600" Width="1000"
         WindowStartupLocation="CenterScreen" Background="LightGray"
         WindowStyle="None" AllowsTransparency="True">
@@ -40,7 +41,7 @@
         <Rectangle Grid.Column="1" Fill="{StaticResource PrimaryHueDarkBrush}" />
         <Rectangle Grid.RowSpan="2" Fill="{StaticResource SecondaryHueDarkBrush}" Margin="0,0,-0.5,0" />
 
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding PageViewModels}" HorizontalAlignment="Stretch">
+        <ItemsControl Grid.Row="1" HorizontalAlignment="Stretch">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Height="70"
@@ -51,12 +52,22 @@
                     </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="ColorListView">
+                <materialDesign:PackIcon Kind="Palette" Background="{x:Null}" BorderBrush="{x:Null}" />
+            </Button>
+
+            <Button Command="{Binding NavigateCommand}" CommandParameter="ImageAnalyzerView">
+                <materialDesign:PackIcon Kind="Paint" Background="{x:Null}" BorderBrush="{x:Null}" />
+            </Button>
+            <Button Command="{Binding NavigateCommand}" CommandParameter="ImageQuantizerView">
+                <materialDesign:PackIcon Kind="PaletteAdvanced" Background="{x:Null}" BorderBrush="{x:Null}" />
+            </Button>
         </ItemsControl>
 
         <Rectangle Grid.Column="1" Fill="{StaticResource PrimaryHueDarkBrush}" MouseDown="DragWindow_MouseDown" />
 
         <!--Contains window content of chosen tab-->
-        <ContentControl Grid.Column="1" Grid.RowSpan="2" Content="{Binding CurrentPageViewModel}" />
+        <ContentControl Grid.Column="1" Grid.RowSpan="2" prism:RegionManager.RegionName="ContentRegion" />
 
         <!--#region Window Controls-->
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Margin="7,0,0,0">

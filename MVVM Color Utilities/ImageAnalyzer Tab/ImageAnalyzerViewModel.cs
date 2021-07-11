@@ -30,21 +30,22 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private readonly GeneralSettings _generalSettings;
         private readonly IImageBuffer _imageBuffer;
 
-        private readonly ColorDataContext dataContext;
+        private readonly IDataContext<ColorModel> _dataContext;
 
-        public ImageAnalyzerViewModel(GeneralSettings generalSettings,
-            ColorDataContext colorDataContext,
+        public ImageAnalyzerViewModel(
+            GeneralSettings generalSettings,
+            IDataContext<ColorModel> colorDataContext,
             IFileDialog fileDialog,
             IImageBuffer imageBuffer,
-            List<IColorQuantizer> quantizerList)
+            IEnumerable<IColorQuantizer> quantizerList)
         {
             _generalSettings = generalSettings;
             _fileDialog = fileDialog;
             _imageBuffer = imageBuffer;
 
-            dataContext = colorDataContext;
+            _dataContext = colorDataContext;
 
-            QuantizerList = quantizerList;
+            QuantizerList = quantizerList.ToList();
             selectedColorCount = ColorCountList[4];
             selectedQuantizer = QuantizerList[0];
 
@@ -82,7 +83,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         private void SaveColor(ColorModel item)
         {
             //TODO fix id.
-            dataContext.Add(new ColorModel(item.Color)).Save();
+            _dataContext.Add(new ColorModel(item.Color)).Save();
         }
 
         public IColorQuantizer SelectedQuantizer

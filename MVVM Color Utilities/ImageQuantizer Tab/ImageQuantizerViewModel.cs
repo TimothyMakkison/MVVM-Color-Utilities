@@ -9,6 +9,7 @@ using Prism.Mvvm;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MVVM_Color_Utilities.ImageQuantizer_Tab
@@ -28,13 +29,13 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
         private System.Windows.Media.Imaging.BitmapImage generatedBitmap;
 
-        public ImageQuantizerViewModel(GeneralSettings generalSettings, IFileDialog fileDialog, IImageBuffer imageBuffer, List<IColorQuantizer> quantizerList)
+        public ImageQuantizerViewModel(GeneralSettings generalSettings, IFileDialog fileDialog, IImageBuffer imageBuffer, IEnumerable<IColorQuantizer> quantizerList)
         {
             _generalSettings = generalSettings;
             _imageBuffer = imageBuffer;
             _fileDialog = fileDialog;
 
-            QuantizerList = quantizerList;
+            QuantizerList = quantizerList.ToList();
             selectedQuantizer = QuantizerList[0];
             selectedColorCount = ColorCountList[4];
 
