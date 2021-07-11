@@ -6,8 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Infrastructure;
 using MVVM_Color_Utilities.Models;
-using MVVM_Color_Utilities.ViewModel;
-using System;
 
 namespace MVVM_Color_Utilities
 {
@@ -43,27 +41,7 @@ namespace MVVM_Color_Utilities
             services.AddSingleton<GeneralSettings>();
 
             services.AddColorQuantizers(typeof(IColorQuantizer));
-            services.AddViewModels(typeof(IPageViewModel));
+            services.AddViewModels(typeof(ColorsList_Tab.ColorListView));
         }
     }
-}
-public static class ServiceCollectionExtensions
-{
-    public static IServiceCollection AddColorQuantizers(this IServiceCollection services,
-        params Type[] assemblies)
-    {
-        return services.Scan(scan => scan.FromAssembliesOf(assemblies)
-        .AddClasses(classes => classes.AssignableTo<IColorQuantizer>())
-        .AsImplementedInterfaces()
-        .WithTransientLifetime());
-    }
-    public static IServiceCollection AddViewModels(this IServiceCollection services,
-    params Type[] assemblies)
-    {
-        return services.Scan(scan => scan.FromAssembliesOf(assemblies)
-        .AddClasses(classes => classes.AssignableTo<IPageViewModel>())
-        .AsImplementedInterfaces()
-        .WithSingletonLifetime());
-    }
-
 }
