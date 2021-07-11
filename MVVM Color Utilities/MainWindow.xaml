@@ -5,29 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:ColorList="clr-namespace:MVVM_Color_Utilities.ColorsList_Tab"
-        xmlns:ImageAnalyzer="clr-namespace:MVVM_Color_Utilities.ImageAnalyzer_Tab"
-        xmlns:ImageQuantizer="clr-namespace:MVVM_Color_Utilities.ImageQuantizer_Tab"
         mc:Ignorable="d"
         prism:ViewModelLocator.AutoWireViewModel="True"
         Title="MainWindow" Height="600" Width="1000"
         WindowStartupLocation="CenterScreen" Background="LightGray"
         WindowStyle="None" AllowsTransparency="True">
-
-    <Window.Resources>
-        <DataTemplate DataType="{x:Type ImageQuantizer:ImageQuantizerViewModel}">
-            <ImageQuantizer:ImageQuantizerView />
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type ColorList:ColorListViewModel}">
-            <ColorList:ColorListView />
-        </DataTemplate>
-
-        <DataTemplate DataType="{x:Type ImageAnalyzer:ImageAnalyzerViewModel}">
-            <ImageAnalyzer:ImageAnalyzerView />
-        </DataTemplate>
-    </Window.Resources>
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="70" />
