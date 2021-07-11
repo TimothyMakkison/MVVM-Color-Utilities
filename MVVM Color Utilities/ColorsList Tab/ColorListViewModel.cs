@@ -1,8 +1,6 @@
-﻿using MaterialDesignThemes.Wpf;
-using MVVM_Color_Utilities.Helpers;
+﻿using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Helpers.Extensions;
 using MVVM_Color_Utilities.Models;
-using MVVM_Color_Utilities.ViewModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.ObjectModel;
@@ -12,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace MVVM_Color_Utilities.ColorsList_Tab
 {
-    public class ColorListViewModel : BindableBase , IPageViewModel
+    public class ColorListViewModel : BindableBase
     {
         private readonly Regex _hexCharactersReg = new("^#([0-9a-fA-F]{0,8})?$");
         private readonly Regex _hexColorReg = new("^#(?:(?:[0-9a-fA-F]{3}){1,2}|(?:[0-9a-fA-F]{4}){1,2})$");
@@ -38,7 +36,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
             DeleteItem = new DelegateCommand(DeleteItemMethod);
             SampleColorCommand = new DelegateCommand(GetPixelColor);
         }
-        public PackIconKind Icon => PackIconKind.Palette;
 
         public DelegateCommand AddSwitchCommand { get; }
 
@@ -73,7 +70,6 @@ namespace MVVM_Color_Utilities.ColorsList_Tab
                 }
             }
         }
-
 
         public bool AddingModeBool
         {

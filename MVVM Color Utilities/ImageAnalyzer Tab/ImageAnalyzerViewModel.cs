@@ -1,10 +1,8 @@
 ﻿using Application.ImageBuffer;
 using Application.Palette_Quantizers;
-using MaterialDesignThemes.Wpf;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Infrastructure;
 using MVVM_Color_Utilities.Models;
-using MVVM_Color_Utilities.ViewModel;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
@@ -18,7 +16,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     /// <summary>
     /// ViewModel for ImageAnalyzer, gets the constituent colors of an image.
     /// </summary>
-    public class ImageAnalyzerViewModel : BindableBase, IPageViewModel
+    public class ImageAnalyzerViewModel : BindableBase
     {
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
@@ -59,7 +57,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         public DelegateCommand<ColorModel> SaveCommand { get; }
         public DelegateCommand OpenCommand { get; }
 
-        public PackIconKind Icon => PackIconKind.Paint;
         public List<IColorQuantizer> QuantizerList { get; }
 
         /// <summary>

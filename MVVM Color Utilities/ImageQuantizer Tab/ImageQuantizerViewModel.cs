@@ -17,7 +17,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     /// <summary>
     /// ViewModel for ImageQuantizer, converts images into lower quality forms.
     /// </summary>
-    public class ImageQuantizerViewModel : BindableBase, IPageViewModel
+    public class ImageQuantizerViewModel : BindableBase
     {
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
@@ -45,8 +45,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             OpenCommand = new DelegateCommand(LoadImageAndQuatize);
             SaveCommand = new DelegateCommand(DialogSaveImage);
         }
-
-        public PackIconKind Icon => PackIconKind.PaletteAdvanced;
 
         public DelegateCommand OpenCommand { get; }
         public DelegateCommand SaveCommand { get; }
