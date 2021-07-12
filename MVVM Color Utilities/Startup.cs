@@ -41,7 +41,7 @@ namespace MVVM_Color_Utilities
             services.AddSingleton<GeneralSettings>();
 
             services.AddColorQuantizers(typeof(IColorQuantizer));
-            services.AddViewModels(typeof(ColorsList_Tab.ColorListView));
+            services.AddViewModels(typeof(ColorsList_Tab.ColorListViewModel));
         }
     }
 }
