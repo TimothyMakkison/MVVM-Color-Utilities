@@ -12,9 +12,9 @@ namespace MVVM_Color_Utilities.ViewModel
         public MainWindowViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
+            _regionManager.RegisterViewWithRegion("ContentRegion", nameof(ColorListView));
 
             NavigateCommand = new DelegateCommand<string>(Navigate);
-            Navigate(nameof(ColorListView));
         }
 
         public DelegateCommand<string> NavigateCommand { get; }
