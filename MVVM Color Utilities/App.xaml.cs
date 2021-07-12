@@ -1,7 +1,12 @@
-﻿using MVVM_Color_Utilities.ViewModel;
+﻿using Application.Palette_Quantizers;
+using MVVM_Color_Utilities.ViewModel;
 using Prism.Ioc;
 using Prism.Unity;
+using System.Collections;
+using System.Collections.Generic;
 using System.Windows;
+using Microsoft.Extensions.DependencyInjection;
+using System.Windows.Navigation;
 
 namespace MVVM_Color_Utilities
 {

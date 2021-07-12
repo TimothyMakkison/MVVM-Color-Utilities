@@ -20,7 +20,7 @@ namespace MVVM_Color_Utilities.Infrastructure
         {
             return services.Scan(scan => scan.FromAssembliesOf(assemblies)
             .AddClasses(classes => classes.Where(t => t.Name.Contains("ViewModel")))
-            .AsImplementedInterfaces()
+            .AsSelfWithInterfaces()
             .WithSingletonLifetime());
         }
     }

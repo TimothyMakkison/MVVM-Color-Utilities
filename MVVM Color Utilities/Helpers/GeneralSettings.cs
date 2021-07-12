@@ -1,17 +1,9 @@
-﻿using Application.Palette_Quantizers;
-using Application.Palette_Quantizers.Median_Cut;
-using Application.Palette_Quantizers.Naieve;
-using Application.Palette_Quantizers.Octree;
-using Application.Palette_Quantizers.PopularityQuantizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MVVM_Color_Utilities.Helpers
 {
-    /// <summary>
-    /// Contains shared dialog boxes and avaliable image buffer options.
-    /// </summary>
     public class GeneralSettings
     {
         private readonly List<Int32> colorCountList =
