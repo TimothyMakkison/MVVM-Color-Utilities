@@ -24,20 +24,18 @@
         <Rectangle Grid.RowSpan="2" Fill="{StaticResource SecondaryHueDarkBrush}" Margin="0,0,-0.5,0" />
 
         <ItemsControl Grid.Row="1" HorizontalAlignment="Stretch">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Height="70"
-                            Command="{Binding DataContext.ChangePageCommand,
-                            RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                            CommandParameter="{Binding }">
-                        <materialDesign:PackIcon Kind="{Binding Icon}" Height="30" Width="30" />
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
+            <ItemsControl.Resources>
+                <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+                    <Setter Property="Height" Value="70" />
+                </Style>
+                <Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="{x:Type materialDesign:PackIcon}">
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Width" Value="30"/>
+                </Style>
+            </ItemsControl.Resources>
             <Button Command="{Binding NavigateCommand}" CommandParameter="ColorListView">
-                <materialDesign:PackIcon Kind="Palette" Background="{x:Null}" BorderBrush="{x:Null}" />
+                <materialDesign:PackIcon Kind="Palette" />
             </Button>
-
             <Button Command="{Binding NavigateCommand}" CommandParameter="ImageAnalyzerView">
                 <materialDesign:PackIcon Kind="Paint" Background="{x:Null}" BorderBrush="{x:Null}" />
             </Button>
