@@ -4,6 +4,7 @@ using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Infrastructure;
 using Prism.Commands;
 using Prism.Mvvm;
+using Serilog;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -24,10 +25,11 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         private readonly GeneralSettings _generalSettings;
         private readonly IFileDialog _fileDialog;
         private readonly IImageBuffer _imageBuffer;
+        private readonly ILogger _logger;
 
         private System.Windows.Media.Imaging.BitmapImage generatedBitmap;
 
-        public ImageQuantizerViewModel(GeneralSettings generalSettings, IFileDialog fileDialog, IImageBuffer imageBuffer, IEnumerable<IColorQuantizer> quantizerList)
+        public ImageQuantizerViewModel(GeneralSettings generalSettings, IFileDialog fileDialog, IImageBuffer imageBuffer, IEnumerable<IColorQuantizer> quantizerList, ILogger logger)
         {
             _generalSettings = generalSettings;
             _imageBuffer = imageBuffer;
@@ -42,6 +44,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
 
             OpenCommand = new DelegateCommand(LoadImageAndQuatize);
             SaveCommand = new DelegateCommand(DialogSaveImage);
+            _logger = logger;
         }
 
         public DelegateCommand OpenCommand { get; }
@@ -74,7 +77,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             {
                 selectedQuantizer = value;
                 _imageBuffer.SetQuantizer(selectedQuantizer);
-                Debug.WriteLine("IQ Quantizer set to " + selectedQuantizer.Name);
+                _logger.Information($"IQ Quantizer set to {selectedQuantizer.Name}");
                 GenerateNewImage();
             }
         }
@@ -88,7 +91,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             {
                 selectedColorCount = value;
                 _imageBuffer.SetColorCount(selectedColorCount);
-                Debug.WriteLine("IQ Color count set to " + selectedColorCount.ToString());
+                _logger.Information($"IQ Color count set to {selectedColorCount}");
                 GenerateNewImage();
             }
         }

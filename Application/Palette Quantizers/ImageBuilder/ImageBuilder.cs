@@ -1,6 +1,5 @@
-﻿using Application.Helpers;
+﻿using Serilog;
 using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
@@ -10,9 +9,16 @@ namespace Application.Palette_Quantizers
 {
     public class ImageBuilder : IImageBuilder
     {
+        private readonly ILogger _logger;
+
+        public ImageBuilder(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public Bitmap BuildBitmap(Bitmap original, Func<Color, Color> func)
         {
-            Debug.WriteLine("Generating new image");
+            _logger.Information("Generating new image");
             if (original is null)
             {
                 return null;

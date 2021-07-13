@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MVVM_Color_Utilities.Helpers;
 using MVVM_Color_Utilities.Infrastructure;
 using MVVM_Color_Utilities.Models;
+using Serilog;
 
 namespace MVVM_Color_Utilities
 {
@@ -42,6 +43,10 @@ namespace MVVM_Color_Utilities
 
             services.AddColorQuantizers(typeof(IColorQuantizer));
             services.AddViewModels(typeof(ColorsList_Tab.ColorListViewModel));
+
+            var logger = new LoggerConfiguration().WriteTo.
+                ().CreateLogger();
+            services.AddSingleton<ILogger>(logger);
 
             //services.Decorate<IColorQuantizer, CachingColorQuantizer>();
         }
