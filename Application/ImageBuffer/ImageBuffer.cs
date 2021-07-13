@@ -16,7 +16,6 @@ namespace Application.ImageBuffer
         private readonly Memoizer<Bitmap, ConcurrentDictionary<int, int>> _scanner;
         private IColorQuantizer _quantizer;
         private int _colorCount;
-        private Memoizer<int, ConcurrentDictionary<int, int>, List<Color>> _paletteBuilder;
         private readonly IImageBuilder _imageBuilder;
 
         public ImageBuffer(IBitmapScanner bitmapScanner,
@@ -27,16 +26,14 @@ namespace Application.ImageBuffer
             _scanner = new Memoizer<Bitmap, ConcurrentDictionary<int, int>>(bitmapScanner.Scan);
 
             this._quantizer = quantizer;
-            _paletteBuilder = new Memoizer<int, ConcurrentDictionary<int, int>, List<Color>>(_quantizer.GetPalette);
             _colorCount = colorCount;
 
-            this._imageBuilder = imageBuilder;
+            _imageBuilder = imageBuilder;
         }
 
         public void SetQuantizer(IColorQuantizer quantizer)
         {
             this._quantizer = quantizer;
-            this._paletteBuilder = new Memoizer<int, ConcurrentDictionary<int, int>, List<Color>>(quantizer.GetPalette);
         }
 
         public void SetBitmap(Bitmap bitmap)
@@ -49,7 +46,7 @@ namespace Application.ImageBuffer
 
         public void SetColorCount(int colorCount)
         {
-            this._colorCount = colorCount;
+            _colorCount = colorCount;
         }
 
         public ConcurrentDictionary<int, int> ScanBitmap()
@@ -60,13 +57,9 @@ namespace Application.ImageBuffer
         public IEnumerable<Color> GetPalette()
         {
             var colorFrequency = ScanBitmap();
-            return _paletteBuilder.GetValue(_colorCount, colorFrequency);
+            return _quantizer.GetPalette(_colorCount, colorFrequency);
         }
 
-        /// <summary>
-        /// Uses the CurrentBitmap and Palette to generate an approximate image.
-        /// </summary>
-        /// <returns>Generated bitmap.</returns>
         public Bitmap GenerateNewBitmap()
         {
             var colors = GetPalette().ToArray();
