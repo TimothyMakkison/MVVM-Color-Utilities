@@ -1,12 +1,10 @@
-﻿using Application.Palette_Quantizers;
-using MVVM_Color_Utilities.ViewModel;
+﻿using MVVM_Color_Utilities.ViewModel;
 using Prism.Ioc;
 using Prism.Unity;
-using System.Collections;
-using System.Collections.Generic;
 using System.Windows;
 using Microsoft.Extensions.DependencyInjection;
-using System.Windows.Navigation;
+using MVVM_Color_Utilities.ImageQuantizer_Tab;
+using MVVM_Color_Utilities.ImageAnalyzer_Tab;
 
 namespace MVVM_Color_Utilities
 {
@@ -22,10 +20,24 @@ namespace MVVM_Color_Utilities
             containerRegistry.RegisterForNavigation<MainWindow, MainWindowViewModel>();
 
             containerRegistry.RegisterForNavigation<ColorsList_Tab.ColorListView, ColorsList_Tab.ColorListViewModel>();
-            containerRegistry.RegisterForNavigation<ImageAnalyzer_Tab.ImageAnalyzerView, ImageAnalyzer_Tab.ImageAnalyzerViewModel>();
-            containerRegistry.RegisterForNavigation<ImageQuantizer_Tab.ImageQuantizerView, ImageQuantizer_Tab.ImageQuantizerViewModel>();
+            containerRegistry.RegisterForNavigation<ImageAnalyzerView, ImageAnalyzerViewModel>();
+            containerRegistry.RegisterForNavigation<ImageQuantizerView, ImageQuantizerViewModel>();
 
             containerRegistry.RegisterServices(MVVM_Color_Utilities.Startup.ConfigureServices);
+
+            AddConcreteViewModels(containerRegistry);
+        }
+
+        private static void AddConcreteViewModels(IContainerRegistry containerRegistry)
+        {
+            //TODO Fix prism DI
+            // Prism DI will not correctly pass all instances of a type into a constructor requiring 
+            // a collection of a given type -  instead injecting only the last item.
+            // I use MS.Extensions.DI to correctly instantiate each view model and the register
+            // them with prism.
+            var provider = MVVM_Color_Utilities.Startup.BuildService();
+            containerRegistry.RegisterInstance(provider.GetService<ImageQuantizerViewModel>());
+            containerRegistry.RegisterInstance(provider.GetService<ImageAnalyzerViewModel>());
         }
     }
 }
