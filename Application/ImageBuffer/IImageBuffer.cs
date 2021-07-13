@@ -7,16 +7,8 @@ namespace Application.ImageBuffer
 {
     public interface IImageBuffer
     {
-        Bitmap GenerateNewBitmap();
+        Bitmap GenerateNewBitmap(Bitmap bitmap, IColorQuantizer quantizer, int colorCount);
 
-        IEnumerable<Color> GetPalette();
-
-        ConcurrentDictionary<int, int> ScanBitmap();
-
-        void SetBitmap(Bitmap bitmap);
-
-        void SetColorCount(int colorCount);
-
-        void SetQuantizer(IColorQuantizer quantizer);
+        IEnumerable<Color> GetPalette(Bitmap bitmap, IColorQuantizer quantizer, int colorCount);
     }
 }

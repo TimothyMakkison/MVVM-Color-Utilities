@@ -6,7 +6,6 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Serilog;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,6 +17,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
     /// </summary>
     public class ImageQuantizerViewModel : BindableBase
     {
+        private Bitmap _bitmap;
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
         private int selectedColorCount;
@@ -39,10 +39,7 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             selectedQuantizer = QuantizerList[0];
             selectedColorCount = ColorCountList[4];
 
-            _imageBuffer.SetQuantizer(SelectedQuantizer);
-            _imageBuffer.SetColorCount(SelectedColorCount);
-
-            OpenCommand = new DelegateCommand(LoadImageAndQuatize);
+            OpenCommand = new DelegateCommand(LoadImageAndQuantize);
             SaveCommand = new DelegateCommand(DialogSaveImage);
             _logger = logger;
         }
@@ -76,7 +73,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set
             {
                 selectedQuantizer = value;
-                _imageBuffer.SetQuantizer(selectedQuantizer);
                 _logger.Information($"IQ Quantizer set to {selectedQuantizer.Name}");
                 GenerateNewImage();
             }
@@ -90,7 +86,6 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
             set
             {
                 selectedColorCount = value;
-                _imageBuffer.SetColorCount(selectedColorCount);
                 _logger.Information($"IQ Color count set to {selectedColorCount}");
                 GenerateNewImage();
             }
@@ -99,14 +94,13 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         /// <summary>
         /// Opens file and exectues GenerateNewImage if selected item is valid.
         /// </summary>
-        private void LoadImageAndQuatize()
+        private void LoadImageAndQuantize()
         {
             if (_fileDialog.OpenImageDialogBox(out string path) && path != SelectedPath)
             {
                 SelectedPath = path;
 
-                var bitmap = new Bitmap(Image.FromFile(SelectedPath));
-                _imageBuffer.SetBitmap(bitmap);
+                _bitmap = new Bitmap(Image.FromFile(SelectedPath));
                 GenerateNewImage();
             }
         }
@@ -115,8 +109,8 @@ namespace MVVM_Color_Utilities.ImageQuantizer_Tab
         {
             Task.Run(() =>
             {
-                GeneratedBitmap = _imageBuffer.GenerateNewBitmap()
-                                             .ConvertToBitmapImage();
+                GeneratedBitmap = _imageBuffer.GenerateNewBitmap(_bitmap, SelectedQuantizer, SelectedColorCount)
+                .ConvertToBitmapImage();
             });
         }
 

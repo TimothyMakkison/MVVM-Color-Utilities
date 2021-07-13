@@ -18,6 +18,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
     /// </summary>
     public class ImageAnalyzerViewModel : BindableBase
     {
+        private Bitmap _bitmap;
         private string selectedPath;
         private IColorQuantizer selectedQuantizer;
         private int selectedColorCount;
@@ -48,9 +49,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             QuantizerList = quantizerList.ToList();
             selectedColorCount = ColorCountList[4];
             selectedQuantizer = QuantizerList[0];
-
-            _imageBuffer.SetQuantizer(SelectedQuantizer);
-            _imageBuffer.SetColorCount(SelectedColorCount);
 
             SaveCommand = new DelegateCommand<ColorModel>(SaveColor);
             OpenCommand = new DelegateCommand(OpenFile);
@@ -92,7 +90,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 selectedQuantizer = value;
-                _imageBuffer.SetQuantizer(selectedQuantizer);
                 _logger.Information($"IA Quantizer set to {selectedQuantizer.Name}");
                 GetNewPalette();
             }
@@ -106,7 +103,6 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             set
             {
                 selectedColorCount = value;
-                _imageBuffer.SetColorCount(selectedColorCount);
                 _logger.Information($"IA Color count set to {selectedColorCount}");
                 GetNewPalette();
             }
@@ -121,9 +117,8 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
             if (_fileDialog.OpenImageDialogBox(out string path) && SelectedPath != path)
             {
                 SelectedPath = path;
-                var bitmap = new Bitmap(Image.FromFile(SelectedPath));
+                _bitmap = new Bitmap(Image.FromFile(SelectedPath));
 
-                _imageBuffer.SetBitmap(bitmap);
                 GetNewPalette();
             }
         }
@@ -133,7 +128,7 @@ namespace MVVM_Color_Utilities.ImageAnalyzer_Tab
         /// </summary>
         private async void GetNewPalette()
         {
-            var result = await Task.Run(_imageBuffer.GetPalette);
+            var result = await Task.Run(() => _imageBuffer.GetPalette(_bitmap, SelectedQuantizer, SelectedColorCount));
             SampleColorSource = result.Select(color => new ColorModel(color))
                                                .ToList();
         }

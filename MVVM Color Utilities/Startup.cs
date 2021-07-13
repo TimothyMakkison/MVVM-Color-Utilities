@@ -34,18 +34,21 @@ namespace MVVM_Color_Utilities
 
         public static void ConfigureServices(this IServiceCollection services)
         {
-            services.AddSingleton<IDataContext<ColorModel>>(new ColorDataContext());
+            services.AddSingleton<IDataContext<ColorModel>, ColorDataContext>();
             services.AddSingleton<IFileDialog, FileDialog>();
 
-            var defaultImageBuffer = new ImageBuffer(new BitmapScanner(), new MedianCutQuantizer(), 16, new ImageBuilder());
-            services.AddSingleton<IImageBuffer>(defaultImageBuffer);
+            services.AddSingleton<IImageBuffer,ImageBuffer>();
+            services.AddSingleton<IBitmapScanner,BitmapScanner>();
+            services.AddSingleton<IImageBuilder,ImageBuilder>();
+
             services.AddSingleton<GeneralSettings>();
 
             services.AddColorQuantizers(typeof(IColorQuantizer));
             services.AddViewModels(typeof(ColorsList_Tab.ColorListViewModel));
 
-            var logger = new LoggerConfiguration().WriteTo.
-                ().CreateLogger();
+            var logger = new LoggerConfiguration().WriteTo
+                .Debug()
+                .CreateLogger();
             services.AddSingleton<ILogger>(logger);
 
             //services.Decorate<IColorQuantizer, CachingColorQuantizer>();
