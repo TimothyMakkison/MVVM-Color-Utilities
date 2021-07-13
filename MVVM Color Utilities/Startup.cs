@@ -43,7 +43,7 @@ namespace MVVM_Color_Utilities
             services.AddColorQuantizers(typeof(IColorQuantizer));
             services.AddViewModels(typeof(ColorsList_Tab.ColorListViewModel));
 
-            services.Decorate<IColorQuantizer, CachingColorQuantizer>();
+            //services.Decorate<IColorQuantizer, CachingColorQuantizer>();
         }
     }
 }
