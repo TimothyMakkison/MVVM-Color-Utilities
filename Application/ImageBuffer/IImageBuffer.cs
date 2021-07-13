@@ -1,5 +1,4 @@
 ﻿using Application.Palette_Quantizers;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 

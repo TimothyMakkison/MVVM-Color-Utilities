@@ -29,8 +29,8 @@
                     <Setter Property="Height" Value="70" />
                 </Style>
                 <Style BasedOn="{StaticResource {x:Type materialDesign:PackIcon}}" TargetType="{x:Type materialDesign:PackIcon}">
-                    <Setter Property="Height" Value="30"/>
-                    <Setter Property="Width" Value="30"/>
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="Width" Value="30" />
                 </Style>
             </ItemsControl.Resources>
             <Button Command="{Binding NavigateCommand}" CommandParameter="ColorListView">

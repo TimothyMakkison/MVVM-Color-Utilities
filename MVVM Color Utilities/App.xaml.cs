@@ -1,10 +1,10 @@
-﻿using MVVM_Color_Utilities.ViewModel;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MVVM_Color_Utilities.ImageAnalyzer_Tab;
+using MVVM_Color_Utilities.ImageQuantizer_Tab;
+using MVVM_Color_Utilities.ViewModel;
 using Prism.Ioc;
 using Prism.Unity;
 using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
-using MVVM_Color_Utilities.ImageQuantizer_Tab;
-using MVVM_Color_Utilities.ImageAnalyzer_Tab;
 
 namespace MVVM_Color_Utilities
 {
@@ -31,7 +31,7 @@ namespace MVVM_Color_Utilities
         private static void AddConcreteViewModels(IContainerRegistry containerRegistry)
         {
             //TODO Fix prism DI
-            // Prism DI will not correctly pass all instances of a type into a constructor requiring 
+            // Prism DI will not correctly pass all instances of a type into a constructor requiring
             // a collection of a given type -  instead injecting only the last item.
             // I use MS.Extensions.DI to correctly instantiate each view model and the register
             // them with prism.

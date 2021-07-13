@@ -27,7 +27,7 @@ namespace Application.Palette_Quantizers
             }
 
             palette = _baseQuantizer.GetPalette(colorCount, colorDictionary);
-            _paletteCache.Add(hash, new (palette));
+            _paletteCache.Add(hash, new(palette));
             return palette;
         }
 
