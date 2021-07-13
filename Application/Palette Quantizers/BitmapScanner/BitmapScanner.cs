@@ -1,5 +1,4 @@
-﻿using Application.Helpers;
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Drawing;

@@ -25,7 +25,7 @@ namespace Application.ImageBuffer
         {
             _scanner = new Memoizer<Bitmap, ConcurrentDictionary<int, int>>(bitmapScanner.Scan);
 
-            this._quantizer = quantizer;
+            _quantizer = quantizer;
             _colorCount = colorCount;
 
             _imageBuilder = imageBuilder;

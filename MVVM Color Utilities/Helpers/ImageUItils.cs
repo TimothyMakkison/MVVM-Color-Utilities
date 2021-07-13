@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -60,7 +59,6 @@ namespace MVVM_Color_Utilities.Helpers
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Failed saving image to {0}, Exception: {1}", path, e);
                 return false;
             }
         }
