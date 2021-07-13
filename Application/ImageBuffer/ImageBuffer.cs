@@ -13,7 +13,7 @@ namespace Application.ImageBuffer
     {
         //TODO Remove originalBitmap value. Might be needed to prevent error if user changes image?
         private Bitmap originalBitmap;
-        private readonly Memoizer<Bitmap, ConcurrentDictionary<int, int>> _scanner;
+        private readonly Func<Bitmap, ConcurrentDictionary<int, int>> _scanner;
         private IColorQuantizer _quantizer;
         private int _colorCount;
         private readonly IImageBuilder _imageBuilder;
@@ -23,7 +23,7 @@ namespace Application.ImageBuffer
             int colorCount,
             IImageBuilder imageBuilder)
         {
-            _scanner = new Memoizer<Bitmap, ConcurrentDictionary<int, int>>(bitmapScanner.Scan);
+            _scanner = image => bitmapScanner.Scan(image);
 
             _quantizer = quantizer;
             _colorCount = colorCount;
@@ -51,9 +51,10 @@ namespace Application.ImageBuffer
 
         public ConcurrentDictionary<int, int> ScanBitmap()
         {
-            return _scanner.GetValue(originalBitmap);
+            return _scanner(originalBitmap);
         }
 
+        //TODO fix crash if bitmap is not assigned
         public IEnumerable<Color> GetPalette()
         {
             var colorFrequency = ScanBitmap();
