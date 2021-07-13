@@ -53,7 +53,7 @@
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="30" Margin="7,0,0,0">
             <!--Minimise-->
             <Button Click="MinimizeWindowButton_Click">
-                <materialDesign:PackIcon Kind="Remove" Background="{x:Null}" BorderBrush="{x:Null}" />
+                <materialDesign:PackIcon Kind="WindowMinimize" Background="{x:Null}" BorderBrush="{x:Null}" />
             </Button>
             <!--Toggle Window State-->
             <Button Click="ChangeWindowState_Click">

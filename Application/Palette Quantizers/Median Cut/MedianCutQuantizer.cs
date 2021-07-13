@@ -1,6 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Application.Palette_Quantizers.Median_Cut
 {
@@ -28,8 +29,7 @@ namespace Application.Palette_Quantizers.Median_Cut
                     break;
                 }
 
-                cube.SplitAtMedian(cube.ChannelIndex, out MedianCutCube newMedianCutCubeA,
-                    out MedianCutCube newMedianCutCubeB);
+                cube.SplitAtMedian(cube.ChannelIndex, out MedianCutCube newMedianCutCubeA, out MedianCutCube newMedianCutCubeB);
 
                 // adds newly created cubes to our list; but one by one and if there's enough cubes stops the process
                 newCubes.Add(newMedianCutCubeA);
@@ -101,13 +101,10 @@ namespace Application.Palette_Quantizers.Median_Cut
             {
                 return 0;
             }
-            //Test every cube for whether it contains the target color
-            foreach (MedianCutCube cube in cubeList)
+
+            foreach (var cube in cubeList.Where(cube => cube.IsColorIn(color)))
             {
-                if (cube.IsColorIn(color))
-                {
-                    return cube.PaletteIndex;
-                }
+                return cube.PaletteIndex;
             }
             //If palette doesnt include color then 0 is returned
             return 0;

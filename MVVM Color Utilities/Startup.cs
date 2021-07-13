@@ -1,6 +1,7 @@
 ﻿using Application.ImageBuffer;
+using Application.ImageBuffer.BitmapScanner;
+using Application.ImageBuffer.ImageBuilder;
 using Application.Palette_Quantizers;
-using Application.Palette_Quantizers.Median_Cut;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MVVM_Color_Utilities.Helpers;
@@ -37,9 +38,9 @@ namespace MVVM_Color_Utilities
             services.AddSingleton<IDataContext<ColorModel>, ColorDataContext>();
             services.AddSingleton<IFileDialog, FileDialog>();
 
-            services.AddSingleton<IImageBuffer,ImageBuffer>();
-            services.AddSingleton<IBitmapScanner,BitmapScanner>();
-            services.AddSingleton<IImageBuilder,ImageBuilder>();
+            services.AddSingleton<IImageBuffer, ImageBuffer>();
+            services.AddSingleton<IBitmapScanner, BitmapScanner>();
+            services.AddSingleton<IImageBuilder, ImageBuilder>();
 
             services.AddSingleton<GeneralSettings>();
 
