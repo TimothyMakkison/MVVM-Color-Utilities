@@ -5,7 +5,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace Application.Palette_Quantizers
+namespace Application.ImageBuffer.ImageBuilder
 {
     public class ImageBuilder : IImageBuilder
     {

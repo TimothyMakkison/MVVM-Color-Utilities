@@ -1,18 +1,25 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Concurrent;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
-namespace Application.Palette_Quantizers
+namespace Application.ImageBuffer.BitmapScanner
 {
     public class BitmapScanner : IBitmapScanner
     {
+        private readonly ILogger _logger;
+
+        public BitmapScanner(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public ConcurrentDictionary<int, int> Scan(Bitmap bitmap)
         {
-            Debug.WriteLine("Scanning bitmap for colors");
+            _logger.Information($"Scanning bitmap for colors, {bitmap.Size}");
 
             if (bitmap is null)
             {
@@ -42,7 +49,8 @@ namespace Application.Palette_Quantizers
                 });
             }
 
-            Debug.WriteLine($"ScanBitmap Success, Found {colorDict.Count} unique colors");
+            var totalPixels = bitmap.Width * bitmap.Height;
+            _logger.Information($"ScanBitmap Success, Found {colorDict.Count} unique colors from {totalPixels} pixels.");
             return colorDict;
         }
     }

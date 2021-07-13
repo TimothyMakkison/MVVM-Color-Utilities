@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-namespace Application.Palette_Quantizers
+namespace Application.ImageBuffer.ImageBuilder
 {
     public interface IImageBuilder
     {

@@ -1,4 +1,6 @@
-﻿using Application.Palette_Quantizers;
+﻿using Application.ImageBuffer.BitmapScanner;
+using Application.ImageBuffer.ImageBuilder;
+using Application.Palette_Quantizers;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

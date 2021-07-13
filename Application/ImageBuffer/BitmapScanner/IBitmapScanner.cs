@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Drawing;
 
-namespace Application.Palette_Quantizers
+namespace Application.ImageBuffer.BitmapScanner
 {
     public interface IBitmapScanner
     {
