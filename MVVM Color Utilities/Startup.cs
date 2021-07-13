@@ -52,7 +52,7 @@ namespace MVVM_Color_Utilities
                 .CreateLogger();
             services.AddSingleton<ILogger>(logger);
 
-            //services.Decorate<IColorQuantizer, CachingColorQuantizer>();
+            services.Decorate<IColorQuantizer, CachingColorQuantizer>();
         }
     }
 }
