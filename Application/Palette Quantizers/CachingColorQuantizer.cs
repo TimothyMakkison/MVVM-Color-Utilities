@@ -1,13 +1,15 @@
-﻿using System.Collections.Concurrent;
+﻿using Application.Helpers;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 
 namespace Application.Palette_Quantizers
 {
+    [ScrutorIgnore]
     public class CachingColorQuantizer : IColorQuantizer
     {
         private readonly IColorQuantizer _baseQuantizer;
-        private readonly Dictionary<(int, ConcurrentDictionary<int, int>), List<Color>> _paletteCache = new();
+        private readonly Dictionary<int, List<Color>> _paletteCache = new();
 
         public CachingColorQuantizer(IColorQuantizer baseQuantizer)
         {
@@ -18,14 +20,14 @@ namespace Application.Palette_Quantizers
 
         public List<Color> GetPalette(int colorCount, ConcurrentDictionary<int, int> colorDictionary)
         {
-            var tuple = (colorCount, colorDictionary);
-            if (_paletteCache.TryGetValue(tuple, out List<Color> palette))
+            var hash = colorCount.GetHashCode() ^ colorDictionary.GetSequenceHash();
+            if (_paletteCache.TryGetValue(hash, out List<Color> palette))
             {
                 return palette;
             }
 
             palette = _baseQuantizer.GetPalette(colorCount, colorDictionary);
-            _paletteCache.Add(tuple, palette);
+            _paletteCache.Add(hash, palette);
             return palette;
         }
 
