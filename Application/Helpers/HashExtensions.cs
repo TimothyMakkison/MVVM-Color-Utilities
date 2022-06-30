@@ -1,20 +1,19 @@
 ﻿using System.Collections.Generic;
 
-namespace Application.Helpers
+namespace Application.Helpers;
+
+public static class HashExtensions
 {
-    public static class HashExtensions
+    public static int GetSequenceHash<T>(this IEnumerable<T> source)
     {
-        public static int GetSequenceHash<T>(this IEnumerable<T> source)
+        unchecked
         {
-            unchecked
+            int hash = 19;
+            foreach (var item in source)
             {
-                int hash = 19;
-                foreach (var item in source)
-                {
-                    hash += item.GetHashCode();
-                }
-                return hash;
+                hash += item.GetHashCode();
             }
+            return hash;
         }
     }
 }

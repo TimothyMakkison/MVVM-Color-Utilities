@@ -3,28 +3,27 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace MVVM_Color_Utilities.ViewModel
+namespace MVVM_Color_Utilities.ViewModel;
+
+public class MainWindowViewModel : BindableBase
 {
-    public class MainWindowViewModel : BindableBase
+    private readonly IRegionManager _regionManager;
+
+    public MainWindowViewModel(IRegionManager regionManager)
     {
-        private readonly IRegionManager _regionManager;
+        _regionManager = regionManager;
+        _regionManager.RegisterViewWithRegion("ContentRegion", nameof(ColorListView));
 
-        public MainWindowViewModel(IRegionManager regionManager)
+        NavigateCommand = new DelegateCommand<string>(Navigate);
+    }
+
+    public DelegateCommand<string> NavigateCommand { get; }
+
+    private void Navigate(string navigatePath)
+    {
+        if (navigatePath != null)
         {
-            _regionManager = regionManager;
-            _regionManager.RegisterViewWithRegion("ContentRegion", nameof(ColorListView));
-
-            NavigateCommand = new DelegateCommand<string>(Navigate);
-        }
-
-        public DelegateCommand<string> NavigateCommand { get; }
-
-        private void Navigate(string navigatePath)
-        {
-            if (navigatePath != null)
-            {
-                _regionManager.RequestNavigate("ContentRegion", navigatePath);
-            }
+            _regionManager.RequestNavigate("ContentRegion", navigatePath);
         }
     }
 }

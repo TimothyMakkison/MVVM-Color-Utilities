@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Application.Helpers
+namespace Application.Helpers;
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+public class ScrutorIgnoreAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class ScrutorIgnoreAttribute : Attribute
-    {
-    }
 }

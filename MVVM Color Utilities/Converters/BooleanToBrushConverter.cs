@@ -3,32 +3,31 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace MVVM_Color_Utilities.Converters
+namespace MVVM_Color_Utilities.Converters;
+
+// Source: https://stackoverflow.com/a/42007113/11522147
+
+[ValueConversion(typeof(bool), typeof(SolidColorBrush))]
+public class BooleanToBrushConverter : IValueConverter
 {
-    // Source: https://stackoverflow.com/a/42007113/11522147
+    public Brush TrueBrush { get; set; }
 
-    [ValueConversion(typeof(bool), typeof(SolidColorBrush))]
-    public class BooleanToBrushConverter : IValueConverter
+    public Brush FalseBrush { get; set; }
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public Brush TrueBrush { get; set; }
-
-        public Brush FalseBrush { get; set; }
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        var boolValue = value as bool? ?? false;
+        // Inverts color
+        if (parameter?.ToString() == "!")
         {
-            var boolValue = value as bool? ?? false;
-            // Inverts color
-            if (parameter?.ToString() == "!")
-            {
-                boolValue = !boolValue;
-            }
-
-            return boolValue ? TrueBrush : FalseBrush;
+            boolValue = !boolValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        return boolValue ? TrueBrush : FalseBrush;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
     }
 }

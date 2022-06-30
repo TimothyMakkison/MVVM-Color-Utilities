@@ -4,63 +4,62 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace MVVM_Color_Utilities.Helpers
+namespace MVVM_Color_Utilities.Helpers;
+
+public class ColorDataContext : IDataContext<ColorModel>
 {
-    public class ColorDataContext : IDataContext<ColorModel>
+    private const string colorsFilePath = "Resources/ColorItemsList.txt";
+    private readonly ObservableCollection<ColorModel> _source;
+
+    public ColorDataContext()
     {
-        private const string colorsFilePath = "Resources/ColorItemsList.txt";
-        private readonly ObservableCollection<ColorModel> _source;
+        var jsonString = File.ReadAllText(colorsFilePath);
+        this._source = JsonConvert.DeserializeObject<ObservableCollection<ColorModel>>(jsonString);
+        this._source ??= new ObservableCollection<ColorModel>();
+    }
 
-        public ColorDataContext()
+    /// <summary>
+    /// Returns an ObservableCollection containing ColorClass objects.
+    /// </summary>
+    IEnumerable<ColorModel> IDataContext<ColorModel>.Source => _source;
+
+    ObservableCollection<ColorModel> IDataContext<ColorModel>.Observable => _source;
+
+    public IDataContext<ColorModel> Add(ColorModel item)
+    {
+        _source.Add(item);
+        return this;
+    }
+
+    public IDataContext<ColorModel> InsertAt(int index, ColorModel item)
+    {
+        _source.Insert(index, item);
+        return this;
+    }
+
+    public IDataContext<ColorModel> RemoveAt(int index)
+    {
+        _source.RemoveAt(index);
+        return this;
+    }
+
+    public IDataContext<ColorModel> ReplaceAt(int index, ColorModel item)
+    {
+        _source[index] = item;
+        return this;
+    }
+
+    /// <summary>
+    /// Saves current <see cref="ColorClassList"/> to <see cref="colorsFilePath"/>.
+    /// </summary>
+    /// <returns></returns>
+    public bool Save()
+    {
+        try
         {
-            var jsonString = File.ReadAllText(colorsFilePath);
-            this._source = JsonConvert.DeserializeObject<ObservableCollection<ColorModel>>(jsonString);
-            this._source ??= new ObservableCollection<ColorModel>();
+            File.WriteAllText(colorsFilePath, JsonConvert.SerializeObject(_source));
+            return true;
         }
-
-        /// <summary>
-        /// Returns an ObservableCollection containing ColorClass objects.
-        /// </summary>
-        IEnumerable<ColorModel> IDataContext<ColorModel>.Source => _source;
-
-        ObservableCollection<ColorModel> IDataContext<ColorModel>.Observable => _source;
-
-        public IDataContext<ColorModel> Add(ColorModel item)
-        {
-            _source.Add(item);
-            return this;
-        }
-
-        public IDataContext<ColorModel> InsertAt(int index, ColorModel item)
-        {
-            _source.Insert(index, item);
-            return this;
-        }
-
-        public IDataContext<ColorModel> RemoveAt(int index)
-        {
-            _source.RemoveAt(index);
-            return this;
-        }
-
-        public IDataContext<ColorModel> ReplaceAt(int index, ColorModel item)
-        {
-            _source[index] = item;
-            return this;
-        }
-
-        /// <summary>
-        /// Saves current <see cref="ColorClassList"/> to <see cref="colorsFilePath"/>.
-        /// </summary>
-        /// <returns></returns>
-        public bool Save()
-        {
-            try
-            {
-                File.WriteAllText(colorsFilePath, JsonConvert.SerializeObject(_source));
-                return true;
-            }
-            catch { return false; }
-        }
+        catch { return false; }
     }
 }

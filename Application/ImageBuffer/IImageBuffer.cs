@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-namespace Application.ImageBuffer
-{
-    public interface IImageBuffer
-    {
-        Bitmap GenerateNewBitmap(Bitmap bitmap, IColorQuantizer quantizer, int colorCount);
+namespace Application.ImageBuffer;
 
-        IEnumerable<Color> GetPalette(Bitmap bitmap, IColorQuantizer quantizer, int colorCount);
-    }
+public interface IImageBuffer
+{
+    Bitmap GenerateNewBitmap(Bitmap bitmap, IColorQuantizer quantizer, int colorCount);
+
+    IEnumerable<Color> GetPalette(Bitmap bitmap, IColorQuantizer quantizer, int colorCount);
 }

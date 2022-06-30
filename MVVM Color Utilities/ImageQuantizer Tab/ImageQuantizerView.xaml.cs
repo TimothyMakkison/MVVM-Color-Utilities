@@ -1,15 +1,14 @@
 ﻿using System.Windows.Controls;
 
-namespace MVVM_Color_Utilities.ImageQuantizer_Tab
+namespace MVVM_Color_Utilities.ImageQuantizer_Tab;
+
+/// <summary>
+/// Interaction logic for ImageQuantizerView.xaml
+/// </summary>
+public partial class ImageQuantizerView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ImageQuantizerView.xaml
-    /// </summary>
-    public partial class ImageQuantizerView : UserControl
+    public ImageQuantizerView()
     {
-        public ImageQuantizerView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
